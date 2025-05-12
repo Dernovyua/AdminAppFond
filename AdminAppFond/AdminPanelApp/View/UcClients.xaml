@@ -1,0 +1,185 @@
+﻿<ex:ExDockDocumentPanel x:Class="AdminPanelApp.View.UcClients"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
+                        xmlns:local="clr-namespace:AdminPanelApp.View"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        Background="{DynamicResource GlobalBackgroundColor}"
+                        BorderBrush="{DynamicResource ExWindow-Border-Background}"
+                        BorderThickness="1"
+                        Caption="Клиенты"
+                        ShowBorder="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="250*" />
+        </Grid.RowDefinitions>
+        <!--<ex:ExToolBar Width="32"
+                      Height="32"
+                      Background="Transparent"
+                      Margin="130 0 0 0"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      VerticalContentAlignment="Center">
+            <ex:ExToolBarItem VerticalAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-setting.svg">
+                <ex:ExToolBarItem Click="MnitCancelSort_OnClick" Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.CancelSortKey}}" />
+                <ex:ExToolBarItem Name="MenuCoulumsVisible"
+                                  Click="MenuCoulumsVisible_Click"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.SettingColumnsKey}}" />
+        -->
+        <!--<ex:ExMainMenuSeparator />-->
+        <!--
+                <ex:ExToolBarItem x:Name="MnitVirtaulPosAll"
+                                  Click="MnitVirtaulPosAll_OnClick"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ConvertToVirtualAllKey}}" />
+                <ex:ExToolBarItem x:Name="MnitRealPosAll"
+                                  Click="MnitRealPosAll_OnClick"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ConvertToRealAllKey}}" />
+        -->
+        <!--<ex:ExMainMenuSeparator />-->
+        <!--
+                <ex:ExToolBarItem x:Name="MnitClearDataAll"
+                                  Click="btnClearData_Click"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ClearPositionAllKey}}" />
+                <ex:ExToolBarItem x:Name="MnitClearDataAndStopAll"
+                                  Click="MnitClearDataAndStopAll_OnClick"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ClearPositionAllAndStopKey}}" />
+        -->
+        <!--<ex:ExMainMenuSeparator />-->
+        <!--
+                <ex:ExToolBarItem x:Name="MnitClosePosAll"
+                                  Click="MnitClosePosAll_OnClick"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.CloseAllPositionKey}}" />
+                <ex:ExToolBarItem x:Name="MnitCloseAndStopAll"
+                                  Click="MnitCloseAndStopAll_OnClick"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.CloseAllPositionAndStopKey}}" />
+                <ex:ExToolBarItem x:Name="MnitCreateManyRobots"
+                                  Click="MnitCreateManyRobots_Click"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.GroupActionKey}}"
+                                  Visibility="Visible" />
+        -->
+        <!--<ex:ExBorder />-->
+        <!--
+                <ex:ExToolBarItem x:Name="MnitExportAll"
+                                  Click="MnitExportAll_Click"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ExportSettingsKey}}" />
+                <ex:ExToolBarItem x:Name="MnitImport"
+                                  Click="MnitImport_Click"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ImportSettingsKey}}" />
+
+            </ex:ExToolBarItem>
+        </ex:ExToolBar>-->
+
+
+        <ex:ExButton Name="ButtonAddRow" Grid.Row="0"
+                     Background="Transparent"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnAddClient_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-add.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Добавить" />
+        <ex:ExButton Name="BtnCopy" Grid.Row="0"
+                     Background="Transparent"
+                     Margin="32 0 0 0"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnCopyClient_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-copy.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Копировать" />
+        <ex:ExButton Name="BtnDelete" Grid.Row="0"
+                     Background="Transparent"
+                     Margin="64 0 0 0"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnDelClient_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-del.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Удалить" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="21*" />
+
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="400" />
+            </Grid.ColumnDefinitions>
+
+            <ex:ExSimpleTable Name="DtgdClients" Grid.Column="0"
+                              Height="Auto"
+                              HorizontalContentAlignment="Left"
+                              AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="True"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
+                              FrozenColumnCount="2"
+                              GridLinesVisibility="Vertical"
+                              IsReadOnly="True"
+                              MouseDoubleClick="DtgdClients_MouseDoubleClick"
+                              SelectionChanged="DtgdClients_OnSelectionChanged"
+                              SelectionMode="Single">
+
+
+
+                <ex:ExSimpleTable.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Click="MnitAddClient_Click" Header="Добавить" />
+                        <MenuItem Click="MnitEditClient_Click" Header="Редактировать" />
+                        <MenuItem Click="MnitCopyClient_Click" Header="Копировать" />
+                        <MenuItem Click="MnitDelClient_Click" Header="Удалить" />
+
+                        <Separator />
+                        <!--<MenuItem Name="MnitClearData"
+                                  Click="MnitClearData_OnClick"
+                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ClearPositionAllKey}}" />-->
+
+
+                    </ContextMenu>
+                </ex:ExSimpleTable.ContextMenu>
+
+                <ex:ExSimpleTable.Columns>
+
+                    <DataGridTextColumn Binding="{Binding ClientName}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="ФИО" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Client, StringFormat=\{0:yyyy.MM.dd\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата регистрации" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+
+
+
+                </ex:ExSimpleTable.Columns>
+            </ex:ExSimpleTable>
+
+            <GridSplitter Grid.Column="1"
+                          Background="{DynamicResource Ex-Divider-Background}"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch" />
+
+
+            <Grid Grid.Column="2" Margin="0 0 0 0">
+                <Grid MinHeight="100" />
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+</ex:ExDockDocumentPanel>

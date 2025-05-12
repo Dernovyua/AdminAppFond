@@ -132,8 +132,7 @@
                     <ex:ExMainMenuItem Name="BtnFinance"
                                        Click="OpenModuleView"
                                        GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-2.svg"
-                                       Header="Бухгалтерия"
-                                       IsEnabled="false" />
+                                       Header="Бухгалтерия" />
                     <ex:ExMainMenuItem Name="BtnDialoges"
                                        Click="OpenModuleView"
                                        GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-4.svg"
