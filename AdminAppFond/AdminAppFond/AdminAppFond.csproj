@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Wpf.Docking" Version="22.1.4" />
+    <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="22.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\1exUiKit\TestChangerThemes\UiKit\Ex.UI.Kit.csproj" />
+    <ProjectReference Include="..\AdminPanelApp\AdminPanelApp.csproj" />
+  </ItemGroup>
+
+</Project>

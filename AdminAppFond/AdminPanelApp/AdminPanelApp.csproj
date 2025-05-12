@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Wpf.Docking" Version="22.1.4" />
+    <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="22.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\1exUiKit\TestChangerThemes\UiKit\Ex.UI.Kit.csproj" />
+  </ItemGroup>
+
+</Project>
