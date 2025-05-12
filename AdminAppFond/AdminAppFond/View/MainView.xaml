@@ -1,0 +1,221 @@
+﻿<UserControl x:Class="AdminAppFond.View.MainView" x:Name="This"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
+             xmlns:local="clr-namespace:AdminAppFond.View"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+
+
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:VisualStateService />
+    </dxmvvm:Interaction.Behaviors>
+
+
+    <Grid>
+        <DockPanel x:Name="FullVersion">
+            <ex:ExMainMenu x:Name="MainMenu" DockPanel.Dock="Left"
+                           VerticalAlignment="Stretch">
+                <ex:ExMainMenu.HeaderTemplate>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <!--
+                                dxwui:RevealHighlightOptions.BorderColor="{Binding Source={StaticResource PrimaryColor}, Path=Color}"
+                                dxwui:RevealHighlightOptions.BorderThickness="100"
+                            -->
+                            <ex:ExBorder Width="60"
+                                         Height="60"
+                                         Margin="0 16 0 0"
+                                         dxwui:RevealHighlightOptions.BackgroundColor="{Binding Source={StaticResource PrimaryColor}, Path=Color}"
+                                         dxwui:RevealHighlightOptions.Mode="Background"
+                                         CornerRadius="500">
+                                <Ellipse x:Name="ProfileImage"
+                                         Width="56"
+                                         Height="56"
+                                         Margin="2">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="/Resources/Icons/img_profile.png" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </ex:ExBorder>
+
+                            <ex:ExTextBlock x:Name="MenuLabel"
+                                            Margin="0 8 0 8"
+                                            HorizontalAlignment="Center"
+                                            FontSize="{StaticResource Ex-Font-Size-10}"
+                                            RenderTransformOrigin="0.5,0.5"
+                                            SnapsToDevicePixels="True"
+                                            TextAlignment="Center">
+                                <!-- <ex:ExLabel.RenderTransform> -->
+                                <!--     <ScaleTransform ScaleX="1" ScaleY="1" x:Name="MenuLabelTransform"/> -->
+                                <!-- </ex:ExLabel.RenderTransform> -->
+                                ID: 079398
+                            </ex:ExTextBlock>
+
+                            <ex:ExMainMenuSeparator Margin="0 5" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=ex:ExMainMenu}}" Value="True">
+                                <Setter TargetName="MenuLabel" Property="FontSize" Value="{StaticResource Ex-Font-Size-8}" />
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ProfileImage"
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="60"
+                                                             To="35"
+                                                             Duration="{x:Static ex:ExMainMenu.AnimateDuration}" />
+                                            <DoubleAnimation Storyboard.TargetName="ProfileImage"
+                                                             Storyboard.TargetProperty="Height"
+                                                             From="60"
+                                                             To="35"
+                                                             Duration="{x:Static ex:ExMainMenu.AnimateDuration}" />
+                                            <!--  <DoubleAnimation  Duration="{x:Static ex:ExMainMenu.AnimateDuration}" From="1" To="0.8"  -->
+                                            <!--  Storyboard.TargetName="MenuLabelTransform"  -->
+                                            <!--  Storyboard.TargetProperty="(ScaleTransform.ScaleX)" />  -->
+                                            <!--  <DoubleAnimation Duration="{x:Static ex:ExMainMenu.AnimateDuration}" From="1" To="0.8"  -->
+                                            <!--  Storyboard.TargetName="MenuLabelTransform"  -->
+                                            <!--  Storyboard.TargetProperty="(ScaleTransform.ScaleY)" />  -->
+                                            <DoubleAnimation Storyboard.TargetName="MenuLabel"
+                                                             Storyboard.TargetProperty="FontSize"
+                                                             From="{StaticResource Ex-Font-Size-10}"
+                                                             To="{StaticResource Ex-Font-Size-8}"
+                                                             Duration="{x:Static ex:ExMainMenu.AnimateDuration}" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ProfileImage"
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="35"
+                                                             To="60"
+                                                             Duration="{x:Static ex:ExMainMenu.AnimateDuration}" />
+                                            <DoubleAnimation Storyboard.TargetName="ProfileImage"
+                                                             Storyboard.TargetProperty="Height"
+                                                             From="35"
+                                                             To="60"
+                                                             Duration="{x:Static ex:ExMainMenu.AnimateDuration}" />
+                                            <DoubleAnimation Storyboard.TargetName="MenuLabel"
+                                                             Storyboard.TargetProperty="FontSize"
+                                                             From="{StaticResource Ex-Font-Size-8}"
+                                                             To="{StaticResource Ex-Font-Size-10}"
+                                                             Duration="{x:Static ex:ExMainMenu.AnimateDuration}" />
+
+                                            <!--  <DoubleAnimation  Duration="{x:Static ex:ExMainMenu.AnimateDuration}" From="0.8" To="1"  -->
+                                            <!--  Storyboard.TargetName="MenuLabelTransform"  -->
+                                            <!--  Storyboard.TargetProperty="(ScaleTransform.ScaleX)" />  -->
+                                            <!--  <DoubleAnimation Duration="{x:Static ex:ExMainMenu.AnimateDuration}" From="0.8" To="1"  -->
+                                            <!--  Storyboard.TargetName="MenuLabelTransform"  -->
+                                            <!--  Storyboard.TargetProperty="(ScaleTransform.ScaleY)" />  -->
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ex:ExMainMenu.HeaderTemplate>
+
+                <ex:ExMainMenuSeparator />
+
+                <ex:ExMainMenuItem GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/menu-connection-icon.svg" Header="Админка">
+                    <ex:ExMainMenuItem Name="BtnClients"
+                                       Click="OpenModuleView"
+                                       GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-1.svg"
+                                       Header="Клиенты" />
+                    <ex:ExMainMenuItem Name="BtnFinance"
+                                       Click="OpenModuleView"
+                                       GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-2.svg"
+                                       Header="Бухгалтерия"
+                                       IsEnabled="false" />
+                    <ex:ExMainMenuItem Name="BtnDialoges"
+                                       Click="OpenModuleView"
+                                       GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-4.svg"
+                                       Header="Диологи" />
+                    <ex:ExMainMenuItem Name="BtnDashboards"
+                                       Click="OpenModuleView"
+                                       GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-3.svg"
+                                       Header="Дашборд" />
+                    <ex:ExMainMenuItem Name="BtnStatistic"
+                                       Click="OpenModuleView"
+                                       GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-5.svg"
+                                       Header="Статистика" />
+                    <ex:ExMainMenuItem Name="BtnManage"
+                                       Click="OpenModuleView"
+                                       GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-5.svg"
+                                       Header="Управление" />
+
+                </ex:ExMainMenuItem>
+
+
+
+            </ex:ExMainMenu>
+
+            <ex:ExDockLayoutManager Name="DlmMain" Grid.Row="3"
+                                    DockItemClosed="DlmMain_DockItemClosed"
+                                    FloatingDocumentContainer="Default"
+                                    FloatingMode="Desktop">
+                <ex:ExDockLayoutGroup CaptionLocation="Top">
+                    <ex:ExDockDocumentGroup Name="DcgpMain"
+                                            CaptionLocation="Top"
+                                            FixedMultiLineTabHeaders="True"
+                                            TabHeaderLayoutType="MultiLine">
+                        <ex:ExDockDocumentPanel x:Name="DmplLogs"
+                                                VerticalContentAlignment="Stretch"
+                                                AllowClose="False"
+                                                BorderBrush="{DynamicResource ExWindow-Border-Background}"
+                                                BorderThickness="1"
+                                                Caption="Сообщения">
+                            <Grid>
+                                <ex:ExSimpleTable Name="ListBoxLogs"
+                                                  Foreground="White"
+                                                  AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
+                                                  AutoGenerateColumns="False"
+                                                  BorderThickness="0"
+                                                  ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
+                                                  FrozenColumnCount="3">
+                                    <ex:ExSimpleTable.Columns>
+
+                                        <DataGridTextColumn Binding="{Binding NumberMessage}">
+                                            <DataGridTextColumn.Header>
+                                                <ex:ExTextBlock Text="№" />
+                                            </DataGridTextColumn.Header>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn Binding="{Binding DateTimeMessage, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True">
+                                            <DataGridTextColumn.Header>
+                                                <ex:ExTextBlock Text="Дата" />
+                                            </DataGridTextColumn.Header>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn Binding="{Binding DateTimeMessage, StringFormat=\{0:HH:mm:ss\}}" IsReadOnly="True">
+                                            <DataGridTextColumn.Header>
+                                                <ex:ExTextBlock Text="Время" />
+                                            </DataGridTextColumn.Header>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn Binding="{Binding Message}">
+                                            <DataGridTextColumn.Header>
+                                                <ex:ExTextBlock Text="Сообщение" />
+                                            </DataGridTextColumn.Header>
+                                        </DataGridTextColumn>
+
+
+                                    </ex:ExSimpleTable.Columns>
+                                </ex:ExSimpleTable>
+                            </Grid>
+                        </ex:ExDockDocumentPanel>
+
+                    </ex:ExDockDocumentGroup>
+                </ex:ExDockLayoutGroup>
+            </ex:ExDockLayoutManager>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

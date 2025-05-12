@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:AdminAppFond"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ex.UI.Kit;component/ExStyles.xaml" />
+                <ResourceDictionary>
+                    <RoutedUICommand x:Key="ChangeLanguage" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
