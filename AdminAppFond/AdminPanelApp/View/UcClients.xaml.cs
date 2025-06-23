@@ -37,7 +37,8 @@ namespace AdminPanelApp.View
 
         private void BtnAddClient_Click(object sender, RoutedEventArgs e)
         {
-
+            AddClient win = new AddClient();
+            win.ShowDialog();
         }
 
         private void BtnCopyClient_Click(object sender, RoutedEventArgs e)

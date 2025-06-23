@@ -9,10 +9,17 @@
   <ItemGroup>
     <PackageReference Include="DevExpress.Wpf.Docking" Version="22.1.4" />
     <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="22.1.4" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\1exUiKit\TestChangerThemes\UiKit\Ex.UI.Kit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="init.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,6 @@ namespace AdminPanelApp.Logic
 {
     public class LogicData
     {
-
         public ObservableCollection<Client> Clients = new ObservableCollection<Client>();
     }
 }

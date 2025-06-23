@@ -1,4 +1,5 @@
-﻿using AdminPanelApp.View;
+﻿using AdminPanelApp.Logic;
+using AdminPanelApp.View;
 using DevExpress.CodeParser;
 using DevExpress.Xpf.Docking;
 using System;
@@ -31,6 +32,9 @@ namespace AdminAppFond.View
         public MainView()
         {
             InitializeComponent();
+
+            Main main = new Main();
+            main.Execute("D://");
         }
 
 
