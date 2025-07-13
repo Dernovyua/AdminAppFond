@@ -13,66 +13,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
-            <RowDefinition Height="250*" />
+            <RowDefinition Height="140*" />
+            <RowDefinition Height="3" />
+            <RowDefinition Height="250" />
         </Grid.RowDefinitions>
-        <!--<ex:ExToolBar Width="32"
-                      Height="32"
-                      Background="Transparent"
-                      Margin="130 0 0 0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      VerticalContentAlignment="Center">
-            <ex:ExToolBarItem VerticalAlignment="Center"
-                              HorizontalContentAlignment="Center"
-                              VerticalContentAlignment="Center"
-                              GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-setting.svg">
-                <ex:ExToolBarItem Click="MnitCancelSort_OnClick" Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.CancelSortKey}}" />
-                <ex:ExToolBarItem Name="MenuCoulumsVisible"
-                                  Click="MenuCoulumsVisible_Click"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.SettingColumnsKey}}" />
-        -->
-        <!--<ex:ExMainMenuSeparator />-->
-        <!--
-                <ex:ExToolBarItem x:Name="MnitVirtaulPosAll"
-                                  Click="MnitVirtaulPosAll_OnClick"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ConvertToVirtualAllKey}}" />
-                <ex:ExToolBarItem x:Name="MnitRealPosAll"
-                                  Click="MnitRealPosAll_OnClick"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ConvertToRealAllKey}}" />
-        -->
-        <!--<ex:ExMainMenuSeparator />-->
-        <!--
-                <ex:ExToolBarItem x:Name="MnitClearDataAll"
-                                  Click="btnClearData_Click"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ClearPositionAllKey}}" />
-                <ex:ExToolBarItem x:Name="MnitClearDataAndStopAll"
-                                  Click="MnitClearDataAndStopAll_OnClick"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ClearPositionAllAndStopKey}}" />
-        -->
-        <!--<ex:ExMainMenuSeparator />-->
-        <!--
-                <ex:ExToolBarItem x:Name="MnitClosePosAll"
-                                  Click="MnitClosePosAll_OnClick"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.CloseAllPositionKey}}" />
-                <ex:ExToolBarItem x:Name="MnitCloseAndStopAll"
-                                  Click="MnitCloseAndStopAll_OnClick"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.CloseAllPositionAndStopKey}}" />
-                <ex:ExToolBarItem x:Name="MnitCreateManyRobots"
-                                  Click="MnitCreateManyRobots_Click"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.GroupActionKey}}"
-                                  Visibility="Visible" />
-        -->
-        <!--<ex:ExBorder />-->
-        <!--
-                <ex:ExToolBarItem x:Name="MnitExportAll"
-                                  Click="MnitExportAll_Click"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ExportSettingsKey}}" />
-                <ex:ExToolBarItem x:Name="MnitImport"
-                                  Click="MnitImport_Click"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ImportSettingsKey}}" />
-
-            </ex:ExToolBarItem>
-        </ex:ExToolBar>-->
 
 
         <ex:ExButton Name="ButtonAddRow" Grid.Row="0"
@@ -84,19 +28,9 @@
                      IconHeight="16"
                      IconWidth="16"
                      ToolTip="Добавить" />
-        <ex:ExButton Name="BtnCopy" Grid.Row="0"
-                     Background="Transparent"
-                     Margin="32 0 0 0"
-                     HorizontalAlignment="Left"
-                     BorderBrush="Transparent"
-                     Click="BtnCopyClient_Click"
-                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-copy.svg"
-                     IconHeight="16"
-                     IconWidth="16"
-                     ToolTip="Копировать" />
         <ex:ExButton Name="BtnDelete" Grid.Row="0"
                      Background="Transparent"
-                     Margin="64 0 0 0"
+                     Margin="32 0 0 0"
                      HorizontalAlignment="Left"
                      BorderBrush="Transparent"
                      Click="BtnDelClient_Click"
@@ -106,12 +40,13 @@
                      ToolTip="Удалить" />
 
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="21*" />
 
                 <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="400" />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>-->
+
 
             <ex:ExSimpleTable Name="DtgdClients" Grid.Column="0"
                               Height="Auto"
@@ -137,49 +72,163 @@
                     <ContextMenu>
                         <MenuItem Click="MnitAddClient_Click" Header="Добавить" />
                         <MenuItem Click="MnitEditClient_Click" Header="Редактировать" />
-                        <MenuItem Click="MnitCopyClient_Click" Header="Копировать" />
                         <MenuItem Click="MnitDelClient_Click" Header="Удалить" />
-
-                        <Separator />
-                        <!--<MenuItem Name="MnitClearData"
-                                  Click="MnitClearData_OnClick"
-                                  Header="{DynamicResource {x:Static res:LanguageRobotWinKeys.ClearPositionAllKey}}" />-->
-
-
                     </ContextMenu>
                 </ex:ExSimpleTable.ContextMenu>
 
                 <ex:ExSimpleTable.Columns>
 
-                    <DataGridTextColumn Binding="{Binding ClientName}" IsReadOnly="True">
+                    <!--  Колонка с ФИО клиента  -->
+                    <DataGridTextColumn Binding="{Binding FullName}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="ФИО" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Client, StringFormat=\{0:yyyy.MM.dd\}}" IsReadOnly="True">
+                    <!--  Колонка со статусом клиента  -->
+                    <DataGridTextColumn Binding="{Binding Status}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Статус" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding City}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Город" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!--  Колонка с датой открытия (регистрации) клиента  -->
+                    <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=yyyy.MM.dd}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата регистрации" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
+                    <DataGridTextColumn Binding="{Binding Phone}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Телефон" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
+                    <DataGridTextColumn Binding="{Binding Email}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Email" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
+                    <DataGridTextColumn Binding="{Binding Telegram}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Telegram" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Notes}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Примечания" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
                 </ex:ExSimpleTable.Columns>
             </ex:ExSimpleTable>
 
-            <GridSplitter Grid.Column="1"
+            <!--<GridSplitter Grid.Column="1"
                           Background="{DynamicResource Ex-Divider-Background}"
                           HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch" />
+                          VerticalAlignment="Stretch" />-->
 
 
-            <Grid Grid.Column="2" Margin="0 0 0 0">
+            <!--<Grid Grid.Column="2" Margin="0 0 0 0">
                 <Grid MinHeight="100" />
-            </Grid>
+            </Grid>-->
         </Grid>
+        <GridSplitter Grid.Row="2"
+                      Height="3"
+                      Background="{DynamicResource Ex-Divider-Background}"
+                      HorizontalAlignment="Stretch" />
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34" />
+                <RowDefinition Height="140*" />
+            </Grid.RowDefinitions>
+            <ex:ExButton Name="ButtonAddAccount" Grid.Row="0"
+                         Background="Transparent"
+                         HorizontalAlignment="Left"
+                         BorderBrush="Transparent"
+                         Click="ButtonAddAccount_Click"
+                         Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-add.svg"
+                         IconHeight="16"
+                         IconWidth="16"
+                         ToolTip="Добавить" />
+            <ex:ExButton Name="BtnDeleteAccount" Grid.Row="0"
+                         Background="Transparent"
+                         Margin="32 0 0 0"
+                         HorizontalAlignment="Left"
+                         BorderBrush="Transparent"
+                         Click="BtnDeleteAccount_Click"
+                         Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-del.svg"
+                         IconHeight="16"
+                         IconWidth="16"
+                         ToolTip="Удалить" />
 
+
+            <ex:ExSimpleTable Name="DtgdAccounts" Grid.Row="1"
+                              Height="Auto"
+                              HorizontalContentAlignment="Left"
+                              AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="True"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
+                              FrozenColumnCount="2"
+                              GridLinesVisibility="Vertical"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding ElementName=DtgdClients, Path=SelectedItem.Accounts}"
+                              MouseDoubleClick="DtgdAccounts_MouseDoubleClick"
+                              SelectionMode="Single">
+
+
+
+                <ex:ExSimpleTable.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Click="MnitAddAccount_Click" Header="Добавить" />
+                        <MenuItem Click="MnitEditAccount_Click" Header="Редактировать" />
+                        <MenuItem Click="MnitDelAccount_Click" Header="Удалить" />
+                    </ContextMenu>
+                </ex:ExSimpleTable.ContextMenu>
+
+                <ex:ExSimpleTable.Columns>
+                    <DataGridTextColumn Binding="{Binding AccountName}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Название счета" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Exchange}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Биржа" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding AccountNumber}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Номер счета" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=\{0:yyyy.MM.dd\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата создания" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                </ex:ExSimpleTable.Columns>
+            </ex:ExSimpleTable>
+
+
+        </Grid>
 
     </Grid>
 </ex:ExDockDocumentPanel>

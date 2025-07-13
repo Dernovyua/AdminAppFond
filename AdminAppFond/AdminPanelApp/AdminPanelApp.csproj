@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\1exUiKit\TestChangerThemes\UiKit\Ex.UI.Kit.csproj" />
+    <ProjectReference Include="..\..\..\ExAlgoLocalization\ExAlgo.Resources\ETS.Resources.csproj" />
   </ItemGroup>
 
   <ItemGroup>

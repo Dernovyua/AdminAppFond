@@ -44,7 +44,6 @@ namespace AdminPanelApp.Requests
                     {
                         Id = clientId,
                         FullName = reader.GetString(reader.GetOrdinal("full_name")),
-                        OpenedAt = reader.GetString(reader.GetOrdinal("opened_at")),
                         Status = reader.GetString(reader.GetOrdinal("status")),
                         Notes = reader.IsDBNull(reader.GetOrdinal("notes")) ? null : reader.GetString(reader.GetOrdinal("notes")),
                         Phone = reader.IsDBNull(reader.GetOrdinal("phone")) ? null : reader.GetString(reader.GetOrdinal("phone")),
@@ -96,7 +95,6 @@ namespace AdminPanelApp.Requests
             using var cmd = new SQLiteCommand(query, connection);
 
             cmd.Parameters.AddWithValue("@fullName", newClient.FullName);
-            cmd.Parameters.AddWithValue("@openedAt", newClient.OpenedAt);
             cmd.Parameters.AddWithValue("@status", newClient.Status);
             cmd.Parameters.AddWithValue("@notes", newClient.Notes ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@phone", newClient.Phone ?? (object)DBNull.Value);
@@ -155,7 +153,6 @@ namespace AdminPanelApp.Requests
             using var cmd = new SQLiteCommand(query, connection);
 
             cmd.Parameters.AddWithValue("@fullName", client.FullName);
-            cmd.Parameters.AddWithValue("@openedAt", client.OpenedAt);
             cmd.Parameters.AddWithValue("@status", client.Status);
             cmd.Parameters.AddWithValue("@notes", client.Notes ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@phone", client.Phone ?? (object)DBNull.Value);

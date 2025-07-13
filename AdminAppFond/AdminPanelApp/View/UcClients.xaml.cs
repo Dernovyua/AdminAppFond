@@ -73,6 +73,34 @@ namespace AdminPanelApp.View
                 
         }
 
+        private void DtgdAccounts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
 
+        }
+
+        private void ButtonAddAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnDeleteAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MnitAddAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MnitEditAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MnitDelAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

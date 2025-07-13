@@ -1,7 +1,6 @@
 ﻿CREATE TABLE clients (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     full_name TEXT NOT NULL,
-    opened_at TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'active', -- active, blocked, closed
     notes TEXT,
     phone TEXT,

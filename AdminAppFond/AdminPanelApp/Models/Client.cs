@@ -23,12 +23,6 @@ namespace AdminPanelApp.Models
         private string _fullName;
 
         /// <summary>
-        /// Дата открытия клиента.
-        /// </summary>
-        public string OpenedAt { get => _openedAt; set { _openedAt = value; OnPropertyChanged(nameof(OpenedAt)); } }
-        private string _openedAt;
-
-        /// <summary>
         /// Текущий статус клиента (active, blocked, closed).
         /// </summary>
         public string Status { get => _status; set { _status = value; OnPropertyChanged(nameof(Status)); } }

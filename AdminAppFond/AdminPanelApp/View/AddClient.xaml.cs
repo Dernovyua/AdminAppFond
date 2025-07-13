@@ -23,5 +23,15 @@ namespace AdminPanelApp.View
         {
             InitializeComponent();
         }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

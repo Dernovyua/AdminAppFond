@@ -5,6 +5,7 @@
              xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
              xmlns:local="clr-namespace:AdminPanelApp.View"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:res="clr-namespace:ETS.Resources;assembly=ETS.Resources"
              Title="Настройка клиента"
              Width="400"
              Height="450"
@@ -14,5 +15,43 @@
              ShowIcon="False"
              WindowStartupLocation="CenterScreen"
              mc:Ignorable="d">
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300*" />
+            <RowDefinition Height="63" />
+        </Grid.RowDefinitions>
+
+
+
+        <Grid Grid.Row="1" Background="{DynamicResource ExWindow-Footer-Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12*" />
+                <ColumnDefinition Width="12*" />
+            </Grid.ColumnDefinitions>
+            <ex:ExButton x:Name="BtnCancel" Grid.Column="0"
+                         Width="120"
+                         Height="25"
+                         Background="Transparent"
+                         Margin="0 0 6 0"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"
+                         Click="BtnCancel_Click"
+                         FontSize="12"
+                         IsCancel="True"
+                         Style="{DynamicResource ExButtonCancel}"
+                         TabIndex="10"
+                         Text="{DynamicResource {x:Static res:LanguageQuikKey.CancelButtonKey}}" />
+            <ex:ExButton x:Name="BtnSave" Grid.Column="1"
+                         Width="120"
+                         Height="25"
+                         Margin="6 0 0 0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Click="BtnSave_Click"
+                         FontSize="12"
+                         IsDefault="True"
+                         Style="{DynamicResource ExButtonApply}"
+                         Text="{DynamicResource {x:Static res:LanguageQuikKey.ApplyButtonKey}}" />
+        </Grid>
+    </Grid>
 </ex:ExWindow>
