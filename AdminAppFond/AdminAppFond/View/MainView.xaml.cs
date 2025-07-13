@@ -33,7 +33,7 @@ namespace AdminAppFond.View
         {
             InitializeComponent();
 
-            Main main = new Main();
+            AdminMain main = new AdminMain();
             main.Execute("D://");
         }
 

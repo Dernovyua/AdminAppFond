@@ -14,7 +14,7 @@ namespace AdminPanelApp.Logic
     public static class LogicDb
     {
         static string _pathDb = "prop_admin.db";
-        static string sqlInitFile = "init.sql";
+        static string sqlInitFile = "001_init.sql";
 
         public static string ConnectionString => $"Data Source={_pathDb};Version=3;";
 
@@ -38,18 +38,97 @@ namespace AdminPanelApp.Logic
             {
                 Console.WriteLine("База данных уже существует.");
             }
+
+            ApplyMigrations();
         }
 
 
 
         static void InitializeDatabase()
         {
-            var script = File.ReadAllText(sqlInitFile);
+            var sqlFile = Path.Combine(AppContext.BaseDirectory, "Migrations", "001_init.sql");
+            var script = File.ReadAllText(sqlFile);
             using var conn = new SQLiteConnection(ConnectionString);
             conn.Open();
             var cmd = new SQLiteCommand(script, conn);
             cmd.ExecuteNonQuery();
+
+            MarkMigrationApplied(conn, sqlInitFile);
             Console.WriteLine("База успешно инициализирована.");
+        }
+
+        static void ApplyMigrations()
+        {
+            var migrationDir = Path.Combine(AppContext.BaseDirectory, "Migrations");
+            if (!Directory.Exists(migrationDir))
+            {
+                Console.WriteLine("Папка миграций не найдена.");
+                return;
+            }
+
+            using var conn = new SQLiteConnection(ConnectionString);
+            conn.Open();
+
+            EnsureMigrationsTable(conn);
+
+            var applied = GetAppliedMigrations(conn);
+            var allFiles = Directory.GetFiles(migrationDir, "*.sql")
+                                    .OrderBy(f => f);
+
+            foreach (var file in allFiles)
+            {
+                var name = Path.GetFileName(file);
+                if (applied.Contains(name))
+                {
+                    Console.WriteLine($"Пропущена миграция {name} (уже применена)");
+                    continue;
+                }
+
+                Console.WriteLine($"Применение миграции: {name}");
+                var sql = File.ReadAllText(file);
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+
+                MarkMigrationApplied(conn, name);
+            }
+
+            Console.WriteLine("Все миграции применены.");
+        }
+
+        static void EnsureMigrationsTable(SQLiteConnection conn)
+        {
+            var sql = @"CREATE TABLE IF NOT EXISTS __Migrations (
+                        Name TEXT PRIMARY KEY,
+                        AppliedAt TEXT NOT NULL
+                    );";
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = sql;
+            cmd.ExecuteNonQuery();
+        }
+
+        static HashSet<string> GetAppliedMigrations(SQLiteConnection conn)
+        {
+            var result = new HashSet<string>();
+            var sql = "SELECT Name FROM __Migrations;";
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = sql;
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                result.Add(reader.GetString(0));
+            }
+            return result;
+        }
+
+        static void MarkMigrationApplied(SQLiteConnection conn, string name)
+        {
+            var sql = "INSERT INTO __Migrations (Name, AppliedAt) VALUES (@name, @date);";
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = sql;
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("u"));
+            cmd.ExecuteNonQuery();
         }
 
 

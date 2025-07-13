@@ -136,7 +136,7 @@
                     <ex:ExMainMenuItem Name="BtnDialoges"
                                        Click="OpenModuleView"
                                        GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-4.svg"
-                                       Header="Диологи" />
+                                       Header="Диалоги" />
                     <ex:ExMainMenuItem Name="BtnDashboards"
                                        Click="OpenModuleView"
                                        GlyphSource="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-ets-hub-3.svg"

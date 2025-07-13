@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdminPanelApp.Logic
 {
-    public class Main
+    public class AdminMain
     {
         LogicData logicData = new LogicData();
 
