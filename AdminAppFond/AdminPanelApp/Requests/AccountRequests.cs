@@ -1,0 +1,86 @@
+﻿using AdminPanelApp.Logic;
+using AdminPanelApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.SQLite;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdminPanelApp.Requests
+{
+    public static class AccountRequests
+    {
+        /// <summary>
+        /// Обновление счета
+        /// </summary>
+        /// <param name="updatedAccount"></param>
+        public static void UpdateAccount(AccountModel updatedAccount)
+        {
+            using var conn = LogicDb.GetOpenConnection();
+            conn.Open();
+
+            using var cmd = new SQLiteCommand(conn);
+            cmd.CommandText = @"
+                UPDATE accounts SET
+                    client_id = @clientId,
+                    exchange = @exchange,
+                    account_name = @accountName,
+                    account_number = @accountNumber,
+                    created_at = @createdAt
+                    WHERE id = @id;
+                    ";
+
+            cmd.Parameters.AddWithValue("@clientId", updatedAccount.ClientId);
+            cmd.Parameters.AddWithValue("@exchange", updatedAccount.Exchange);
+            cmd.Parameters.AddWithValue("@accountName", updatedAccount.AccountName);
+            cmd.Parameters.AddWithValue("@accountNumber", updatedAccount.AccountNumber);
+            cmd.Parameters.AddWithValue("@createdAt", updatedAccount.CreatedAt);
+            cmd.Parameters.AddWithValue("@id", updatedAccount.Id);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Добавление нового счета в базу
+        /// </summary>
+        /// <param name="newAccount"></param>
+        public static void AddAccount(AccountModel newAccount)
+        {
+            using var conn = LogicDb.GetOpenConnection();
+            conn.Open();
+
+            using var cmd = new SQLiteCommand(conn);
+            cmd.CommandText = @"
+                            INSERT INTO accounts (client_id, exchange, account_name, account_number, created_at)
+                            VALUES (@clientId, @exchange, @accountName, @accountNumber, @createdAt);
+                        ";
+
+            cmd.Parameters.AddWithValue("@clientId", newAccount.ClientId);
+            cmd.Parameters.AddWithValue("@exchange", newAccount.Exchange);
+            cmd.Parameters.AddWithValue("@accountName", newAccount.AccountName);
+            cmd.Parameters.AddWithValue("@accountNumber", newAccount.AccountNumber);
+            cmd.Parameters.AddWithValue("@createdAt", newAccount.CreatedAt);
+
+            cmd.ExecuteNonQuery();
+
+            // По желанию: получить Id созданного счета через last_insert_rowid()
+        }
+
+        /// <summary>
+        /// Удаление счета из базы по Id
+        /// </summary>
+        /// <param name="accountId"></param>
+        public static void DeleteAccount(int accountId)
+        {
+            using var conn = LogicDb.GetOpenConnection();
+            conn.Open();
+
+            using var cmd = new SQLiteCommand(conn);
+            cmd.CommandText = "DELETE FROM accounts WHERE id = @id;";
+            cmd.Parameters.AddWithValue("@id", accountId);
+
+            cmd.ExecuteNonQuery();
+        }
+    }
+}
