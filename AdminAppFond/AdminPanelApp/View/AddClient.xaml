@@ -20,8 +20,185 @@
             <RowDefinition Height="300*" />
             <RowDefinition Height="63" />
         </Grid.RowDefinitions>
+        <StackPanel Margin="0 0 0 0">
+            <!--  ФИО клиента  -->
+            <Grid Height="25" Margin="0 10 0 0">
+                <ex:ExTextBlock x:Name="TxblFullName"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="ФИО клиента">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Введите полное имя клиента." />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxFullName"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+
+            <!--  Статус клиента  -->
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock x:Name="TxblStatus"
+                                Width="120"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Статус">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Выберите статус клиента: active, blocked, closed." />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExComboBox x:Name="CmbxStatus"
+                               Height="25"
+                               Margin="180 0 10 0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               SelectedIndex="0" />
+            </Grid>
 
 
+            <!--  Город  -->
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock x:Name="TxblCity"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Город">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Введите город клиента." />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxCity"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+
+            <!--  Телефон  -->
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock x:Name="TxblPhone"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Телефон">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Введите номер телефона клиента." />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxPhone"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+
+            <!--  Email  -->
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock x:Name="TxblEmail"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Email">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Введите email клиента." />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxEmail"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+
+            <!--  Tg  -->
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock x:Name="TxblTg"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Telegram">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Введите telegramm клиента." />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxTelegramm"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+
+
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock x:Name="TxblNotes"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Примечание">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Введите примечание" />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxNotes"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+        </StackPanel>
 
         <Grid Grid.Row="1" Background="{DynamicResource ExWindow-Footer-Background}">
             <Grid.ColumnDefinitions>

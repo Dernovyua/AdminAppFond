@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,6 @@ namespace AdminPanelApp.Requests
         public static void UpdateAccount(AccountModel updatedAccount)
         {
             using var conn = LogicDb.GetOpenConnection();
-            conn.Open();
 
             using var cmd = new SQLiteCommand(conn);
             cmd.CommandText = @"
@@ -48,7 +48,6 @@ namespace AdminPanelApp.Requests
         public static void AddAccount(AccountModel newAccount)
         {
             using var conn = LogicDb.GetOpenConnection();
-            conn.Open();
 
             using var cmd = new SQLiteCommand(conn);
             cmd.CommandText = @"
@@ -64,7 +63,11 @@ namespace AdminPanelApp.Requests
 
             cmd.ExecuteNonQuery();
 
-            // По желанию: получить Id созданного счета через last_insert_rowid()
+            // Получаем Id последней вставленной записи
+            cmd.CommandText = "SELECT last_insert_rowid();";
+            long lastId = (long)cmd.ExecuteScalar();
+
+            newAccount.Id = (int)lastId; // присваиваем Id клиенту
         }
 
         /// <summary>
@@ -74,7 +77,6 @@ namespace AdminPanelApp.Requests
         public static void DeleteAccount(int accountId)
         {
             using var conn = LogicDb.GetOpenConnection();
-            conn.Open();
 
             using var cmd = new SQLiteCommand(conn);
             cmd.CommandText = "DELETE FROM accounts WHERE id = @id;";

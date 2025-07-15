@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace AdminPanelApp.Logic
 {
-    public class LogicData
+    public static class LogicData
     {
-        public ObservableCollection<Client> Clients = new ObservableCollection<Client>();
+        public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminPanelApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,53 @@ namespace AdminPanelApp.View
     /// </summary>
     public partial class AddClient
     {
-        public AddClient()
+
+        Client _client;
+        public AddClient(Client client)
         {
             InitializeComponent();
+            _client = client;
+            LoadClientData();
+        }
+
+        private void LoadClientData()
+        {
+            if (_client == null)
+                return;
+
+            TxbxFullName.Text = _client.FullName ?? string.Empty;
+
+            if (!string.IsNullOrEmpty(_client.Status))
+                CmbxStatus.SelectedItem = _client.Status;
+            else
+                CmbxStatus.SelectedIndex = 0;
+
+            TxbxPhone.Text = _client.Phone ?? string.Empty;
+            TxbxEmail.Text = _client.Email ?? string.Empty;
+            TxbxCity.Text = _client.City ?? string.Empty;
+            TxbxTelegramm.Text = _client.Telegram ?? string.Empty;
+            TxbxNotes.Text = _client.Notes ?? string.Empty;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (String.IsNullOrEmpty(TxbxFullName.Text))
+                return;
+            if(!String.IsNullOrEmpty(_client.FullName))
+                _client.CreatedAt  = DateTime.UtcNow;
+
+            _client.FullName = TxbxFullName.Text.Trim();
+            _client.Status = CmbxStatus.SelectedItem?.ToString() ?? "active"; // например, default "active"
+            _client.Phone = string.IsNullOrWhiteSpace(TxbxPhone.Text) ? null : TxbxPhone.Text.Trim();
+            _client.Email = string.IsNullOrWhiteSpace(TxbxEmail.Text) ? null : TxbxEmail.Text.Trim();
+            _client.City = string.IsNullOrWhiteSpace(TxbxCity.Text) ? null : TxbxCity.Text.Trim();
+            _client.Telegram = string.IsNullOrWhiteSpace(TxbxTelegramm.Text) ? null : TxbxTelegramm.Text.Trim();
+            _client.Notes = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
+            _client.UpdatedAt = DateTime.UtcNow;
+
+
+            DialogResult = true;
+
             Close();
         }
 

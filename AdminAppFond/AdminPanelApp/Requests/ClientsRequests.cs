@@ -21,11 +21,10 @@ namespace AdminPanelApp.Requests
             var clientsDict = new Dictionary<int, Client>();
 
             using var conn = LogicDb.GetOpenConnection();
-            conn.Open();
 
             using var cmd = new SQLiteCommand(@"
                                                 SELECT 
-                                                    c.id AS ClientId, c.full_name, c.opened_at, c.status, c.notes, c.phone, c.email, c.telegram, c.city, c.created_at, c.updated_at,
+                                                    c.id AS ClientId, c.full_name, c.status, c.notes, c.phone, c.email, c.telegram, c.city, c.created_at, c.updated_at,
                                                     a.id AS AccountId, a.client_id, a.exchange, a.account_name, a.account_number, a.created_at AS AccountCreatedAt
                                                 FROM clients c
                                                 LEFT JOIN accounts a ON c.id = a.client_id
@@ -88,8 +87,8 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                           INSERT INTO clients (full_name, opened_at, status, notes, phone, email, telegram, city, created_at, updated_at)
-                           VALUES (@fullName, @openedAt, @status, @notes, @phone, @email, @telegram, @city, @createdAt, @updatedAt);
+                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, city, created_at, updated_at)
+                           VALUES (@fullName, @status, @notes, @phone, @email, @telegram, @city, @createdAt, @updatedAt);
                            ";
 
             using var cmd = new SQLiteCommand(query, connection);
@@ -105,6 +104,12 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@updatedAt", DateTime.Now);
 
             cmd.ExecuteNonQuery();
+
+            // Получаем Id последней вставленной записи
+            cmd.CommandText = "SELECT last_insert_rowid();";
+            long lastId = (long)cmd.ExecuteScalar();
+
+            newClient.Id = (int)lastId; // присваиваем Id клиенту
         }
 
         /// <summary>
@@ -140,7 +145,6 @@ namespace AdminPanelApp.Requests
             string query = @"
                            UPDATE clients SET
                            full_name = @fullName,
-                           opened_at = @openedAt,
                            status = @status,
                            notes = @notes,
                            phone = @phone,

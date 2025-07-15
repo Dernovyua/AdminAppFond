@@ -1,26 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.Docking" Version="22.1.4" />
-    <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="22.1.4" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Wpf.Docking" Version="22.1.4" />
+		<PackageReference Include="DevExpress.Wpf.LayoutControl" Version="22.1.4" />
+		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\1exUiKit\TestChangerThemes\UiKit\Ex.UI.Kit.csproj" />
-    <ProjectReference Include="..\..\..\ExAlgoLocalization\ExAlgo.Resources\ETS.Resources.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\1exUiKit\TestChangerThemes\UiKit\Ex.UI.Kit.csproj" />
+		<ProjectReference Include="..\..\..\ExAlgoLocalization\ExAlgo.Resources\ETS.Resources.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Migrations\001_init.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="StyleAndControls">
+			<HintPath>C:\Программирование\Установочник CopyTrading\StyleAndControls.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Migrations\*.sql" />
+	</ItemGroup>
 
 </Project>

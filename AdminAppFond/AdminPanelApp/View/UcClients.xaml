@@ -12,7 +12,7 @@
                         ShowBorder="False">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="44" />
+            <RowDefinition Height="34" />
             <RowDefinition Height="140*" />
             <RowDefinition Height="3" />
             <RowDefinition Height="250" />
@@ -73,6 +73,8 @@
                         <MenuItem Click="MnitAddClient_Click" Header="Добавить" />
                         <MenuItem Click="MnitEditClient_Click" Header="Редактировать" />
                         <MenuItem Click="MnitDelClient_Click" Header="Удалить" />
+                        <Separator />
+                        <MenuItem Click="MnitAddAccount_Click" Header="Добавить счет" />
                     </ContextMenu>
                 </ex:ExSimpleTable.ContextMenu>
 
@@ -99,7 +101,7 @@
                     </DataGridTextColumn>
 
                     <!--  Колонка с датой открытия (регистрации) клиента  -->
-                    <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=yyyy.MM.dd}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=dd.MM.yyyy}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата регистрации" />
                         </DataGridTextColumn.Header>
@@ -197,6 +199,7 @@
                         <MenuItem Click="MnitAddAccount_Click" Header="Добавить" />
                         <MenuItem Click="MnitEditAccount_Click" Header="Редактировать" />
                         <MenuItem Click="MnitDelAccount_Click" Header="Удалить" />
+
                     </ContextMenu>
                 </ex:ExSimpleTable.ContextMenu>
 
@@ -219,7 +222,7 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=\{0:yyyy.MM.dd\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата создания" />
                         </DataGridTextColumn.Header>

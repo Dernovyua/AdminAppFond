@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AdminPanelApp.Logic;
+using AdminPanelApp.Models;
+using AdminPanelApp.Requests;
+using ClassControlsAndStyle.Dialogs;
+using ETS.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,11 +28,13 @@ namespace AdminPanelApp.View
         public UcClients()
         {
             InitializeComponent();
+
+            DtgdClients.ItemsSource = LogicData.Clients;
         }
 
         private void DtgdClients_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            EditClient();
         }
 
         private void DtgdClients_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -37,8 +44,7 @@ namespace AdminPanelApp.View
 
         private void BtnAddClient_Click(object sender, RoutedEventArgs e)
         {
-            AddClient win = new AddClient();
-            win.ShowDialog();
+            AddClient();
         }
 
         private void BtnCopyClient_Click(object sender, RoutedEventArgs e)
@@ -48,21 +54,19 @@ namespace AdminPanelApp.View
 
         private void BtnDelClient_Click(object sender, RoutedEventArgs e)
         {
-
+            DelClient();
         }
 
         private void MnitAddClient_Click(object sender, RoutedEventArgs e)
         {
-
+            AddClient();
         }
-        private void MnitCopyClient_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
         private void MnitEditClient_Click(object sender, RoutedEventArgs e)
         {
-
+            EditClient();
         }
+
         /// <summary>
         /// Редактировать клиента
         /// </summary>
@@ -70,37 +74,124 @@ namespace AdminPanelApp.View
         /// <param name="e"></param>
         private void MnitDelClient_Click(object sender, RoutedEventArgs e)
         {
-                
+            DelClient();
         }
+
+
+        private void AddClient()
+        {
+            Client client = new Client();
+            AddClient add = new AddClient(client);
+            add.ShowDialog();
+
+            if (add.DialogResult == true)
+            {
+                LogicData.Clients.Add(client);
+                ClientsRequests.AddClient(client);
+            }
+        }
+        private void EditClient()
+        {
+            if (DtgdClients.SelectedItem is Client client)
+            {
+                AddClient add = new AddClient(client);
+                add.ShowDialog();
+                if (add.DialogResult == true)
+                {
+                    ClientsRequests.UpdateClient(client);
+                }
+            }
+        }
+        private void DelClient()
+        {
+            if (DtgdClients.SelectedItem is Client client)
+            {
+                if (new DialogOkCancel("Вы действительно хотите удалить клиента?",
+                    LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
+                    .Result == MessageBoxResult.OK)
+                {
+                    ClientsRequests.DeleteClient(client.Id);
+                    LogicData.Clients.Remove(client);
+                }
+            }
+        }
+
 
         private void DtgdAccounts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            EditAccount();
         }
 
         private void ButtonAddAccount_Click(object sender, RoutedEventArgs e)
         {
-
+            AddAccount();
         }
 
         private void BtnDeleteAccount_Click(object sender, RoutedEventArgs e)
         {
-
+            DelAccount();
         }
 
         private void MnitAddAccount_Click(object sender, RoutedEventArgs e)
         {
-
+            AddAccount();
         }
 
         private void MnitEditAccount_Click(object sender, RoutedEventArgs e)
         {
-
+            EditAccount();
         }
 
         private void MnitDelAccount_Click(object sender, RoutedEventArgs e)
         {
+            DelAccount();
+        }
 
+        private void AddAccount()
+        {
+            if (DtgdClients.SelectedItem is Client client)
+            {
+                AccountModel account = new AccountModel();
+                AccountSetting add = new AccountSetting(account, client);
+                add.ShowDialog();
+
+                if (add.DialogResult == true)
+                {
+                    AccountRequests.AddAccount(account);
+                    client.Accounts.Add(account);
+                }
+            }
+            else
+            {
+                new DialogMessage("Необходимо выбарть клиента", "Внимание!");
+            }
+        }
+        private void EditAccount()
+        {
+            if (DtgdClients.SelectedItem is Client client)
+                if (DtgdAccounts.SelectedItem is AccountModel acc)
+                {
+                    AccountSetting add = new AccountSetting(acc, client);
+                    add.ShowDialog();
+                    if (add.DialogResult == true)
+                    {
+                        AccountRequests.UpdateAccount(acc);
+                    }
+                }
+        }
+        private void DelAccount()
+        {
+            if (DtgdClients.SelectedItem is Client client)
+                if (DtgdAccounts.SelectedItem is AccountModel acc)
+                {
+                    if (new DialogOkCancel("Вы действительно хотите удалить счет?",
+                        LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
+                        .Result == MessageBoxResult.OK)
+                    {
+                        AccountRequests.DeleteAccount(acc.Id);
+                        client.Accounts.Remove(acc);
+                    }
+                }
         }
     }
 }
