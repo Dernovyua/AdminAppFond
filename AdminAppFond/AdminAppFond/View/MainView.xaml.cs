@@ -34,7 +34,7 @@ namespace AdminAppFond.View
             InitializeComponent();
 
             AdminMain main = new AdminMain();
-            main.Execute("D://1/");
+            main.Execute("D://");
         }
 
 
@@ -197,7 +197,26 @@ namespace AdminAppFond.View
                 return;
             }
 
-      
+            if (baseDocTitle == "Статистика")
+            {
+                UserStatistic uc = new UserStatistic();
+                AddDockPanelModuls(uc);
+                return;
+            }
+
+            if (baseDocTitle == "Бухгалтерия")
+            {
+                Transactions uc = new Transactions();
+                AddDockPanelModuls(uc);
+                return;
+            }
+
+            //if (baseDocTitle == "Диалоги")
+            //{
+            //    UcClients uc = new UcClients();
+            //    AddDockPanelModuls(uc);
+            //    return;
+            //}
 
         }
 

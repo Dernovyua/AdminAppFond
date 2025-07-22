@@ -1,0 +1,104 @@
+﻿<ex:ExDockDocumentPanel x:Class="AdminPanelApp.View.UserStatistic"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
+                        xmlns:local="clr-namespace:AdminPanelApp.View"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        Background="{DynamicResource GlobalBackgroundColor}"
+                        BorderBrush="{DynamicResource ExWindow-Border-Background}"
+                        BorderThickness="1"
+                        Caption="Статистика"
+                        ShowBorder="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34" />
+            <RowDefinition Height="140*" />
+        </Grid.RowDefinitions>
+
+        <ex:ExButton Name="BtnAddStat" Grid.Row="0"
+                     Background="Transparent"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnAddStat_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-add.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Добавить" />
+        <ex:ExButton Name="BtnDelStat" Grid.Row="0"
+                     Background="Transparent"
+                     Margin="32 0 0 0"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnDelStat_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-del.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Удалить" />
+
+        <Grid Grid.Row="1">
+
+
+
+            <ex:ExSimpleTable Name="DtgdStat" Grid.Column="0"
+                              Height="Auto"
+                              HorizontalContentAlignment="Left"
+                              AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="True"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
+                              FrozenColumnCount="2"
+                              GridLinesVisibility="Vertical"
+                              IsReadOnly="True"
+                              MouseDoubleClick="DtgdStat_MouseDoubleClick"
+                              SelectionMode="Single">
+
+
+
+                <ex:ExSimpleTable.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Click="MnitAddStat_Click" Header="Добавить" />
+                        <MenuItem Click="MnitEditStat_Click" Header="Редактировать" />
+                        <MenuItem Click="MnitDelStat_Click" Header="Удалить" />
+                    </ContextMenu>
+                </ex:ExSimpleTable.ContextMenu>
+
+                <ex:ExSimpleTable.Columns>
+
+                    <!--  Колонка с датой  -->
+                    <DataGridTextColumn Binding="{Binding Date, StringFormat=d}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!--  Колонка с ID счёта  -->
+                    <DataGridTextColumn Binding="{Binding AccountId}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="ID счёта" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!--  Колонка баланса депозита  -->
+                    <DataGridTextColumn Binding="{Binding Deposit}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!--  Колонка с комментарием  -->
+                    <DataGridTextColumn Binding="{Binding Comment}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Комментарий" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                </ex:ExSimpleTable.Columns>
+            </ex:ExSimpleTable>
+
+        </Grid>
+    </Grid>
+</ex:ExDockDocumentPanel>
