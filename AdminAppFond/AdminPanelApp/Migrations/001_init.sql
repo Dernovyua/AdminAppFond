@@ -7,7 +7,7 @@
     email TEXT,
     telegram TEXT,
     city TEXT,
-    created_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now', 'utc')),
     updated_at TEXT DEFAULT (datetime('now'))
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE messages (
     client_id INTEGER NOT NULL,
     sender TEXT NOT NULL, -- 'client' или 'admin'
     message TEXT NOT NULL,
-    sent_at TEXT DEFAULT (datetime('now')),
+    sent_at TEXT DEFAULT (datetime('now', 'utc')),
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE daily_trading_stats (
     balance_start REAL,
     balance_end REAL,
     profit_loss REAL,
-    created_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now', 'utc')),
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 
@@ -39,7 +39,7 @@ CREATE TABLE transactions (
     amount REAL NOT NULL,
     status TEXT DEFAULT 'completed',
     processed_at TEXT,
-    created_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now', 'utc')),
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE accounts (
     exchange TEXT NOT NULL,      -- Название биржи (например, Binance, Bybit)
     account_name TEXT NOT NULL,  -- Название счета или описание
     account_number TEXT UNIQUE NOT NULL,  -- Переносим из clients
-    created_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now', 'utc')),
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 

@@ -9,7 +9,7 @@ CREATE TABLE transactions (
     amount REAL NOT NULL,
     status TEXT DEFAULT 'completed',
     processed_at TEXT,
-    created_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now', 'utc')),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
 );
 

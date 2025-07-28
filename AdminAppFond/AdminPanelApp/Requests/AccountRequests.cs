@@ -27,7 +27,6 @@ namespace AdminPanelApp.Requests
                     exchange = @exchange,
                     account_name = @accountName,
                     account_number = @accountNumber,
-                    created_at = @createdAt
                     WHERE id = @id;
                     ";
 
@@ -35,7 +34,6 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@exchange", updatedAccount.Exchange);
             cmd.Parameters.AddWithValue("@accountName", updatedAccount.AccountName);
             cmd.Parameters.AddWithValue("@accountNumber", updatedAccount.AccountNumber);
-            cmd.Parameters.AddWithValue("@createdAt", updatedAccount.CreatedAt);
             cmd.Parameters.AddWithValue("@id", updatedAccount.Id);
 
             cmd.ExecuteNonQuery();
@@ -59,7 +57,6 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@exchange", newAccount.Exchange);
             cmd.Parameters.AddWithValue("@accountName", newAccount.AccountName);
             cmd.Parameters.AddWithValue("@accountNumber", newAccount.AccountNumber);
-            cmd.Parameters.AddWithValue("@createdAt", newAccount.CreatedAt);
 
             cmd.ExecuteNonQuery();
 

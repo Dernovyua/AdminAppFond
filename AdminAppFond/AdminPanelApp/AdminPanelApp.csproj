@@ -4,11 +4,11 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DevExpress.Wpf.Docking" Version="22.1.4" />
-		<PackageReference Include="DevExpress.Wpf.LayoutControl" Version="22.1.4" />
 		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
 	</ItemGroup>
 
@@ -18,13 +18,286 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="StyleAndControls">
-			<HintPath>C:\Программирование\Установочник CopyTrading\StyleAndControls.dll</HintPath>
-		</Reference>
+		<EmbeddedResource Include="Migrations\*.sql" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Migrations\*.sql" />
+	  <Reference Include="DevExpress.Charts.Designer.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Charts.Designer.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Charts.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Charts.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.CodeParser.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.CodeParser.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Data.Desktop.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Data.Desktop.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Data.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Data.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.DataAccess.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.DataAccess.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.DataAccess.v22.1.UI">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.DataAccess.v22.1.UI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.DataVisualization.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.DataVisualization.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Diagram.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Diagram.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Dialogs.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Dialogs.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Docs.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Docs.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Drawing.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Drawing.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Images.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Images.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Map.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Map.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Mvvm.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Mvvm.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Mvvm.v22.1.DataModel">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Mvvm.v22.1.DataModel.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Mvvm.v22.1.DataModel.EFCore">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Mvvm.v22.1.DataModel.EFCore.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Mvvm.v22.1.ViewModel">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Mvvm.v22.1.ViewModel.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Office.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Office.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Pdf.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Pdf.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Pdf.v22.1.Drawing">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Pdf.v22.1.Drawing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.PivotGrid.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.PivotGrid.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Printing.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Printing.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.RichEdit.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.RichEdit.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.RichEdit.v22.1.Export">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.RichEdit.v22.1.Export.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Sparkline.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Sparkline.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.SpellChecker.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.SpellChecker.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Spreadsheet.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Spreadsheet.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.TreeMap.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.TreeMap.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Utils.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Utils.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Utils.v22.1.UI">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Utils.v22.1.UI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Accordion.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Accordion.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Carousel.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Carousel.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Charts.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Charts.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.CodeView.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.CodeView.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Controls.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Controls.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Core.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Core.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Core.v22.1.Extensions">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Core.v22.1.Extensions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.DataAccess.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.DataAccess.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Diagram.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Diagram.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Dialogs.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Dialogs.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Docking.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Docking.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.DocumentViewer.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.DocumentViewer.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.ExpressionEditor.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.ExpressionEditor.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Gantt.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Gantt.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Gauges.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Gauges.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Grid.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Grid.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Grid.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Grid.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Grid.v22.1.Extensions">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Grid.v22.1.Extensions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Layout.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Layout.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.LayoutControl.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.LayoutControl.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Map.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Map.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.NavBar.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.NavBar.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Office.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Office.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.PdfViewer.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.PdfViewer.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.PivotGrid.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.PivotGrid.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Printing.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Printing.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.PrismAdapters.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.PrismAdapters.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.PropertyGrid.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.PropertyGrid.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.ReportDesigner.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.ReportDesigner.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Ribbon.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Ribbon.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.RichEdit.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.RichEdit.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Scheduling.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Scheduling.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.SpellChecker.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.SpellChecker.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Spreadsheet.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Spreadsheet.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.Themes.Office2019Colorful.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.TreeMap.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.TreeMap.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpf.TypedStyles.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpf.TypedStyles.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpo.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.Xpo.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraBars.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraBars.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraCharts.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraCharts.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraCharts.v22.1.Extensions">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraCharts.v22.1.Extensions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraCharts.v22.1.UI">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraCharts.v22.1.UI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraCharts.v22.1.Wizard">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraCharts.v22.1.Wizard.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraDiagram.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraDiagram.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraEditors.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraEditors.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraGauges.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraGauges.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraGrid.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraGrid.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraLayout.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraLayout.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraNavBar.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraNavBar.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraPivotGrid.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraPivotGrid.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraPrinting.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraPrinting.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraReports.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraReports.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraRichEdit.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraRichEdit.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraScheduler.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraScheduler.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraScheduler.v22.1.Core">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraScheduler.v22.1.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraScheduler.v22.1.Core.Desktop">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraScheduler.v22.1.Core.Desktop.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraScheduler.v22.1.Reporting">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraScheduler.v22.1.Reporting.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraTreeList.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraTreeList.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraVerticalGrid.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraVerticalGrid.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.XtraWizard.v22.1">
+	    <HintPath>C:\Программирование\All Dll\DevExpress\DevExpress.XtraWizard.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="StyleAndControls">
+	    <HintPath>..\..\..\CopyTradingAlgo\CopyTradingAlgo\StyleAndControls\bin\Debug\net6.0-windows\StyleAndControls.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

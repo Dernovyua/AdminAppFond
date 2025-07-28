@@ -8,6 +8,6 @@ CREATE TABLE statistic (
     deposit REAL NOT NULL,          -- Сумма депозита за день
     account_id INTEGER NOT NULL,    -- ID счёта (связь с accounts)
     comment TEXT,                   -- Комментарий
-    created_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now', 'utc')),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
 );

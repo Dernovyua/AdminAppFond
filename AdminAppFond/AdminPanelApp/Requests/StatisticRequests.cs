@@ -24,13 +24,13 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                   INSERT INTO statistic (date, deposit, account_id, comment)
+                   INSERT INTO statistic (createdAt, deposit, account_id, comment)
                    VALUES (@date, @deposit, @accountId, @comment);
                    ";
 
             using var cmd = new SQLiteCommand(query, connection);
 
-            cmd.Parameters.AddWithValue("@date", statistic.Date);
+            cmd.Parameters.AddWithValue("@createdAt", statistic.CreatedAt);
             cmd.Parameters.AddWithValue("@deposit", statistic.Deposit);
             cmd.Parameters.AddWithValue("@accountId", statistic.AccountId);
             cmd.Parameters.AddWithValue("@comment", statistic.Comment ?? (object)DBNull.Value);
@@ -91,6 +91,84 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@id", statistic.Id);
 
             cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Получение записей статистики по идентификатору счета
+        /// </summary>
+        /// <param name="accountId">Идентификатор счета</param>
+        /// <returns>Список объектов StatisticModel для указанного счета</returns>
+        public static List<StatisticModel> GetStatisticsByAccountId(int accountId)
+        {
+            var statistics = new List<StatisticModel>();
+
+            using var connection = LogicDb.GetOpenConnection();
+
+            string query = @"
+                            SELECT id, date, deposit, account_id, comment, created_at
+                            FROM statistic
+                            WHERE account_id = @accountId
+                            ORDER BY date DESC;
+    ";
+
+            using var cmd = new SQLiteCommand(query, connection);
+            cmd.Parameters.AddWithValue("@accountId", accountId);
+
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var statistic = new StatisticModel
+                {
+                    Id = reader.GetInt32(0),
+                    Date = reader.GetDateTime(1),
+                    Deposit = reader.GetDecimal(2),
+                    AccountId = reader.GetInt32(3),
+                    Comment = reader.IsDBNull(4) ? null : reader.GetString(4),
+                    CreatedAt = reader.GetDateTime(5)
+                };
+
+                statistics.Add(statistic);
+            }
+
+            return statistics;
+        }
+
+        /// <summary>
+        /// Получение списка записей статистики из базы данных
+        /// </summary>
+        /// <returns>Список объектов StatisticModel</returns>
+        public static List<StatisticModel> GetStatistics()
+        {
+            var statistics = new List<StatisticModel>();
+
+            using var connection = LogicDb.GetOpenConnection();
+
+            string query = @"
+                            SELECT id, date, deposit, account_id, comment, created_at
+                            FROM statistic
+                            ORDER BY date DESC;
+    ";
+
+            using var cmd = new SQLiteCommand(query, connection);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var statistic = new StatisticModel
+                {
+                    Id = reader.GetInt32(0),
+                    Date = reader.GetDateTime(1),
+                    Deposit = reader.GetDecimal(2),
+                    AccountId = reader.GetInt32(3),
+                    Comment = reader.IsDBNull(4) ? null : reader.GetString(4),
+                    CreatedAt = reader.GetDateTime(5)
+                };
+
+                statistics.Add(statistic);
+            }
+
+            return statistics;
         }
     }
 }

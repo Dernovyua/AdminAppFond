@@ -36,7 +36,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@amount", newTransaction.Amount);
             cmd.Parameters.AddWithValue("@status", newTransaction.Status ?? "completed");
             cmd.Parameters.AddWithValue("@processedAt", newTransaction.ProcessedAt ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@createdAt", DateTime.Now);
+            cmd.Parameters.AddWithValue("@createdAt", newTransaction.CreatedAt);
 
             cmd.ExecuteNonQuery();
 
@@ -84,7 +84,6 @@ namespace AdminPanelApp.Requests
                    amount = @amount,
                    status = @status,
                    processed_at = @processedAt,
-                   created_at = @createdAt
                    WHERE id = @id;";
 
             using var cmd = new SQLiteCommand(query, connection);
@@ -94,10 +93,11 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@amount", transaction.Amount);
             cmd.Parameters.AddWithValue("@status", transaction.Status ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@processedAt", transaction.ProcessedAt ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@createdAt", transaction.CreatedAt);
             cmd.Parameters.AddWithValue("@id", transaction.Id);
 
             cmd.ExecuteNonQuery();
         }
+
+      
     }
 }

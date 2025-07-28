@@ -100,7 +100,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@email", newClient.Email ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@telegram", newClient.Telegram ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@city", newClient.City ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@createdAt", DateTime.Now);
+            cmd.Parameters.AddWithValue("@createdAt", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("@updatedAt", DateTime.Now);
 
             cmd.ExecuteNonQuery();

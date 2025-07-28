@@ -14,14 +14,14 @@ namespace AdminPanelApp.Logic
     /// </summary>
     public static class LogicDb
     {
-        static string _pathDb = "prop_admin.db";
+        static string _pathDb = "AdminDb.db";
         static string sqlInitFile = "001_init.sql";
 
         public static string ConnectionString => $"Data Source={_pathDb};Version=3;";
 
         private static void SetPath(string path)
         {
-            _pathDb = Path.Combine(path, "prop_admin.db");
+            _pathDb = Path.Combine(path, _pathDb);
         }
 
         public static void Main(string path)
@@ -76,12 +76,12 @@ namespace AdminPanelApp.Logic
 
         static void ApplyMigrations()
         {
-            var migrationDir = Path.Combine(AppContext.BaseDirectory, "Migrations");
-            if (!Directory.Exists(migrationDir))
-            {
-                Console.WriteLine("Папка миграций не найдена.");
-                return;
-            }
+            //var migrationDir = Path.Combine(AppContext.BaseDirectory, "Migrations");
+            //if (!Directory.Exists(migrationDir))
+            //{
+            //    Console.WriteLine("Папка миграций не найдена.");
+            //    return;
+            //}
 
             using var conn = new SQLiteConnection(ConnectionString);
             conn.Open();
@@ -111,7 +111,7 @@ namespace AdminPanelApp.Logic
             //}
 
             var assembly = Assembly.GetExecutingAssembly();
-            var resourcePrefix = "AdminPanelApp.Migrations."; // замени на своё
+            var resourcePrefix = "AdminPanelApp.Migrations."; 
 
             var allResources = assembly.GetManifestResourceNames()
                 .Where(r => r.StartsWith(resourcePrefix) && r.EndsWith(".sql"))

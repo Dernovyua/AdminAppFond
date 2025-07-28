@@ -33,7 +33,7 @@ namespace AdminPanelApp.Models
         private string _accountName;
 
         /// <summary>
-        /// Уникальный номер счета (переносится из таблицы клиентов).
+        /// Уникальный номер счета (публичный ключ).
         /// </summary>
         public string AccountNumber { get => _accountNumber; set { _accountNumber = value; OnPropertyChanged(nameof(AccountNumber)); } }
         private string _accountNumber;
