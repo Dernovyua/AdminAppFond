@@ -70,7 +70,7 @@
 
 
                     <!-- Колонка с датой -->
-                    <DataGridTextColumn Binding="{Binding Date, StringFormat=d}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding ProcessedAt, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата" />
                         </DataGridTextColumn.Header>
@@ -84,23 +84,30 @@
                     </DataGridTextColumn>
 
                     <!-- Колонка с Id транзакции -->
-                    <DataGridTextColumn Binding="{Binding TransactionId}" IsReadOnly="True">
+                    <!--<DataGridTextColumn Binding="{Binding TransactionId}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Id транзакции" />
                         </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    </DataGridTextColumn>-->
 
                     <!-- Колонка с Id счета -->
-                    <DataGridTextColumn Binding="{Binding AccountId}" IsReadOnly="True">
+                    <!--<DataGridTextColumn Binding="{Binding AccountId}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Id счета" />
                         </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    </DataGridTextColumn>-->
 
                     <!-- Колонка с суммой -->
                     <DataGridTextColumn Binding="{Binding Amount}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Сумма" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    
+                    <!-- Колонка с суммой -->
+                    <DataGridTextColumn Binding="{Binding Type}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Тип операции" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 

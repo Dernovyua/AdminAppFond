@@ -3,7 +3,9 @@ using AdminPanelApp.Models;
 using ClassControlsAndStyle.Dialogs;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +27,35 @@ namespace AdminPanelApp.View
     {
         StatisticModel _statistic;
 
-        public AddStatistic(StatisticModel statistic, int accountId = 0)
+        public AddStatistic(StatisticModel statistic)
         {
             InitializeComponent();
 
             CmbxAccount.ItemsSource = LogicData.Clients.SelectMany(client => client.Accounts).ToList();
+
             _statistic = statistic;
+
+            if (statistic.CreatedAt.Year > 1)
+            {
+                if (CmbxAccount.ItemsSource is IEnumerable items && statistic.AccountId > 0)
+                {
+                    var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == statistic.AccountId);
+                    if (account != null)
+                    {
+                        CmbxAccount.SelectedItem = account;
+                    }
+                    else
+                    {
+                        // Дополнительная обработка если счет не найден
+                        Debug.WriteLine($"Счет с ID {statistic.AccountId} не найден в списке");
+                    }
+                }
+                DtpDate.SelectedDate = statistic.Date;
+                TxbxNotes.Text = statistic.Comment;
+                TxbxDeposit.Text = statistic.Deposit.ToString();
+            }
+            else
+                DtpDate.SelectedDate = DateTime.Now;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)

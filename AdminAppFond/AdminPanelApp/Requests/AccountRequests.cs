@@ -27,6 +27,7 @@ namespace AdminPanelApp.Requests
                     exchange = @exchange,
                     account_name = @accountName,
                     account_number = @accountNumber,
+                    currency = @currency
                     WHERE id = @id;
                     ";
 
@@ -34,6 +35,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@exchange", updatedAccount.Exchange);
             cmd.Parameters.AddWithValue("@accountName", updatedAccount.AccountName);
             cmd.Parameters.AddWithValue("@accountNumber", updatedAccount.AccountNumber);
+            cmd.Parameters.AddWithValue("@currency", updatedAccount.Currency);
             cmd.Parameters.AddWithValue("@id", updatedAccount.Id);
 
             cmd.ExecuteNonQuery();
@@ -49,14 +51,15 @@ namespace AdminPanelApp.Requests
 
             using var cmd = new SQLiteCommand(conn);
             cmd.CommandText = @"
-                            INSERT INTO accounts (client_id, exchange, account_name, account_number)
-                            VALUES (@clientId, @exchange, @accountName, @accountNumber);
+                            INSERT INTO accounts (client_id, exchange, account_name, account_number, currency)
+                            VALUES (@clientId, @exchange, @accountName, @accountNumber, @currency);
                         ";
 
             cmd.Parameters.AddWithValue("@clientId", newAccount.ClientId);
             cmd.Parameters.AddWithValue("@exchange", newAccount.Exchange);
             cmd.Parameters.AddWithValue("@accountName", newAccount.AccountName);
             cmd.Parameters.AddWithValue("@accountNumber", newAccount.AccountNumber);
+            cmd.Parameters.AddWithValue("@currency", newAccount.Currency);
 
             cmd.ExecuteNonQuery();
 

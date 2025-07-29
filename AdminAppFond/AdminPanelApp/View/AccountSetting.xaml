@@ -80,12 +80,12 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Cursor="Help"
-                                Text="Номер счета">
+                                Text="Счет / публичный ключ">
                     <ex:ExTextBlock.ToolTip>
                         <ToolTip>
                             <DockPanel Width="250">
                                 <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
-                                    <Run Text="Уникальный номер счета, связанный с клиентом." />
+                                    <Run Text="Уникальный номер счета, связанный с клиентом. Для криптовалютных бирж и бирж с АПИ - это публичный ключ" />
                                 </ex:ExTextBlock>
                             </DockPanel>
                         </ToolTip>
@@ -96,6 +96,23 @@
                               Margin="180 0 10 0"
                               VerticalAlignment="Center"
                               Text="" />
+            </Grid>
+
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock 
+                                Width="120"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Валюта счета">
+                </ex:ExTextBlock>
+                <ex:ExComboBox x:Name="CmbxCurrency"
+                               Height="25"
+                               Margin="180 0 10 0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               SelectedIndex="0" />
             </Grid>
         </StackPanel>
 

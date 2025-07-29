@@ -222,6 +222,12 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
+                    <DataGridTextColumn Binding="{Binding Currency}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Валюта счета" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
                     <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата создания" />

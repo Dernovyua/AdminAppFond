@@ -27,23 +27,15 @@ namespace AdminPanelApp.Logic
                     }
                 });
 
-            GetStatistic();
+            LogicData.GetStatisticsAsync();
+            LogicData.GetTransactionsAsync();
         }
 
-        private void GetStatistic()
-        { 
-            var stat = StatisticRequests.GetStatistics();
-            foreach (var item in stat)
-            {
-                LogicData.Statistics.Add(item);
-            }
-        }
 
-        
 
         public async Task UpdateBalance()
         {
-            var accountsWithoutStats = GetAccountsWithoutTodayStatsAsync();
+            var accountsWithoutStats = await GetAccountsWithoutTodayStatsAsync();
 
             try
             {
@@ -53,14 +45,29 @@ namespace AdminPanelApp.Logic
 
                     for (int j = client.Accounts.Count - 1; j >= 0; j--)
                     {
-                        var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber), 2);
-                        if (!Double.IsNaN(balance))
-                            StatisticRequests.AddStatistic(new Models.StatisticModel
+                        if (client.Accounts[j].LastDateAddBalanceToStat.Date < DateTime.UtcNow.Date)
+                        {
+                            if (accountsWithoutStats.Count(a => a.AccountNumber == client.Accounts[j].AccountNumber && //При перезапуске в этот же день
+                                a.CreatedAt.Date == DateTime.UtcNow.Date) == 1)
                             {
-                                Deposit = (decimal)balance,
-                                AccountId = client.Accounts[j].Id,
-                                Date = DateTime.UtcNow
-                            });
+                                client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
+                                continue;
+                            }
+
+                            var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
+                            if (!Double.IsNaN(balance))
+                            {
+                                var stat = new Models.StatisticModel
+                                {
+                                    Deposit = (decimal)balance,
+                                    AccountId = client.Accounts[j].Id,
+                                    Date = DateTime.UtcNow
+                                };
+
+                                StatisticRequests.AddStatistic(stat);
+                                client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
+                            }
+                        }
                     }
                 }
             }
@@ -106,37 +113,47 @@ namespace AdminPanelApp.Logic
         /// <returns>Список счетов без статистики за сегодня</returns>
         public async Task<List<AccountModel>> GetAccountsWithoutTodayStatsAsync()
         {
-            var today = DateTime.UtcNow.Date;
-
             using var connection = LogicDb.GetOpenConnection();
 
-            // Улучшенный запрос с явным указанием столбцов
+            // Запрос для получения всех счетов с последней датой статистики
             string query = @"
-                            SELECT a.id, a.account_name, a.account_number 
-                            FROM accounts a
-                            LEFT JOIN statistic s ON a.id = s.account_id AND s.date >= @today
-                            WHERE s.account_id IS NULL;
-    ";
+        SELECT 
+            a.id, 
+            a.account_name, 
+            a.account_number,
+            a.currency,
+            MAX(s.date) AS last_stat_date
+        FROM 
+            accounts a
+        LEFT JOIN 
+            statistic s ON a.id = s.account_id
+        GROUP BY
+            a.id, a.account_name, a.account_number
+        ORDER BY
+            a.account_name";
 
             using var cmd = new SQLiteCommand(query, connection);
-            cmd.Parameters.AddWithValue("@today", today);
 
-            var accountsWithoutStats = new List<AccountModel>();
+            var accounts = new List<AccountModel>();
 
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                accountsWithoutStats.Add(new AccountModel
+                accounts.Add(new AccountModel
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("id")),
                     AccountName = reader.GetString(reader.GetOrdinal("account_name")),
+                    Currency = (CurrencyType)Enum.Parse(typeof(CurrencyType), reader.GetString(reader.GetOrdinal("currency")), true),
                     AccountNumber = reader.IsDBNull(reader.GetOrdinal("account_number"))
                         ? null
-                        : reader.GetString(reader.GetOrdinal("account_number"))
+                        : reader.GetString(reader.GetOrdinal("account_number")),
+                    CreatedAt = (DateTime)(reader.IsDBNull(reader.GetOrdinal("last_stat_date")) //в данном контексте будет показывать какая дата последняя по добавлению баланса в статистику была
+                        ? (DateTime?)null
+                        : reader.GetDateTime(reader.GetOrdinal("last_stat_date")))
                 });
             }
 
-            return accountsWithoutStats;
+            return accounts;
         }
     }
 }

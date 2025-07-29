@@ -1,4 +1,5 @@
 ﻿using AdminPanelApp.Models;
+using ClassControlsAndStyle.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace AdminPanelApp.View
             InitializeComponent();
             _account = account;
             _client= client;
+            CmbxCurrency.ItemsSource = new List<CurrencyType> { CurrencyType.USDT, CurrencyType.USDC, CurrencyType.BTC, CurrencyType.ETH, CurrencyType.RUR, CurrencyType.USD};
+
             LoadData();
         }
 
@@ -38,10 +41,16 @@ namespace AdminPanelApp.View
             TxbxExchange.Text = _account.Exchange ?? string.Empty;
             TxbxAccountName.Text = _account.AccountName ?? string.Empty;
             TxbxAccountNumber.Text = _account.AccountNumber ?? string.Empty;
+            CmbxCurrency.Text = _account.Currency.ToString() ?? string.Empty;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TxbxAccountNumber.Text))
+            {
+                new DialogMessage("Необходимо указать название счета", "Ошибка!");
+                return;
+            }
 
             if (string.IsNullOrEmpty(_account.AccountNumber))
                 _account.CreatedAt = DateTime.UtcNow;  // если есть поле UpdatedAt

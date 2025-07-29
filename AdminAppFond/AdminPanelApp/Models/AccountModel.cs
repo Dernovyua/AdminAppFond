@@ -39,9 +39,21 @@ namespace AdminPanelApp.Models
         private string _accountNumber;
 
         /// <summary>
+        /// Валюта счета.
+        /// </summary>
+        public CurrencyType Currency { get => _currency; set { _currency = value; OnPropertyChanged(nameof(Currency)); } }
+        private CurrencyType _currency;
+
+        /// <summary>
         /// Дата создания записи об аккаунте.
         /// </summary>
         public DateTime CreatedAt { get => _createdAt; set { _createdAt = value; OnPropertyChanged(nameof(CreatedAt)); } }
         private DateTime _createdAt;
+
+        /// <summary>
+        /// Дата создания записи об аккаунте.
+        /// </summary>
+        public DateTime LastDateAddBalanceToStat { get => _lastDateAddBalanceToStat; set { _lastDateAddBalanceToStat = value; OnPropertyChanged(nameof(LastDateAddBalanceToStat)); } }
+        private DateTime _lastDateAddBalanceToStat;
     }
 }

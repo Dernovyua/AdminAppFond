@@ -109,5 +109,10 @@ namespace AdminPanelApp.View
                 }
             }
         }
+
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            LogicData.GetStatisticsAsync();
+        }
     }
 }

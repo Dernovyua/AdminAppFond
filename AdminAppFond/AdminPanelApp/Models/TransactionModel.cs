@@ -9,6 +9,12 @@ namespace AdminPanelApp.Models
     public class TransactionModel : ObservableObject
     {
         /// <summary>
+        /// Название счета
+        /// </summary>
+        public string AccountName { get => _accountName; set { _accountName = value; OnPropertyChanged(nameof(AccountName)); } }
+        private string _accountName;
+
+        /// <summary>
         /// Уникальный идентификатор транзакции.
         /// </summary>
         public int Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }
@@ -23,8 +29,8 @@ namespace AdminPanelApp.Models
         /// <summary>
         /// Тип транзакции: 'deposit', 'withdrawal', 'management_fee'.
         /// </summary>
-        public string Type { get => _type; set { _type = value; OnPropertyChanged(nameof(Type)); } }
-        private string _type;
+        public TransactionType Type { get => _type; set { _type = value; OnPropertyChanged(nameof(Type)); } }
+        private TransactionType _type;
 
         /// <summary>
         /// Сумма транзакции.
@@ -49,5 +55,11 @@ namespace AdminPanelApp.Models
         /// </summary>
         public DateTime CreatedAt { get => _createdAt; set { _createdAt = value; OnPropertyChanged(nameof(CreatedAt)); } }
         private DateTime _createdAt;
+
+        /// <summary>
+        /// Комментарий
+        /// </summary>
+        public string Comment { get => _comment; set { _comment = value; OnPropertyChanged(nameof(Comment)); } }
+        private string _comment;
     }
 }

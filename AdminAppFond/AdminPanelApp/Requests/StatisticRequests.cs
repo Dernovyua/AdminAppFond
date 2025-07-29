@@ -138,7 +138,7 @@ namespace AdminPanelApp.Requests
         /// Получение списка записей статистики из базы данных
         /// </summary>
         /// <returns>Список объектов StatisticModel</returns>
-        public static List<StatisticModel> GetStatistics()
+        public static async Task<List<StatisticModel>> GetStatistics()
         {
             var statistics = new List<StatisticModel>();
 

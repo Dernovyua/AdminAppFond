@@ -9,7 +9,7 @@ namespace AdminPanelApp.Models
     public class StatisticModel : ObservableObject
     {
         /// <summary>
-        /// Название счета, берется из счетов.
+        /// Название счета
         /// </summary>
         public string AccountName { get => _accountName; set { _accountName = value; OnPropertyChanged(nameof(AccountName)); } }
         private string _accountName;

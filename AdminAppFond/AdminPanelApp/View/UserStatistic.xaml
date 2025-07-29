@@ -35,6 +35,16 @@
                      IconWidth="16"
                      ToolTip="Удалить" />
 
+        <ex:ExButton Name="BtnRefresh" Grid.Row="0"
+                    Background="Transparent"
+                    Margin="64 0 0 0"
+                    HorizontalAlignment="Left"
+                    BorderBrush="Transparent"
+                    Click="BtnRefresh_Click"
+                    Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-refresh.svg"
+                    IconHeight="16"
+                    IconWidth="16"/>
+
         <Grid Grid.Row="1">
 
 
@@ -69,7 +79,7 @@
                 <ex:ExSimpleTable.Columns>
 
                     <!--  Колонка с датой  -->
-                    <DataGridTextColumn Binding="{Binding Date, StringFormat=d}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Date, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата" />
                         </DataGridTextColumn.Header>

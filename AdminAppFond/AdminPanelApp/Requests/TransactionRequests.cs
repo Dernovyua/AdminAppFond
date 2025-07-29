@@ -25,17 +25,18 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                   INSERT INTO transactions (account_id, type, amount, status, processed_at, created_at)
-                   VALUES (@accountId, @type, @amount, @status, @processedAt, @createdAt);
+                   INSERT INTO transactions (account_id, type, amount, status, processed_at, comment, created_at)
+                   VALUES (@accountId, @type, @amount, @status, @processedAt, @comment, @createdAt);
                    ";
 
             using var cmd = new SQLiteCommand(query, connection);
 
             cmd.Parameters.AddWithValue("@accountId", newTransaction.AccountId);
-            cmd.Parameters.AddWithValue("@type", newTransaction.Type);
+            cmd.Parameters.AddWithValue("@type", newTransaction.Type.ToString());
             cmd.Parameters.AddWithValue("@amount", newTransaction.Amount);
             cmd.Parameters.AddWithValue("@status", newTransaction.Status ?? "completed");
             cmd.Parameters.AddWithValue("@processedAt", newTransaction.ProcessedAt ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@comment", newTransaction.Comment);
             cmd.Parameters.AddWithValue("@createdAt", newTransaction.CreatedAt);
 
             cmd.ExecuteNonQuery();
@@ -84,6 +85,7 @@ namespace AdminPanelApp.Requests
                    amount = @amount,
                    status = @status,
                    processed_at = @processedAt,
+                   comment=@comment
                    WHERE id = @id;";
 
             using var cmd = new SQLiteCommand(query, connection);
@@ -94,10 +96,69 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@status", transaction.Status ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@processedAt", transaction.ProcessedAt ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@id", transaction.Id);
+            cmd.Parameters.AddWithValue("@comment", transaction.Comment);
 
             cmd.ExecuteNonQuery();
         }
 
-      
+        public static async Task<List<TransactionModel>> GetLastTransactions()
+        {
+            using var connection = LogicDb.GetOpenConnection();
+
+            string query = @"
+                            SELECT 
+                                t.id,
+                                t.account_id,
+                                a.account_name,
+                                a.account_number,
+                                t.type,
+                                t.amount,
+                                t.status,
+                                t.processed_at,
+                                t.comment,
+                                t.created_at
+                            FROM 
+                                transactions t
+                            LEFT JOIN 
+                                accounts a ON t.account_id = a.id
+                            ORDER BY 
+                                t.created_at DESC
+                            LIMIT 200;
+                        ";
+
+            var transactions = new List<TransactionModel>();
+
+            using var cmd = new SQLiteCommand(query, connection);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                transactions.Add(new TransactionModel
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+                    AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
+                    AccountName = reader.IsDBNull(reader.GetOrdinal("account_name"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("account_name")),
+
+                    Type = (TransactionType)Enum.Parse(typeof(TransactionType), reader.GetString(reader.GetOrdinal("type")), true),
+                    Amount = reader.GetDecimal(reader.GetOrdinal("amount")),
+                    Status = reader.IsDBNull(reader.GetOrdinal("status"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("status")),
+                    ProcessedAt = reader.IsDBNull(reader.GetOrdinal("processed_at"))
+                        ? (DateTime?)null
+                        : reader.GetDateTime(reader.GetOrdinal("processed_at")),
+                    Comment = reader.IsDBNull(reader.GetOrdinal("comment"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("comment")),
+                    CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
+                });
+            }
+
+            return transactions;
+        }
+
+
     }
 }
