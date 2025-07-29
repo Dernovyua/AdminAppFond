@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AdminPanelApp.Logic;
+using AdminPanelApp.Models;
+using AdminPanelApp.Requests;
+using ClassControlsAndStyle.Dialogs;
+using ETS.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,36 +28,86 @@ namespace AdminPanelApp.View
         public UserStatistic()
         {
             InitializeComponent();
+
+            DtgdStat.ItemsSource = LogicData.Statistics;
         }
 
         private void DtgdStat_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            EditStatistic();
         }
 
         private void BtnAddStat_Click(object sender, RoutedEventArgs e)
         {
-
+            AddStatistic();
         }
 
         private void BtnDelStat_Click(object sender, RoutedEventArgs e)
         {
-
+            DeleteStatistic();
         }
 
         private void MnitAddStat_Click(object sender, RoutedEventArgs e)
         {
-
+            AddStatistic();
         }
 
         private void MnitEditStat_Click(object sender, RoutedEventArgs e)
         {
-
+            EditStatistic();
         }
 
         private void MnitDelStat_Click(object sender, RoutedEventArgs e)
         {
+            DeleteStatistic();
+        }
 
+        private void AddStatistic()
+        {
+
+            StatisticModel statistic = new StatisticModel
+            {
+                Date = DateTime.Now,
+                CreatedAt = DateTime.Now
+            };
+
+            AddStatistic add = new AddStatistic(statistic);
+            add.ShowDialog();
+
+            if (add.DialogResult == true)
+            {
+                StatisticRequests.AddStatistic(statistic);
+                LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
+            }
+
+        }
+
+        private void EditStatistic()
+        {
+            if (DtgdStat.SelectedItem is StatisticModel statistic)
+            {
+                AddStatistic edit = new AddStatistic(statistic);
+                edit.ShowDialog();
+
+                if (edit.DialogResult == true)
+                {
+                    StatisticRequests.UpdateStatistic(statistic);
+                }
+            }
+        }
+
+        private void DeleteStatistic()
+        {
+            if (DtgdStat.SelectedItem is StatisticModel statistic)
+            {
+                if (new DialogOkCancel("Вы действительно хотите удалить запись статистики?",
+                    LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
+                    .Result == MessageBoxResult.OK)
+                {
+                    StatisticRequests.DeleteStatistic(statistic.Id);
+                    LogicData.Statistics.Remove(statistic);
+                }
+            }
         }
     }
 }

@@ -76,39 +76,12 @@ namespace AdminPanelApp.Logic
 
         static void ApplyMigrations()
         {
-            //var migrationDir = Path.Combine(AppContext.BaseDirectory, "Migrations");
-            //if (!Directory.Exists(migrationDir))
-            //{
-            //    Console.WriteLine("Папка миграций не найдена.");
-            //    return;
-            //}
-
             using var conn = new SQLiteConnection(ConnectionString);
             conn.Open();
 
             EnsureMigrationsTable(conn);
 
             var applied = GetAppliedMigrations(conn);
-            //var allFiles = Directory.GetFiles(migrationDir, "*.sql")
-            //                        .OrderBy(f => f);
-
-            //foreach (var file in allFiles)
-            //{
-            //    var name = Path.GetFileName(file);
-            //    if (applied.Contains(name))
-            //    {
-            //        Console.WriteLine($"Пропущена миграция {name} (уже применена)");
-            //        continue;
-            //    }
-
-            //    Console.WriteLine($"Применение миграции: {name}");
-            //    var sql = File.ReadAllText(file);
-            //    using var cmd = conn.CreateCommand();
-            //    cmd.CommandText = sql;
-            //    cmd.ExecuteNonQuery();
-
-            //    MarkMigrationApplied(conn, name);
-            //}
 
             var assembly = Assembly.GetExecutingAssembly();
             var resourcePrefix = "AdminPanelApp.Migrations."; 
@@ -142,15 +115,6 @@ namespace AdminPanelApp.Logic
             }
 
             Console.WriteLine("Все миграции применены.");
-        }
-
-        static string ReadEmbeddedSql(string resourceName)
-        {
-            var asm = Assembly.GetExecutingAssembly();
-            using var stream = asm.GetManifestResourceStream(resourceName)
-                ?? throw new FileNotFoundException($"Ресурс не найден: {resourceName}");
-            using var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
         }
 
         static void EnsureMigrationsTable(SQLiteConnection conn)

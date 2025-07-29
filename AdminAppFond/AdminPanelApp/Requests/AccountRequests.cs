@@ -49,8 +49,8 @@ namespace AdminPanelApp.Requests
 
             using var cmd = new SQLiteCommand(conn);
             cmd.CommandText = @"
-                            INSERT INTO accounts (client_id, exchange, account_name, account_number, created_at)
-                            VALUES (@clientId, @exchange, @accountName, @accountNumber, @createdAt);
+                            INSERT INTO accounts (client_id, exchange, account_name, account_number)
+                            VALUES (@clientId, @exchange, @accountName, @accountNumber);
                         ";
 
             cmd.Parameters.AddWithValue("@clientId", newAccount.ClientId);

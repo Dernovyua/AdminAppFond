@@ -24,13 +24,13 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                   INSERT INTO statistic (createdAt, deposit, account_id, comment)
+                   INSERT INTO statistic (date, deposit, account_id, comment)
                    VALUES (@date, @deposit, @accountId, @comment);
                    ";
 
             using var cmd = new SQLiteCommand(query, connection);
 
-            cmd.Parameters.AddWithValue("@createdAt", statistic.CreatedAt);
+            cmd.Parameters.AddWithValue("@date", statistic.Date);
             cmd.Parameters.AddWithValue("@deposit", statistic.Deposit);
             cmd.Parameters.AddWithValue("@accountId", statistic.AccountId);
             cmd.Parameters.AddWithValue("@comment", statistic.Comment ?? (object)DBNull.Value);
@@ -145,10 +145,23 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                            SELECT id, date, deposit, account_id, comment, created_at
-                            FROM statistic
-                            ORDER BY date DESC;
-    ";
+                SELECT 
+                    s.id, 
+                    s.date, 
+                    s.deposit, 
+                    s.account_id, 
+                    a.account_name,
+                    a.account_number,
+                    s.comment, 
+                    s.created_at
+                FROM 
+                    statistic s
+                LEFT JOIN 
+                    accounts a ON s.account_id = a.id
+                ORDER BY 
+                    s.date DESC
+                LIMIT 100;
+            ";
 
             using var cmd = new SQLiteCommand(query, connection);
             using var reader = cmd.ExecuteReader();
@@ -157,12 +170,15 @@ namespace AdminPanelApp.Requests
             {
                 var statistic = new StatisticModel
                 {
-                    Id = reader.GetInt32(0),
-                    Date = reader.GetDateTime(1),
-                    Deposit = reader.GetDecimal(2),
-                    AccountId = reader.GetInt32(3),
-                    Comment = reader.IsDBNull(4) ? null : reader.GetString(4),
-                    CreatedAt = reader.GetDateTime(5)
+                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+                    Date = reader.GetDateTime(reader.GetOrdinal("date")),
+                    Deposit = reader.GetDecimal(reader.GetOrdinal("deposit")),
+                    AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
+                    AccountName = reader.GetString(reader.GetOrdinal("account_name")),
+                    Comment = reader.IsDBNull(reader.GetOrdinal("comment"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("comment")),
+                    CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
                 };
 
                 statistics.Add(statistic);

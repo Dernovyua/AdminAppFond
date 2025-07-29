@@ -9,6 +9,12 @@ namespace AdminPanelApp.Models
     public class StatisticModel : ObservableObject
     {
         /// <summary>
+        /// Название счета, берется из счетов.
+        /// </summary>
+        public string AccountName { get => _accountName; set { _accountName = value; OnPropertyChanged(nameof(AccountName)); } }
+        private string _accountName;
+
+        /// <summary>
         /// Уникальный идентификатор записи статистики.
         /// </summary>
         public int Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }

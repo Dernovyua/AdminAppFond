@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminPanelApp.Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace AdminPanelApp.View
         public Transactions()
         {
             InitializeComponent();
+
+            DtgdTransaction.ItemsSource = LogicData.Transactions;
         }
 
         private void BtnAddTransaction_Click(object sender, RoutedEventArgs e)

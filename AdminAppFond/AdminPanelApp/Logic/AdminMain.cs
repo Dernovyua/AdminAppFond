@@ -26,10 +26,21 @@ namespace AdminPanelApp.Logic
                         Console.WriteLine($"Ошибка в StartCheckingAsync: {task.Exception.Message}");
                     }
                 });
+
+            GetStatistic();
         }
 
+        private void GetStatistic()
+        { 
+            var stat = StatisticRequests.GetStatistics();
+            foreach (var item in stat)
+            {
+                LogicData.Statistics.Add(item);
+            }
+        }
 
-       
+        
+
         public async Task UpdateBalance()
         {
             var accountsWithoutStats = GetAccountsWithoutTodayStatsAsync();
@@ -43,12 +54,13 @@ namespace AdminPanelApp.Logic
                     for (int j = client.Accounts.Count - 1; j >= 0; j--)
                     {
                         var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber), 2);
-                        StatisticRequests.AddStatistic(new Models.StatisticModel
-                        {
-                            Deposit = (decimal)balance,
-                            AccountId = client.Accounts[j].Id,
-                            CreatedAt = DateTime.UtcNow
-                        });
+                        if (!Double.IsNaN(balance))
+                            StatisticRequests.AddStatistic(new Models.StatisticModel
+                            {
+                                Deposit = (decimal)balance,
+                                AccountId = client.Accounts[j].Id,
+                                Date = DateTime.UtcNow
+                            });
                     }
                 }
             }
@@ -98,9 +110,9 @@ namespace AdminPanelApp.Logic
 
             using var connection = LogicDb.GetOpenConnection();
 
-            // Запрос для получения счетов без статистики за сегодня
+            // Улучшенный запрос с явным указанием столбцов
             string query = @"
-                            SELECT a.* 
+                            SELECT a.id, a.account_name, a.account_number 
                             FROM accounts a
                             LEFT JOIN statistic s ON a.id = s.account_id AND s.date >= @today
                             WHERE s.account_id IS NULL;
@@ -110,14 +122,17 @@ namespace AdminPanelApp.Logic
             cmd.Parameters.AddWithValue("@today", today);
 
             var accountsWithoutStats = new List<AccountModel>();
-            using var reader = await cmd.ExecuteReaderAsync();
 
+            using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 accountsWithoutStats.Add(new AccountModel
                 {
-                    Id = reader.GetInt32(0),
-                    AccountName = reader.GetString(1),
+                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+                    AccountName = reader.GetString(reader.GetOrdinal("account_name")),
+                    AccountNumber = reader.IsDBNull(reader.GetOrdinal("account_number"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("account_number"))
                 });
             }
 

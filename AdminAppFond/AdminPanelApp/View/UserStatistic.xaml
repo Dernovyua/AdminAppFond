@@ -76,9 +76,9 @@
                     </DataGridTextColumn>
 
                     <!--  Колонка с ID счёта  -->
-                    <DataGridTextColumn Binding="{Binding AccountId}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding AccountName}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="ID счёта" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Счет" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 

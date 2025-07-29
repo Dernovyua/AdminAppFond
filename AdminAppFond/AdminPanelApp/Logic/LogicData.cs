@@ -26,5 +26,7 @@ namespace AdminPanelApp.Logic
         }
 
         public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();
+        public static ObservableCollection<StatisticModel> Statistics = new ObservableCollection<StatisticModel>();
+        public static ObservableCollection<TransactionModel> Transactions = new ObservableCollection<TransactionModel>();
     }
 }
