@@ -1,10 +1,13 @@
 ﻿using AdminPanelApp.Models;
 using AdminPanelApp.Requests;
+using AdminPanelApp.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -12,6 +15,7 @@ namespace AdminPanelApp.Logic
 {
     public static class LogicData
     {
+
         public static event Func<string, string, double> OnGetBalance;
 
         public static double Raise_OnGetBalance(string publicKey, string currency)
@@ -27,6 +31,30 @@ namespace AdminPanelApp.Logic
             return 0;
         }
 
+        /// <summary>
+        /// Делегат для отправки сообщения.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="showWinMessage">Показать ли сообщение победы.</param>
+        public delegate void SendMessage(string message, bool showWinMessage = false);
+
+        /// <summary>
+        /// Глобальное событие отправки сообщения.
+        /// </summary>
+        public static event SendMessage? OnSendMessage;
+
+        /// <summary>
+        /// Вызывает событие <see cref="OnSendMessage"/> с заданными параметрами.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="showWinMessage">Показать ли сообщение победы.</param>
+        public static void RaiseOnSendMessage(string message, bool showWinMessage = false)
+        {
+            OnSendMessage?.Invoke(message, showWinMessage);
+        }
+
+
+        public static SettingCrmModel SettingCrm = new SettingCrmModel();
         public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();
         public static ObservableCollection<StatisticModel> Statistics = new ObservableCollection<StatisticModel>();
         public static ObservableCollection<TransactionModel> Transactions = new ObservableCollection<TransactionModel>();
@@ -49,5 +77,61 @@ namespace AdminPanelApp.Logic
             });
         }
 
+        static string _pathSetting = "SettingCrm.json";
+
+        public static void SaveSettingCrm(string pathSave)
+        {
+            try
+            {
+                String path = pathSave;
+
+                if (!Directory.Exists(path))
+                {
+                    DirectoryInfo dir = new DirectoryInfo(path);
+                    dir.Create();
+                }
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+
+                path = System.IO.Path.Combine(path, _pathSetting);
+
+                string json = JsonSerializer.Serialize(SettingCrm, options);
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                RaiseOnSendMessage(ex.Message);
+            }
+        }
+
+        public static void LoadSettingCrm(string pathSave)
+        {
+            try
+            {
+                String path = pathSave;
+
+                if (!Directory.Exists(path))
+                {
+                    DirectoryInfo dir = new DirectoryInfo(path);
+                    dir.Create();
+                }
+                path = System.IO.Path.Combine(pathSave, _pathSetting);
+                if (!File.Exists(path))
+                    return;
+
+                string json = File.ReadAllText(path);
+                var loadedData = JsonSerializer.Deserialize<SettingCrmModel>(json);
+
+                if (loadedData != null)
+                    SettingCrm = loadedData;
+            }
+            catch (Exception ex)
+            {
+                RaiseOnSendMessage(ex.Message);
+            }
+        }
     }
 }

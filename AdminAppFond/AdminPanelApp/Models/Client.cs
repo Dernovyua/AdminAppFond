@@ -10,6 +10,7 @@ namespace AdminPanelApp.Models
     public class Client : ObservableObject
     {
 
+
         /// <summary>
         /// Уникальный идентификатор клиента.
         /// </summary>
@@ -47,7 +48,7 @@ namespace AdminPanelApp.Models
         private string _email;
 
         /// <summary>
-        /// Telegram-аккаунт клиента.
+        /// Telegram-аккаунт клиента. Id чата клиента, может изменяться в процессе общения с клиентом
         /// </summary>
         public string Telegram { get => _telegram; set { _telegram = value; OnPropertyChanged(nameof(Telegram)); } }
         private string _telegram;
@@ -75,5 +76,12 @@ namespace AdminPanelApp.Models
         /// </summary>
         public ObservableCollection<AccountModel> Accounts { get => _accounts; set { _accounts = value; OnPropertyChanged(nameof(Accounts)); } }
         private ObservableCollection<AccountModel> _accounts = new();
+
+
+        /// <summary>
+        /// Чат клиента
+        /// </summary>
+        public ChatItemModel Chat { get => _chat; set { _chat = value; OnPropertyChanged(nameof(Chat)); } }
+        private ChatItemModel _chat;
     }
 }

@@ -1,18 +1,25 @@
 ﻿using AdminPanelApp.Models;
 using AdminPanelApp.Requests;
+using AdminPanelApp.View;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Telegram.Bot.Types;
 
 namespace AdminPanelApp.Logic
 {
     public class AdminMain
     {
+        TelegramBot _telegramBot = new TelegramBot();
+        string _pathSave = "";
+
         public void Execute(string path)
         {
+            _pathSave = path;
             LogicDb.Main(path);
 
             LogicData.Clients = ClientsRequests.GetCliensOnLoad();
@@ -29,8 +36,24 @@ namespace AdminPanelApp.Logic
 
             LogicData.GetStatisticsAsync();
             LogicData.GetTransactionsAsync();
+
+            LogicData.LoadSettingCrm(_pathSave);
+
+            _ = _telegramBot.CreateTgBot();
+           
         }
 
+        public void OpenWindowSettingCrm()
+        {
+            SettingCRM win = new SettingCRM();
+            win.ShowDialog();
+
+            if (win.DialogResult == true)
+            {
+                LogicData.SaveSettingCrm(_pathSave);
+                _ = _telegramBot.CreateTgBot();
+            }
+        }
 
 
         public async Task UpdateBalance()
