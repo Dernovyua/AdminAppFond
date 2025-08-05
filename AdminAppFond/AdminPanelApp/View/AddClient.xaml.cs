@@ -52,8 +52,7 @@ namespace AdminPanelApp.View
         {
             if (String.IsNullOrEmpty(TxbxFullName.Text))
                 return;
-            if(!String.IsNullOrEmpty(_client.FullName))
-                _client.CreatedAt  = DateTime.UtcNow;
+
 
             _client.FullName = TxbxFullName.Text.Trim();
             _client.Status = CmbxStatus.SelectedItem?.ToString() ?? "active"; // например, default "active"
@@ -63,7 +62,8 @@ namespace AdminPanelApp.View
             _client.Telegram = string.IsNullOrWhiteSpace(TxbxTelegramm.Text) ? null : TxbxTelegramm.Text.Trim();
             _client.Notes = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
             _client.UpdatedAt = DateTime.UtcNow;
-
+            if (!String.IsNullOrEmpty(_client.FullName) && _client.CreatedAt.Year == 1)
+                _client.CreatedAt = DateTime.UtcNow;
 
             DialogResult = true;
 

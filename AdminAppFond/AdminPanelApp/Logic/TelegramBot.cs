@@ -56,21 +56,19 @@ namespace AdminPanelApp.Logic
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
-        {
-            long chatId = 0;
-
-            if (update.CallbackQuery != null)
-            {
-                var callbackData = update.CallbackQuery.Data;
-                chatId = update.CallbackQuery.Message.Chat.Id;
-                await botClient.AnswerCallbackQuery(update.CallbackQuery.Id);
-            }
+        { 
 
             if (update.Type != UpdateType.Message || update.Message!.Type != MessageType.Text)
                 return;
 
-            var message = update.Message;
-            chatId = message.Chat.Id;
+            if (update.Message?.Text?.ToString().ToUpper()=="#ID")
+            {
+                await botClient.SendMessage(
+                            chatId: update.Message.Chat.Id,
+                            text: $"Ваш ID = {update.Message.Chat.Id}. Передайте его администратору через личный чат",
+                            cancellationToken: cancellationToken);
+            }
+
 
         }
 
