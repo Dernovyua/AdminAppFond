@@ -8,7 +8,8 @@
                         Background="{DynamicResource GlobalBackgroundColor}"
                         BorderBrush="{DynamicResource ExWindow-Border-Background}"
                         BorderThickness="1"
-                        Caption="Чаты"
+                        Caption="Диалоги"
+                        PreviewKeyDown="Window_PreviewKeyDown"
                         ShowBorder="False">
 
     <ex:ExDockDocumentPanel.Resources>
@@ -18,10 +19,13 @@
         <local:MessageAlignmentConverter x:Key="MessageAlignmentConverter"/>
         <local:MessageBubbleBackgroundConverter x:Key="MessageBubbleBackgroundConverter"/>
 
-        <!-- кисти для пузырьков -->
-        <SolidColorBrush x:Key="OwnMessageBubbleBackground" Color="#DCF8C6"/>
-        <SolidColorBrush x:Key="OtherMessageBubbleBackground" Color="#FFFFFF"/>
     </ex:ExDockDocumentPanel.Resources>
+
+    <!--<ex:ExDockDocumentPanel.InputBindings>
+        <KeyBinding Gesture="Ctrl+Enter" Command="{Binding YourButtonCommand}"/>
+        --><!-- или с явным указанием клавиш --><!--
+        <KeyBinding Key="Enter" Modifiers="Control" Command="{Binding YourButtonCommand}"/>
+    </ex:ExDockDocumentPanel.InputBindings>-->
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,6 +46,7 @@
             <!-- Поиск -->
             <DockPanel DockPanel.Dock="Top" Margin="6" LastChildFill="True">
                 <ex:ExTextBox x:Name="SearchBox"
+                 CornerRadius="6"
                  Height="28"
                  Margin="0,4,0,4"
                  VerticalContentAlignment="Stretch"
@@ -56,8 +61,7 @@
                   Margin="0,4,0,0"
                   DockPanel.Dock="Bottom"
                   Background="{DynamicResource GlobalBackgroundColor}">
-                <ItemsControl x:Name="ChatList"
-                      ItemsSource="{Binding FilteredChats}">
+                <ItemsControl x:Name="ChatList">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="4"
@@ -65,46 +69,62 @@
                             CornerRadius="6"
                             Cursor="Hand"
                             MouseLeftButtonDown="Chat_MouseDown">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource  Ex-SimpleTable-AlternativeRow-Background}"/>
+                                                <!-- светло-синий фон -->
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
                                 <Grid>
+
+
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="42"/>
+                                        <ColumnDefinition Width="0"/>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Аватар -->
-                                    <Ellipse Width="36"
+                                    <!--<Ellipse Width="36"
                                      Height="36"
                                      Stroke="Gray"
                                      StrokeThickness="1">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="{Binding Avatar}" />
                                         </Ellipse.Fill>
-                                    </Ellipse>
+                                    </Ellipse>-->
 
                                     <!-- Имя и сообщение -->
-                                    <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" MaxHeight="35">
                                         <ex:ExTextBlock Text="{Binding FullName}"
                                                 FontWeight="Bold"
                                                 FontSize="13"/>
-                                        <TextBlock Text="{Binding LastMessage}"
+                                        <TextBlock Text="{Binding Chat.LastMessage}"
                                            FontSize="11"
+                                           Margin="0 6 0 0"
                                            Foreground="Gray"
                                            TextTrimming="CharacterEllipsis"
                                            MaxWidth="200"/>
                                     </StackPanel>
 
                                     <!-- Время и индикатор -->
-                                    <StackPanel Grid.Column="2" Margin="4,0,0,0" VerticalAlignment="Center">
+                                    <StackPanel Grid.Column="2" Margin="4,2,0,0" >
                                         <TextBlock FontSize="10"
                                            Foreground="Gray"
-                                           Text="{Binding LastMessageTime, StringFormat='{}{0:HH:mm}'}"
+                                           Text="{Binding Chat.LastMessageTime, StringFormat='{}{0:HH:mm}'}"
+                                                   
                                            HorizontalAlignment="Right"/>
                                         <Ellipse Fill="DodgerBlue"
                                          Width="10"
                                          Height="10"
                                          Margin="0,6,0,0"
-                                         Visibility="{Binding IsUnread, Converter={StaticResource BoolToVisibilityConverter}}"
+                                         Visibility="{Binding Chat.IsUnread, Converter={StaticResource BoolToVisibilityConverter}}"
                                          HorizontalAlignment="Right"/>
                                     </StackPanel>
                                 </Grid>
@@ -129,40 +149,39 @@
             <!-- Заголовок -->
             <Border Height="48" >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0">
-                    <Ellipse Width="32" Height="32" Margin="0,0,8,0">
+                    <!--<Ellipse Width="32" Height="32" Margin="0,0,8,0">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding SelectedChat.Avatar}" />
                         </Ellipse.Fill>
-                    </Ellipse>
+                    </Ellipse>-->
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" Text="{Binding SelectedChat.FullName}" />
-                        <TextBlock FontSize="10" Foreground="Gray" Text="{Binding SelectedChat.Status}" />
+                        <ex:ExTextBlock FontWeight="Bold" Text="{ Binding SelectedChat.FullName}" />
+                        <!--<TextBlock FontSize="10" Foreground="Gray" Text="{Binding SelectedChat.Status}" />-->
                     </StackPanel>
                 </StackPanel>
             </Border>
 
             <!-- История сообщений -->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-                <ItemsControl ItemsSource="{Binding SelectedChat.Messages}">
+            <ex:ExScrollView Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+                <ItemsControl ItemsSource="{Binding SelectedChat.Chat.Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Margin="12" Padding="8" 
-                                    Background="{Binding IsOwn, Converter={StaticResource MessageBubbleBackgroundConverter}}"
-                                    HorizontalAlignment="{Binding IsOwn, Converter={StaticResource MessageAlignmentConverter}}">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap" Height="120"/>
-                                    <TextBlock FontSize="10" Foreground="Gray" HorizontalAlignment="Right"
-                                               Text="{Binding SentAt}" />
+                            <Border Margin="4" Padding="8"  CornerRadius="6"  MaxWidth="520" HorizontalAlignment="Left"
+                                    Background="{Binding IsOwn, Converter={StaticResource MessageBubbleBackgroundConverter}}">
+                                <StackPanel MinHeight="20">
+                                    <ex:ExTextBlock Text="{Binding Text}" TextWrapping="Wrap"  MinWidth="360" FontSize="14"/>
+                                    <ex:ExTextBlock Margin="0 6 0 0" FontSize="10" HorizontalAlignment="Right"
+                                               Text="{Binding SentAt,  StringFormat=\{0:dd.MM.yyyy  HH:mm\}}" />
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </ScrollViewer>
+            </ex:ExScrollView>
 
             <!-- Ввод сообщения -->
             <Grid Grid.Row="2" Margin="8" HorizontalAlignment="Stretch">
-                <ex:ExTextBox Name="MessageInput"
+                <ex:ExTextBox Name="TxbxMessage"
                          VerticalAlignment="Center"
                          Height="100"
                          AcceptsReturn="True"
@@ -173,7 +192,8 @@
                             Style="{DynamicResource ExButtonApply}"
                             Text="Отправить"         
                             Margin="8,0,0,0"
-                             Click="SendMessage_Click" />
+                             Click="SendMessage_Click" >
+                </ex:ExButton>
             </Grid>
         </Grid>
     </Grid>

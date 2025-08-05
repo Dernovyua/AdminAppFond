@@ -22,12 +22,12 @@ namespace AdminPanelApp.Models
         /// <summary>
         /// Время последнего сообщения (в строковом виде, например "15:32").
         /// </summary>
-        public string LastMessageTime
+        public DateTime LastMessageTime
         {
             get => _lastMessageTime;
             set { _lastMessageTime = value; OnPropertyChanged(nameof(LastMessageTime)); }
         }
-        private string _lastMessageTime;
+        private DateTime _lastMessageTime;
 
         /// <summary>
         /// Флаг, указывающий, есть ли непрочитанные сообщения.

@@ -9,7 +9,11 @@ namespace AdminPanelApp.Models
 {
     public class Client : ObservableObject
     {
-
+        /// <summary>
+        /// Для подсветки в диалогах
+        /// </summary>
+        public bool IsSelected { get => _isSelected; set { _isSelected = value; OnPropertyChanged(nameof(IsSelected)); } }
+        private bool _isSelected;
 
         /// <summary>
         /// Уникальный идентификатор клиента.
@@ -48,10 +52,16 @@ namespace AdminPanelApp.Models
         private string _email;
 
         /// <summary>
-        /// Telegram-аккаунт клиента. Id чата клиента, может изменяться в процессе общения с клиентом
+        /// личный телеграмм клиента
         /// </summary>
         public string Telegram { get => _telegram; set { _telegram = value; OnPropertyChanged(nameof(Telegram)); } }
         private string _telegram;
+
+        /// <summary>
+        /// Id чата робота с клиентом
+        /// </summary>
+        public long ChatId { get => _chatId; set { _chatId = value; OnPropertyChanged(nameof(ChatId)); } }
+        private long _chatId;
 
         /// <summary>
         /// Город клиента.
@@ -82,6 +92,6 @@ namespace AdminPanelApp.Models
         /// Чат клиента
         /// </summary>
         public ChatItemModel Chat { get => _chat; set { _chat = value; OnPropertyChanged(nameof(Chat)); } }
-        private ChatItemModel _chat;
+        private ChatItemModel _chat = new ();
     }
 }

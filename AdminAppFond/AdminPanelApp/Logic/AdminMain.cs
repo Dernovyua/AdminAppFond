@@ -14,7 +14,6 @@ namespace AdminPanelApp.Logic
 {
     public class AdminMain
     {
-        TelegramBot _telegramBot = new TelegramBot();
         string _pathSave = "";
 
         public void Execute(string path)
@@ -39,7 +38,7 @@ namespace AdminPanelApp.Logic
 
             LogicData.LoadSettingCrm(_pathSave);
 
-            _ = _telegramBot.CreateTgBot();
+            _ = LogicData.TgBot.CreateTgBot();
            
         }
 
@@ -51,7 +50,7 @@ namespace AdminPanelApp.Logic
             if (win.DialogResult == true)
             {
                 LogicData.SaveSettingCrm(_pathSave);
-                _ = _telegramBot.CreateTgBot();
+                _ = LogicData.TgBot.CreateTgBot();
             }
         }
 
@@ -170,9 +169,9 @@ namespace AdminPanelApp.Logic
                     AccountNumber = reader.IsDBNull(reader.GetOrdinal("account_number"))
                         ? null
                         : reader.GetString(reader.GetOrdinal("account_number")),
-                    CreatedAt = (DateTime)(reader.IsDBNull(reader.GetOrdinal("last_stat_date")) //в данном контексте будет показывать какая дата последняя по добавлению баланса в статистику была
-                        ? (DateTime?)null
-                        : reader.GetDateTime(reader.GetOrdinal("last_stat_date")))
+                    CreatedAt = reader.IsDBNull(reader.GetOrdinal("last_stat_date"))
+                        ? DateTime.MinValue
+                        : reader.GetDateTime(reader.GetOrdinal("last_stat_date"))
                 });
             }
 

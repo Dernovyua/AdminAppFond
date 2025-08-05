@@ -24,7 +24,7 @@ namespace AdminPanelApp.Requests
 
             using var cmd = new SQLiteCommand(@"
                                                 SELECT 
-                                                    c.id AS ClientId, c.full_name, c.status, c.notes, c.phone, c.email, c.telegram, c.city, c.created_at, c.updated_at,
+                                                    c.id AS ClientId, c.full_name, c.status, c.notes, c.phone, c.email, c.telegram, c.chatid, c.city, c.created_at, c.updated_at,
                                                     a.id AS AccountId, a.client_id, a.exchange, a.account_name, a.account_number, a.created_at AS AccountCreatedAt
                                                 FROM clients c
                                                 LEFT JOIN accounts a ON c.id = a.client_id
@@ -48,6 +48,7 @@ namespace AdminPanelApp.Requests
                         Phone = reader.IsDBNull(reader.GetOrdinal("phone")) ? null : reader.GetString(reader.GetOrdinal("phone")),
                         Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString(reader.GetOrdinal("email")),
                         Telegram = reader.IsDBNull(reader.GetOrdinal("telegram")) ? null : reader.GetString(reader.GetOrdinal("telegram")),
+                        ChatId = reader.IsDBNull(reader.GetOrdinal("chatid")) ? 0 : reader.GetInt64(reader.GetOrdinal("chatid")),
                         City = reader.IsDBNull(reader.GetOrdinal("city")) ? null : reader.GetString(reader.GetOrdinal("city")),
                         CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at")),
                         UpdatedAt = reader.GetDateTime(reader.GetOrdinal("updated_at")),
@@ -87,8 +88,8 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, city, created_at, updated_at)
-                           VALUES (@fullName, @status, @notes, @phone, @email, @telegram, @city, @createdAt, @updatedAt);
+                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, chatid, city, created_at, updated_at)
+                           VALUES (@fullName, @status, @notes, @phone, @email, @telegram, @chatid, @city, @createdAt, @updatedAt);
                            ";
 
             using var cmd = new SQLiteCommand(query, connection);
@@ -99,6 +100,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@phone", newClient.Phone ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@email", newClient.Email ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@telegram", newClient.Telegram ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@chatid", newClient.ChatId);
             cmd.Parameters.AddWithValue("@city", newClient.City ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@createdAt", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("@updatedAt", DateTime.Now);
@@ -150,6 +152,7 @@ namespace AdminPanelApp.Requests
                            phone = @phone,
                            email = @email,
                            telegram = @telegram,
+                           chatid = @chatid,
                            city = @city,
                            updated_at = @updatedAt
                            WHERE id = @id;";
@@ -162,6 +165,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@phone", client.Phone ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@email", client.Email ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@telegram", client.Telegram ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@chatid", client.ChatId);
             cmd.Parameters.AddWithValue("@city", client.City ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@updatedAt", DateTime.Now);
             cmd.Parameters.AddWithValue("@id", client.Id);

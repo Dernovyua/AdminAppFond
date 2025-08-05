@@ -46,13 +46,13 @@ namespace AdminPanelApp.View
             TxbxCity.Text = _client.City ?? string.Empty;
             TxbxTelegramm.Text = _client.Telegram ?? string.Empty;
             TxbxNotes.Text = _client.Notes ?? string.Empty;
+            TxbxChatId.Text = _client.ChatId.ToString();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrEmpty(TxbxFullName.Text))
                 return;
-
 
             _client.FullName = TxbxFullName.Text.Trim();
             _client.Status = CmbxStatus.SelectedItem?.ToString() ?? "active"; // например, default "active"
@@ -61,8 +61,10 @@ namespace AdminPanelApp.View
             _client.City = string.IsNullOrWhiteSpace(TxbxCity.Text) ? null : TxbxCity.Text.Trim();
             _client.Telegram = string.IsNullOrWhiteSpace(TxbxTelegramm.Text) ? null : TxbxTelegramm.Text.Trim();
             _client.Notes = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
+            _client.ChatId = string.IsNullOrWhiteSpace(TxbxChatId.Text) ? 0 : Convert.ToInt64(TxbxChatId.Text.Trim());
             _client.UpdatedAt = DateTime.UtcNow;
-            if (!String.IsNullOrEmpty(_client.FullName) && _client.CreatedAt.Year == 1)
+
+            if (_client.CreatedAt.Year == 1)
                 _client.CreatedAt = DateTime.UtcNow;
 
             DialogResult = true;

@@ -53,6 +53,7 @@ namespace AdminPanelApp.Logic
             OnSendMessage?.Invoke(message, showWinMessage);
         }
 
+        public static TelegramBot TgBot = new TelegramBot();
 
         public static SettingCrmModel SettingCrm = new SettingCrmModel();
         public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();

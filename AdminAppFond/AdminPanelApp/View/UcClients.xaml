@@ -125,6 +125,12 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
+                    <DataGridTextColumn Binding="{Binding ChatId}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Chat Id" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
                     <DataGridTextColumn Binding="{Binding Notes}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Примечания" />
