@@ -22,6 +22,10 @@ namespace AdminPanelApp.Logic
             LogicDb.Main(path);
 
             LogicData.Clients = ClientsRequests.GetCliensOnLoad();
+            foreach (var item in LogicData.Clients)
+            {
+                MessagesRequests.LoadClientMessages(item);
+            }
 
             // Запускаем периодическую проверку
             Task.Run(() => StartCheckingAsync(UpdateBalance, 1))

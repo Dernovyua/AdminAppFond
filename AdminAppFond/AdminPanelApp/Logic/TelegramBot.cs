@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using AdminPanelApp.Requests;
+using System.Collections.Concurrent;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -52,6 +53,7 @@ namespace AdminPanelApp.Logic
             await Task.Delay(-1, cts.Token);
 
         }
+
 
         /// <summary>
         /// Логика работы с чатами
@@ -123,11 +125,14 @@ namespace AdminPanelApp.Logic
                                         client.Chat.IsUnread = true;
                                         client.Chat.LastMessageTime = upd.Message.Date;
                                         client.Chat.LastMessage = upd.Message.Text;
-                                        client.Chat.Messages.Add(new Models.MessageItemModel
+                                        var model = new Models.MessageItemModel
                                         {
                                             SentAt = upd.Message.Date,
                                             Text = upd.Message.Text
-                                        });
+                                        };
+                                        client.Chat.Messages.Add(model);
+
+                                        MessagesRequests.AddMessage(model, client.Id);
                                     });
                                 }
                             }
@@ -166,12 +171,15 @@ namespace AdminPanelApp.Logic
                                 {
                                     client.Chat.LastMessageTime = DateTime.Now;
                                     client.Chat.LastMessage = mes.Message;
-                                    client.Chat.Messages.Add(new Models.MessageItemModel
+                                    var model = new Models.MessageItemModel
                                     {
                                         SentAt = DateTime.Now,
                                         Text = mes.Message,
                                         IsOwn = true
-                                    });
+                                    };
+                                    client.Chat.Messages.Add(model);
+
+                                    MessagesRequests.AddMessage(model, client.Id);
                                 });
                             }
                         }

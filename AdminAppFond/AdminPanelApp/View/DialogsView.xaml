@@ -36,12 +36,14 @@
             <!-- Правая панель диалога -->
         </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Row="1"
+        <GridSplitter Grid.Column="1"
                       Width="3"
-                      Background="{DynamicResource Ex-Divider-Background}"
+                      ResizeDirection="Columns"
+                      HorizontalAlignment="Stretch"
+                      Background="{DynamicResource Ex-Divider-Background}"  
                       VerticalAlignment="Stretch" />
         <!-- Левая панель -->
-        <DockPanel Background="{DynamicResource GlobalBackgroundColor}" MinWidth="320">
+        <DockPanel Background="{DynamicResource GlobalBackgroundColor}" Grid.Column="0">
 
             <!-- Поиск -->
             <DockPanel DockPanel.Dock="Top" Margin="6" LastChildFill="True">
@@ -134,7 +136,6 @@
                 </ItemsControl>
             </ScrollViewer>
         </DockPanel>
-
         <!-- Правая панель -->
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
@@ -183,9 +184,11 @@
             <Grid Grid.Row="2" Margin="8" HorizontalAlignment="Stretch">
                 <ex:ExTextBox Name="TxbxMessage"
                          VerticalAlignment="Center"
+                         CornerRadius="10"
                          Height="100"
                          AcceptsReturn="True"
-                         Margin="8 0 120 0"
+                         FontSize="16"
+                         Margin="8 0 105 0"
                          Text="{Binding NewMessageText, UpdateSourceTrigger=PropertyChanged}" />
                 <ex:ExButton 
                     HorizontalAlignment="Right"
