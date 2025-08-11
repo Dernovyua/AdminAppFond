@@ -103,13 +103,13 @@
                                     </Ellipse>-->
 
                                     <!-- Имя и сообщение -->
-                                    <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" MaxHeight="35">
+                                    <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" MaxHeight="35">
                                         <ex:ExTextBlock Text="{Binding FullName}"
                                                 FontWeight="Bold"
                                                 FontSize="13"/>
                                         <TextBlock Text="{Binding Chat.LastMessage}"
                                            FontSize="11"
-                                           Margin="0 6 0 0"
+                                           Margin="20 6 0 0"
                                            Foreground="Gray"
                                            TextTrimming="CharacterEllipsis"
                                            MaxWidth="200"/>

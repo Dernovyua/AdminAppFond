@@ -57,8 +57,8 @@ namespace AdminPanelApp.Logic
 
         public static SettingCrmModel SettingCrm = new SettingCrmModel();
         public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();
-        public static ObservableCollection<StatisticModel> Statistics = new ObservableCollection<StatisticModel>();
         public static ObservableCollection<TransactionModel> Transactions = new ObservableCollection<TransactionModel>();
+        public static ObservableCollection<StatisticDisplayModel> StatisticDisplay = new ObservableCollection<StatisticDisplayModel>();
 
         public static async Task GetTransactionsAsync()
         {
@@ -71,11 +71,48 @@ namespace AdminPanelApp.Logic
 
         public static async Task GetStatisticsAsync()
         {
-            var stats = await StatisticRequests.GetStatistics();
+
+            var allStats = await StatisticRequests.GetStatistics();
+
+            // Группируем по AccountId
+            var statsByAccount = allStats
+                .GroupBy(s => s.AccountId)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var client in Clients)
+            {
+                foreach (var account in client.Accounts)
+                {
+                    if (statsByAccount.TryGetValue(account.Id, out var stats))
+                        account.Statistics = new ObservableCollection<StatisticModel>(stats);
+                    else
+                        account.Statistics = new ObservableCollection<StatisticModel>();
+                }
+            }
+
             Application.Current.Dispatcher.Invoke(() =>
             {
-                LogicData.Statistics = new ObservableCollection<StatisticModel>(stats);
+                UpdateStatistic();
             });
+        }
+
+
+        private static void UpdateStatistic()
+        {
+            StatisticDisplay.Clear();
+
+            for (int i = Clients.Count - 1; i >= 0; i--)
+            {
+                var client = Clients[i];
+                for (int j = client.Accounts.Count - 1; j >= 0; j--)
+                {
+                    StatisticDisplay.Add(new StatisticDisplayModel
+                    {
+                        ClientName = client,
+                        Account = client.Accounts[j]
+                    });
+                }
+            }
         }
 
         static string _pathSetting = "SettingCrm.json";

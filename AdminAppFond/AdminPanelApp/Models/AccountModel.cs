@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,10 +51,23 @@ namespace AdminPanelApp.Models
         public DateTime CreatedAt { get => _createdAt; set { _createdAt = value; OnPropertyChanged(nameof(CreatedAt)); } }
         private DateTime _createdAt;
 
+
+
         /// <summary>
         /// Дата создания записи об аккаунте.
         /// </summary>
         public DateTime LastDateAddBalanceToStat { get => _lastDateAddBalanceToStat; set { _lastDateAddBalanceToStat = value; OnPropertyChanged(nameof(LastDateAddBalanceToStat)); } }
         private DateTime _lastDateAddBalanceToStat;
+
+
+        /// <summary>
+        /// Статистика по счетам, выгружается в память
+        /// </summary>
+        public ObservableCollection<StatisticModel> Statistics { get => _statistics; set { _statistics = value; OnPropertyChanged(nameof(Statistics)); } }
+        private ObservableCollection<StatisticModel> _statistics = new ();
+
+
+
+
     }
 }

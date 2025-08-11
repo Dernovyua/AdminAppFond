@@ -93,6 +93,7 @@ namespace AdminPanelApp.Logic
                                 StatisticRequests.AddStatistic(stat);
                                 client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
                             }
+                            //balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
                         }
                     }
                 }

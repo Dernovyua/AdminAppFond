@@ -6,9 +6,17 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         Background="{DynamicResource GlobalBackgroundColor}"
                         BorderBrush="{DynamicResource ExWindow-Border-Background}"
+                        xmlns:convertors="clr-namespace:AdminPanelApp.Logic"
                         BorderThickness="1"
                         Caption="Статистика"
                         ShowBorder="False">
+
+    <ex:ExDockDocumentPanel.Resources>
+
+        <convertors:ColorForegroundConverter x:Key="ColorConverter" />
+
+    </ex:ExDockDocumentPanel.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="34" />
@@ -35,7 +43,7 @@
                      IconWidth="16"
                      ToolTip="Удалить" />
 
-        <ex:ExButton Name="BtnRefresh" Grid.Row="0"
+        <!--<ex:ExButton Name="BtnRefresh" Grid.Row="0"
                     Background="Transparent"
                     Margin="64 0 0 0"
                     HorizontalAlignment="Left"
@@ -43,13 +51,163 @@
                     Click="BtnRefresh_Click"
                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-refresh.svg"
                     IconHeight="16"
-                    IconWidth="16"/>
+                    IconWidth="16"/>-->
 
         <Grid Grid.Row="1">
 
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="600" />
+                <!-- Левая панель чатов -->
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+                <!-- Правая панель диалога -->
+            </Grid.ColumnDefinitions>
 
             <ex:ExSimpleTable Name="DtgdStat" Grid.Column="0"
+                             Height="Auto"
+                             HorizontalContentAlignment="Left"
+                             AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
+                             AutoGenerateColumns="False"
+                             CanUserAddRows="False"
+                             CanUserDeleteRows="False"
+                             CanUserReorderColumns="True"
+                             CanUserResizeColumns="True"
+                             CanUserSortColumns="True"
+                             ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
+                             FrozenColumnCount="2"
+                             GridLinesVisibility="Vertical"
+                             IsReadOnly="True"
+                             SelectionMode="Single">
+
+
+                <ex:ExSimpleTable.Columns>
+
+                    <!-- Клиент -->
+                    <DataGridTextColumn Binding="{Binding ClientName.FullName}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Клиент" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Счет -->
+                    <DataGridTextColumn Binding="{Binding Account.AccountName}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Счет" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Текущий баланс -->
+                    <DataGridTextColumn Binding="{Binding Balance, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Годовая доходность -->
+                    <DataGridTextColumn Binding="{Binding AnnualReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Годовая, %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding AnnualReturn, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+
+                    <!-- Доходность за весь период -->
+                    <DataGridTextColumn Binding="{Binding TotalReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период, %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding TotalReturn, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за 6 месяцев -->
+                    <DataGridTextColumn Binding="{Binding Return6Months, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="6 мес., %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Return6Months, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за 3 месяца -->
+                    <DataGridTextColumn Binding="{Binding Return3Months, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="3 мес., %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Return3Months, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за месяц -->
+                    <DataGridTextColumn Binding="{Binding Return1Month, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 мес., %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Return1Month, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за неделю -->
+                    <DataGridTextColumn Binding="{Binding Return1Week, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 нед., %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Return1Week, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+
+
+                </ex:ExSimpleTable.Columns>
+            </ex:ExSimpleTable>
+
+
+            <GridSplitter Grid.Column="1"
+                      Width="3"
+                      ResizeDirection="Columns"
+                      HorizontalAlignment="Stretch"
+                      Background="{DynamicResource Ex-Divider-Background}"  
+                      VerticalAlignment="Stretch" />
+
+            <ex:ExSimpleTable Name="DtgdStatDetail" Grid.Column="2"
                               Height="Auto"
                               HorizontalContentAlignment="Left"
                               AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
@@ -59,6 +217,7 @@
                               CanUserReorderColumns="True"
                               CanUserResizeColumns="True"
                               CanUserSortColumns="True"
+                              ItemsSource="{Binding ElementName=DtgdStat, Path=SelectedItem.Account.Statistics}"
                               ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
                               FrozenColumnCount="2"
                               GridLinesVisibility="Vertical"

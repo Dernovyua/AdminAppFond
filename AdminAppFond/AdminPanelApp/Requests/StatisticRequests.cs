@@ -98,7 +98,7 @@ namespace AdminPanelApp.Requests
         /// </summary>
         /// <param name="accountId">Идентификатор счета</param>
         /// <returns>Список объектов StatisticModel для указанного счета</returns>
-        public static List<StatisticModel> GetStatisticsByAccountId(int accountId)
+        public static async Task<List<StatisticModel>> GetStatisticsByAccountId(int accountId)
         {
             var statistics = new List<StatisticModel>();
 

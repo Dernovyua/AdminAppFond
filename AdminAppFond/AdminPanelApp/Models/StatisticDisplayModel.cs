@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdminPanelApp.Models
+{
+    public class StatisticDisplayModel : ObservableObject
+    {
+        public Client ClientName { get; set; }
+
+        /// <summary>
+        /// Счет клиента
+        /// </summary>
+        public AccountModel Account { get => _account; set { _account = value; OnPropertyChanged(nameof(Account)); } }
+        private AccountModel _account = new();
+
+        /// <summary>
+        /// Последний закрытый день (последняя дата в статистике)
+        /// </summary>
+        public DateTime LastClosedDate => Account.Statistics.Any()
+            ? Account.Statistics.Max(s => s.Date)
+            : DateTime.MinValue;
+
+        private decimal CalculateReturn(DateTime fromDate)
+        {
+            var lastDate = LastClosedDate;
+
+            // Берём первую запись после fromDate и последнюю на LastClosedDate
+            var start = Account.Statistics
+                .Where(s => s.Date >= fromDate && s.Date <= lastDate)
+                .OrderBy(s => s.Date)
+                .FirstOrDefault();
+
+            var end = Account.Statistics
+                .Where(s => s.Date == lastDate)
+                .FirstOrDefault();
+
+            if (start == null || end == null || start.Deposit == 0)
+                return 0m;
+
+            return (end.Deposit - start.Deposit) / start.Deposit * 100m;
+        }
+
+        public decimal AnnualReturn => CalculateReturn(LastClosedDate.AddYears(-1));
+        public decimal TotalReturn
+        {
+            get
+            {
+                if (!Account.Statistics.Any())
+                    return 0m;
+
+                var start = Account.Statistics.OrderBy(s => s.Date).First().Deposit;
+                var end = Account.Statistics.FirstOrDefault(s => s.Date == LastClosedDate)?.Deposit ?? 0m;
+
+                return start == 0 ? 0m : (end - start) / start * 100m;
+            }
+        }
+        public decimal Return6Months => CalculateReturn(LastClosedDate.AddMonths(-6));
+        public decimal Return3Months => CalculateReturn(LastClosedDate.AddMonths(-3));
+        public decimal Return1Month => CalculateReturn(LastClosedDate.AddMonths(-1));
+        public decimal Return1Week => CalculateReturn(LastClosedDate.AddDays(-7));
+        public decimal Balance => GetBalance();
+
+
+        private decimal GetBalance()
+        {
+            var lastDate = LastClosedDate;
+
+            var end = Account.Statistics
+                .Where(s => s.Date == lastDate)
+                .FirstOrDefault();
+
+            if (end == null )
+                return 0m;
+
+            return end.Deposit;
+        }
+
+
+
+        public void Statistics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // Когда в статистику добавляется или меняется элемент — уведомляем о смене доходностей
+            RaiseAllReturnsPropertiesChanged();
+        }
+
+        private void RaiseAllReturnsPropertiesChanged()
+        {
+            OnPropertyChanged(nameof(Return6Months));
+            OnPropertyChanged(nameof(Return3Months));
+            OnPropertyChanged(nameof(Return1Month));
+            OnPropertyChanged(nameof(Return1Week));
+            OnPropertyChanged(nameof(AnnualReturn));
+            OnPropertyChanged(nameof(TotalReturn));
+            OnPropertyChanged(nameof(Balance));
+            OnPropertyChanged(nameof(LastClosedDate));
+        }
+    }
+}

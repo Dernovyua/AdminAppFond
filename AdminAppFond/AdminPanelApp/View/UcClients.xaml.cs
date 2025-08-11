@@ -157,7 +157,15 @@ namespace AdminPanelApp.View
 
                 if (add.DialogResult == true)
                 {
-                    AccountRequests.AddAccount(account);
+                    try
+                    {
+                        AccountRequests.AddAccount(account);
+                    }
+                    catch (Exception ex)
+                    {
+                        new DialogMessage("Ошибка при добавлении счета" + ex.Message, "Внимание!");
+                        return;
+                    }
                     client.Accounts.Add(account);
                 }
             }
@@ -175,7 +183,15 @@ namespace AdminPanelApp.View
                     add.ShowDialog();
                     if (add.DialogResult == true)
                     {
-                        AccountRequests.UpdateAccount(acc);
+                        try
+                        {
+                            AccountRequests.UpdateAccount(acc);
+                        }
+                        catch (Exception ex)
+                        {
+                            new DialogMessage("Ошибка при редактирования счета" + ex.Message, "Внимание!");
+                            return;
+                        }
                     }
                 }
         }

@@ -3,8 +3,10 @@ using AdminPanelApp.Models;
 using AdminPanelApp.Requests;
 using ClassControlsAndStyle.Dialogs;
 using ETS.Resources;
+using Ex.UI.Kit;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,8 @@ using System.Windows.Shapes;
 
 namespace AdminPanelApp.View
 {
+
+
     /// <summary>
     /// Логика взаимодействия для UserStatistic.xaml
     /// </summary>
@@ -29,7 +33,7 @@ namespace AdminPanelApp.View
         {
             InitializeComponent();
 
-            DtgdStat.ItemsSource = LogicData.Statistics;
+            DtgdStat.ItemsSource = LogicData.StatisticDisplay;
         }
 
         private void DtgdStat_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -77,7 +81,7 @@ namespace AdminPanelApp.View
             if (add.DialogResult == true)
             {
                 StatisticRequests.AddStatistic(statistic);
-                LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
+                //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
             }
 
         }
@@ -105,7 +109,7 @@ namespace AdminPanelApp.View
                     .Result == MessageBoxResult.OK)
                 {
                     StatisticRequests.DeleteStatistic(statistic.Id);
-                    LogicData.Statistics.Remove(statistic);
+                    //LogicData.StatisticDisplay.Remove(statistic);
                 }
             }
         }
@@ -114,5 +118,10 @@ namespace AdminPanelApp.View
         {
             LogicData.GetStatisticsAsync();
         }
+
+
+      
     }
+
+
 }
