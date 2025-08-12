@@ -1,5 +1,7 @@
-﻿using AdminPanelApp.Requests;
+﻿using AdminPanelApp.Models;
+using AdminPanelApp.Requests;
 using System.Collections.Concurrent;
+using System.Text;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -68,13 +70,30 @@ namespace AdminPanelApp.Logic
             if (update.Type != UpdateType.Message || update.Message!.Type != MessageType.Text)
                 return;
 
-            if (update.Message?.Text?.ToString().ToUpper() == "#ID")
+            if (update.Message?.Text?.ToString().ToUpper() == "#ID" ||
+                update.Message?.Text?.ToString() == "/start")
             {
+                //var inlineKeyboard = new InlineKeyboardMarkup(new[]
+                //                    {
+                //                            new[] { InlineKeyboardButton.WithCallbackData("Статистика", "stats_btn") }
+                //                        });
+
+                var keyboard = new ReplyKeyboardMarkup(new[]
+                                {
+                                new[] { new KeyboardButton(_menuStatistic) }
+                                })
+                {
+                    ResizeKeyboard = true // Делает кнопки компактнее
+                };
+
                 await botClient.SendMessage(
                             chatId: update.Message.Chat.Id,
                             text: $"Ваш ID = {update.Message.Chat.Id}. Передайте его администратору через личный чат",
-                            cancellationToken: cancellationToken);
+                            cancellationToken: cancellationToken,
+                            replyMarkup: keyboard);
             }
+
+
 
             _messageFromUser.Enqueue(update);
         }
@@ -94,14 +113,11 @@ namespace AdminPanelApp.Logic
         static ConcurrentQueue<MessageAdmin> _messageToUser = new ConcurrentQueue<MessageAdmin>();
 
 
-
-
         public class MessageAdmin
         {
             public long ChatId { get; set; }
             public string Message { get; set; }
         }
-
 
         public async Task CheckMessageFromUser()
         {
@@ -119,6 +135,7 @@ namespace AdminPanelApp.Logic
                                 var client = LogicData.Clients.FirstOrDefault(c => c.ChatId == chatId);
                                 if (client != null)
                                 {
+
                                     // Dispatch to UI thread if needed
                                     await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
                                     {
@@ -134,6 +151,8 @@ namespace AdminPanelApp.Logic
 
                                         MessagesRequests.AddMessage(model, client.Id);
                                     });
+
+                                    CheckMenu(client.ChatId, upd.Message.Text);
                                 }
                             }
                         }
@@ -150,11 +169,12 @@ namespace AdminPanelApp.Logic
 
         public async Task CheckMessageToUser()
         {
-            try
+
+            while (true)
             {
-                while (true)
+                while (!_messageToUser.IsEmpty)
                 {
-                    while (!_messageToUser.IsEmpty)
+                    try
                     {
                         if (_messageToUser.TryDequeue(out var mes))
                         {
@@ -184,13 +204,74 @@ namespace AdminPanelApp.Logic
                             }
                         }
                     }
-                    await Task.Delay(1);
+                    catch (Exception ex)
+                    {
+                        LogicData.RaiseOnSendMessage("Ошибка. Исходящего сообщения от бота: " + ex.Message);
+                    }
                 }
+
+                await Task.Delay(1);
+            }
+
+        }
+
+
+        string _menuStatistic = "Статистика";
+
+        private void CheckMenu(long chatId, string menuItem)
+        {
+            try
+            {
+                string message = "";
+                var client = LogicData.StatisticDisplay.Where(c => c.ClientName.ChatId == chatId).ToList();
+                if (client.Count == 0)
+                    return;
+
+                if (menuItem == _menuStatistic)
+                {
+                    message = GetTelegramStatsMessage(client);
+                }
+
+                if (!String.IsNullOrEmpty(message))
+                    SendMeessageToUserFromAdmin(chatId, message);
             }
             catch (Exception ex)
             {
-                LogicData.RaiseOnSendMessage("Ошибка. Исходящего сообщения от бота: " + ex.Message);
+                LogicData.RaiseOnSendMessage("Ошибка. Обработки меню бота: " + ex.Message);
             }
+        }
+
+
+        public string GetTelegramStatsMessage(List<StatisticDisplayModel> stats)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var stat in stats)
+            {
+                sb.AppendLine($"💰 Счет: {stat.Account.AccountName}");
+                sb.AppendLine($"💵 Текущий баланс: {stat.Balance:N2} $");
+                sb.AppendLine("Доходность:");
+                sb.AppendLine(FormatReturn(stat.TotalReturn, "За всё время"));
+                sb.AppendLine(FormatReturn(stat.AnnualReturn, "Годовая"));
+                sb.AppendLine(FormatReturn(stat.Return6Months, "6 месяцев"));
+                sb.AppendLine(FormatReturn(stat.Return3Months, "3 месяца"));
+                sb.AppendLine(FormatReturn(stat.Return1Month, "1 месяц"));
+                sb.AppendLine(FormatReturn(stat.Return1Week, "1 неделя"));
+                if (stat != stats.Last())
+                    sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        // Функция для форматирования с цветом
+        string FormatReturn(decimal value, string period)
+        {
+            if (value > 0)
+                return $"🟢 {period}: +{value:N2}%";
+            if (value < 0)
+                return $"🔴 {period}: {value:N2}%";
+            return $"⚪️ {period}: {value:N2}%";
         }
     }
 }
