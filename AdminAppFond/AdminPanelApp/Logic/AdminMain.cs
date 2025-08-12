@@ -166,11 +166,17 @@ namespace AdminPanelApp.Logic
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
+                var currencyValue = reader.IsDBNull(reader.GetOrdinal("currency"))
+                                    ? null
+                                    : reader.GetString(reader.GetOrdinal("currency"));
+
                 accounts.Add(new AccountModel
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("id")),
                     AccountName = reader.GetString(reader.GetOrdinal("account_name")),
-                    Currency = (CurrencyType)Enum.Parse(typeof(CurrencyType), reader.GetString(reader.GetOrdinal("currency")), true),
+                    Currency =  string.IsNullOrEmpty(currencyValue)
+                                ? CurrencyType.USDT // Значение по умолчанию
+                                : (CurrencyType)Enum.Parse(typeof(CurrencyType), currencyValue, true),
                     AccountNumber = reader.IsDBNull(reader.GetOrdinal("account_number"))
                         ? null
                         : reader.GetString(reader.GetOrdinal("account_number")),

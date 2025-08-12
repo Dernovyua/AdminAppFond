@@ -41,7 +41,7 @@ namespace AdminPanelApp.View
             TxbxExchange.Text = _account.Exchange ?? string.Empty;
             TxbxAccountName.Text = _account.AccountName ?? string.Empty;
             TxbxAccountNumber.Text = _account.AccountNumber ?? string.Empty;
-            CmbxCurrency.Text = _account.Currency.ToString() ?? string.Empty;
+            CmbxCurrency.SelectedItem = _account.Currency.ToString() ?? string.Empty;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -58,6 +58,7 @@ namespace AdminPanelApp.View
             _account.Exchange = TxbxExchange.Text.Trim();
             _account.AccountName = string.IsNullOrWhiteSpace(TxbxAccountName.Text) ? null : TxbxAccountName.Text.Trim();
             _account.AccountNumber = string.IsNullOrWhiteSpace(TxbxAccountNumber.Text) ? null : TxbxAccountNumber.Text.Trim();
+            _account.Currency = (CurrencyType)CmbxCurrency.SelectedItem;
             _account.ClientId = _client.Id;
 
             DialogResult = true;

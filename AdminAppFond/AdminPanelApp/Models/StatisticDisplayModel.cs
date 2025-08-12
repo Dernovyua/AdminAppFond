@@ -29,6 +29,9 @@ namespace AdminPanelApp.Models
         {
             var lastDate = LastClosedDate;
 
+            if (LastClosedDate.Year == 1 || !Account.Statistics.Any())
+                return 0m;
+
             // Берём первую запись после fromDate и последнюю на LastClosedDate
             var start = Account.Statistics
                 .Where(s => s.Date >= fromDate && s.Date <= lastDate)
@@ -45,7 +48,6 @@ namespace AdminPanelApp.Models
             return (end.Deposit - start.Deposit) / start.Deposit * 100m;
         }
 
-        public decimal AnnualReturn => CalculateReturn(LastClosedDate.AddYears(-1));
         public decimal TotalReturn
         {
             get
@@ -59,10 +61,60 @@ namespace AdminPanelApp.Models
                 return start == 0 ? 0m : (end - start) / start * 100m;
             }
         }
-        public decimal Return6Months => CalculateReturn(LastClosedDate.AddMonths(-6));
-        public decimal Return3Months => CalculateReturn(LastClosedDate.AddMonths(-3));
-        public decimal Return1Month => CalculateReturn(LastClosedDate.AddMonths(-1));
-        public decimal Return1Week => CalculateReturn(LastClosedDate.AddDays(-7));
+        public decimal Return6Months
+        {
+            get
+            {
+                if (LastClosedDate.Year == 1) // или if (LastClosedDate == DateTime.MinValue)
+                    return 0m;
+
+                return CalculateReturn(LastClosedDate.AddMonths(-6));
+            }
+        }
+
+        public decimal Return3Months
+        {
+            get
+            {
+                if (LastClosedDate.Year == 1)
+                    return 0m;
+
+                return CalculateReturn(LastClosedDate.AddMonths(-3));
+            }
+        }
+
+        public decimal Return1Month
+        {
+            get
+            {
+                if (LastClosedDate.Year == 1)
+                    return 0m;
+
+                return CalculateReturn(LastClosedDate.AddMonths(-1));
+            }
+        }
+
+        public decimal Return1Week
+        {
+            get
+            {
+                if (LastClosedDate.Year == 1)
+                    return 0m;
+
+                return CalculateReturn(LastClosedDate.AddDays(-7));
+            }
+        }
+
+        public decimal AnnualReturn
+        {
+            get
+            {
+                if (LastClosedDate.Year == 1)
+                    return 0m;
+
+                return CalculateReturn(LastClosedDate.AddYears(-1));
+            }
+        }
         public decimal Balance => GetBalance();
 
 
