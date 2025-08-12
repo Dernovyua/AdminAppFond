@@ -148,7 +148,7 @@
             </Grid.RowDefinitions>
 
             <!-- Заголовок -->
-            <Border Height="48" >
+            <Border Height="48" Margin="6 0 0 0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0">
                     <!--<Ellipse Width="32" Height="32" Margin="0,0,8,0">
                         <Ellipse.Fill>
@@ -163,11 +163,11 @@
             </Border>
 
             <!-- История сообщений -->
-            <ex:ExScrollView Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <ex:ExScrollView Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6 0 0 0">
                 <ItemsControl ItemsSource="{Binding SelectedChat.Chat.Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Margin="4" Padding="8"  CornerRadius="6"  MaxWidth="520" HorizontalAlignment="Left"
+                            <Border Margin="0 4 0 4" Padding="8"  CornerRadius="6"  MaxWidth="520" HorizontalAlignment="Left"
                                     Background="{Binding IsOwn, Converter={StaticResource MessageBubbleBackgroundConverter}}">
                                 <StackPanel MinHeight="20">
                                     <ex:ExTextBlock Text="{Binding Text}" TextWrapping="Wrap"  MinWidth="360" FontSize="14"/>
@@ -181,14 +181,14 @@
             </ex:ExScrollView>
 
             <!-- Ввод сообщения -->
-            <Grid Grid.Row="2" Margin="8" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="2" Margin="10" HorizontalAlignment="Stretch">
                 <ex:ExTextBox Name="TxbxMessage"
                          VerticalAlignment="Center"
                          CornerRadius="10"
                          Height="100"
                          AcceptsReturn="True"
                          FontSize="16"
-                         Margin="8 0 105 0"
+                         Margin="0 0 105 0"
                          Text="{Binding NewMessageText, UpdateSourceTrigger=PropertyChanged}" />
                 <ex:ExButton 
                     HorizontalAlignment="Right"
