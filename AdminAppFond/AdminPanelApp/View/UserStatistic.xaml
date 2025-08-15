@@ -121,7 +121,7 @@
                     <!-- Годовая доходность -->
                     <DataGridTextColumn Binding="{Binding AnnualReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Годовая, %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 год, %" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">

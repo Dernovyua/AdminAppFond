@@ -112,6 +112,7 @@ namespace AdminPanelApp.View
                 {
                     ClientsRequests.DeleteClient(client.Id);
                     LogicData.Clients.Remove(client);
+                    LogicData.GetStatisticsAsync();
                 }
             }
         }
@@ -167,6 +168,7 @@ namespace AdminPanelApp.View
                         return;
                     }
                     client.Accounts.Add(account);
+                    LogicData.GetStatisticsAsync();
                 }
             }
             else
@@ -206,6 +208,7 @@ namespace AdminPanelApp.View
                     {
                         AccountRequests.DeleteAccount(acc.Id);
                         client.Accounts.Remove(acc);
+                        LogicData.GetStatisticsAsync();
                     }
                 }
         }

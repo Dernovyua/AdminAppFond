@@ -41,7 +41,7 @@ namespace AdminPanelApp.View
             TxbxExchange.Text = _account.Exchange ?? string.Empty;
             TxbxAccountName.Text = _account.AccountName ?? string.Empty;
             TxbxAccountNumber.Text = _account.AccountNumber ?? string.Empty;
-            CmbxCurrency.SelectedItem = _account.Currency.ToString() ?? string.Empty;
+            CmbxCurrency.SelectedItem = _account.Currency ;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)

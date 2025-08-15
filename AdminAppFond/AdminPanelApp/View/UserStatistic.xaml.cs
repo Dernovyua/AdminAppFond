@@ -81,6 +81,7 @@ namespace AdminPanelApp.View
             if (add.DialogResult == true)
             {
                 StatisticRequests.AddStatistic(statistic);
+                LogicData.GetStatisticsAsync();
                 //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
             }
 
@@ -88,7 +89,7 @@ namespace AdminPanelApp.View
 
         private void EditStatistic()
         {
-            if (DtgdStat.SelectedItem is StatisticModel statistic)
+            if (DtgdStatDetail.SelectedItem is StatisticModel statistic)
             {
                 AddStatistic edit = new AddStatistic(statistic);
                 edit.ShowDialog();
@@ -96,19 +97,21 @@ namespace AdminPanelApp.View
                 if (edit.DialogResult == true)
                 {
                     StatisticRequests.UpdateStatistic(statistic);
+                    LogicData.GetStatisticsAsync();
                 }
             }
         }
 
         private void DeleteStatistic()
         {
-            if (DtgdStat.SelectedItem is StatisticModel statistic)
+            if (DtgdStatDetail.SelectedItem is StatisticModel statistic)
             {
                 if (new DialogOkCancel("Вы действительно хотите удалить запись статистики?",
                     LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
                     .Result == MessageBoxResult.OK)
                 {
                     StatisticRequests.DeleteStatistic(statistic.Id);
+                    LogicData.GetStatisticsAsync();
                     //LogicData.StatisticDisplay.Remove(statistic);
                 }
             }

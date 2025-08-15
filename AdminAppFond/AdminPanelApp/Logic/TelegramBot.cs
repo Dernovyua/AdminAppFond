@@ -250,9 +250,9 @@ namespace AdminPanelApp.Logic
             {
                 sb.AppendLine($"💰 Счет: {stat.Account.AccountName}");
                 sb.AppendLine($"💵 Текущий баланс: {stat.Balance:N2} $");
-                sb.AppendLine("Доходность:");
+                sb.AppendLine("Доходность за период:");
                 sb.AppendLine(FormatReturn(stat.TotalReturn, "За всё время"));
-                sb.AppendLine(FormatReturn(stat.AnnualReturn, "Годовая"));
+                sb.AppendLine(FormatReturn(stat.AnnualReturn, "1 год"));
                 sb.AppendLine(FormatReturn(stat.Return6Months, "6 месяцев"));
                 sb.AppendLine(FormatReturn(stat.Return3Months, "3 месяца"));
                 sb.AppendLine(FormatReturn(stat.Return1Month, "1 месяц"));
