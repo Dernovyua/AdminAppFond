@@ -1,4 +1,5 @@
 ﻿using AdminPanelApp.Models;
+using AdminPanelApp.Models.Scenario;
 using AdminPanelApp.Requests;
 using AdminPanelApp.View;
 using System;
@@ -15,6 +16,7 @@ namespace AdminPanelApp.Logic
 {
     public static class LogicData
     {
+        #region Event
 
         public static event Func<string, string, double> OnGetBalance;
 
@@ -51,7 +53,8 @@ namespace AdminPanelApp.Logic
         public static void RaiseOnSendMessage(string message, bool showWinMessage = false)
         {
             OnSendMessage?.Invoke(message, showWinMessage);
-        }
+        } 
+        #endregion
 
         public static TelegramBot TgBot = new TelegramBot();
 
@@ -59,6 +62,11 @@ namespace AdminPanelApp.Logic
         public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();
         public static ObservableCollection<TransactionModel> Transactions = new ObservableCollection<TransactionModel>();
         public static ObservableCollection<StatisticDisplayModel> StatisticDisplay = new ObservableCollection<StatisticDisplayModel>();
+
+        /// <summary>
+        /// Меню сценариев и кнопок для ТГ
+        /// </summary>
+        public static ObservableCollection<IScenarioModel> Scenarios = new ObservableCollection<IScenarioModel>();
 
         public static async Task GetTransactionsAsync()
         {

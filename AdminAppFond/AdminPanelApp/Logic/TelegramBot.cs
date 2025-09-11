@@ -273,5 +273,13 @@ namespace AdminPanelApp.Logic
                 return $"🔴 {period}: {value:N2}%";
             return $"⚪️ {period}: {value:N2}%";
         }
+
+        /// <summary>
+        /// Собираем меню. Кнопка статистика по умолчанию
+        /// </summary>
+        private void SetMenu()
+        { 
+        
+        }
     }
 }
