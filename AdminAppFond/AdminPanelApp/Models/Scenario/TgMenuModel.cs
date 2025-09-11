@@ -26,12 +26,6 @@ namespace AdminPanelApp.Models.Scenario
         /// </summary>
         public string Type { get => _type; set { _type = value; OnPropertyChanged(nameof(Type)); } }
 
-        private string _nameMenu;
-        /// <summary>
-        /// Название меню.
-        /// </summary>
-        public string NameMenu { get => _nameMenu; set { _nameMenu = value; OnPropertyChanged(nameof(NameMenu)); } }
-
         private string _icon;
         /// <summary>
         /// Иконка.

@@ -38,7 +38,7 @@ namespace AdminPanelApp.View.Scenario
 
             TxbxName.Text = _tgMenuModel.Name ?? string.Empty;
             //TxbxType.Text = _tgMenuModel.Type ?? string.Empty;
-            TxbxNameMenu.Text = _tgMenuModel.NameMenu ?? string.Empty;
+            //TxbxNameMenu.Text = _tgMenuModel.NameMenu ?? string.Empty;
             //TxbxIcon.Text = _tgMenuModel.Icon ?? string.Empty;
             TxbxColumn.Text = _tgMenuModel.Column.ToString();
             TxbxRow.Text = _tgMenuModel.Row.ToString();
@@ -49,16 +49,17 @@ namespace AdminPanelApp.View.Scenario
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrEmpty(TxbxName.Text) ||
-                String.IsNullOrEmpty(TxbxNameMenu.Text) ||
                 String.IsNullOrEmpty(TxbxText.Text))
                 return;
 
             if (String.IsNullOrEmpty(_tgMenuModel.Type))
+            {
+                _tgMenuModel.IsRun = true;
                 LogicData.Scenarios.Add(_tgMenuModel);
+            }
 
             _tgMenuModel.Name = TxbxName.Text.Trim();
             _tgMenuModel.Type = "Меню ТГ";
-            _tgMenuModel.NameMenu = TxbxNameMenu.Text.Trim();
             //_tgMenuModel.Icon = string.IsNullOrWhiteSpace(TxbxIcon.Text) ? null : TxbxIcon.Text.Trim();
 
             _tgMenuModel.Column = string.IsNullOrWhiteSpace(TxbxColumn.Text) ? 0 : Convert.ToInt32(TxbxColumn.Text.Trim());

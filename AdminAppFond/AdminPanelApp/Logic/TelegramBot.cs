@@ -1,4 +1,5 @@
 ﻿using AdminPanelApp.Models;
+using AdminPanelApp.Models.Scenario;
 using AdminPanelApp.Requests;
 using System.Collections.Concurrent;
 using System.Text;
@@ -73,18 +74,13 @@ namespace AdminPanelApp.Logic
             if (update.Message?.Text?.ToString().ToUpper() == "#ID" ||
                 update.Message?.Text?.ToString() == "/start")
             {
+                var keyboard = SetMenu();
                 //var inlineKeyboard = new InlineKeyboardMarkup(new[]
                 //                    {
                 //                            new[] { InlineKeyboardButton.WithCallbackData("Статистика", "stats_btn") }
                 //                        });
 
-                var keyboard = new ReplyKeyboardMarkup(new[]
-                                {
-                                new[] { new KeyboardButton(_menuStatistic) }
-                                })
-                {
-                    ResizeKeyboard = true // Делает кнопки компактнее
-                };
+
 
                 await botClient.SendMessage(
                             chatId: update.Message.Chat.Id,
@@ -231,6 +227,15 @@ namespace AdminPanelApp.Logic
                 {
                     message = GetTelegramStatsMessage(client);
                 }
+                else
+                    for (int i = LogicData.Scenarios.Count - 1; i >= 0; i--)
+                    {
+                        if (LogicData.Scenarios[i] is TgMenuModel menu)
+                        {
+                            if (menu.Name == menuItem)
+                                message = menu.Text;
+                        }
+                    }
 
                 if (!String.IsNullOrEmpty(message))
                     SendMeessageToUserFromAdmin(chatId, message);
@@ -277,9 +282,55 @@ namespace AdminPanelApp.Logic
         /// <summary>
         /// Собираем меню. Кнопка статистика по умолчанию
         /// </summary>
-        private void SetMenu()
-        { 
-        
+        private ReplyKeyboardMarkup SetMenu()
+        {
+            List<List<TgMenuModel>> menuModels = new List<List<TgMenuModel>>();
+            foreach (var menuModel in LogicData.Scenarios)
+            {
+                if (menuModel is TgMenuModel menu)
+                {
+                    while (menuModels.Count <= menu.Row)
+                    {
+                        menuModels.Add(new List<TgMenuModel>());
+                    }
+                    while (menuModels[menu.Row].Count <= menu.Column)
+                    {
+                        menuModels[menu.Row].Add(null);
+                    }
+                    menuModels[menu.Row][menu.Column] = menu;
+                }
+            }
+
+            // Создаем список строк для клавиатуры
+            var keyboardRows = new List<KeyboardButton[]>();
+
+            // Добавляем не-null элементы построчно
+            foreach (var row in menuModels)
+            {
+                // Фильтруем null значения и создаем кнопки
+                var buttons = row
+                    .Where(menu => menu != null && menu.IsRun)
+                    .Select(menu => new KeyboardButton(menu.Name)) 
+                    .ToArray();
+
+                if (buttons.Length > 0)
+                {
+                    keyboardRows.Add(buttons);
+                }
+            }
+
+            // Добавляем кнопку статистики в самый конец
+            keyboardRows.Add(new[] { new KeyboardButton(_menuStatistic) });
+
+            // Создаем клавиатуру
+            var keyboard = new ReplyKeyboardMarkup(keyboardRows)
+            {
+                ResizeKeyboard = true // Делает кнопки компактнее
+            };
+
+            return keyboard;
         }
+
+
     }
 }

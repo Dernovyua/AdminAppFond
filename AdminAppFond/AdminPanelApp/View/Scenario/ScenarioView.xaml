@@ -51,7 +51,7 @@
                               AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
-                              CanUserReorderColumns="True"
+                              CanUserReorderColumns="False"
                               CanUserResizeColumns="True"
                               CanUserSortColumns="True"
                               ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
@@ -74,7 +74,7 @@
 
                     <ex:ExSimpleTable.Columns>
                         
-                        <DataGridTemplateColumn IsReadOnly="True" Width="50" CanUserResize="False">
+                        <DataGridTemplateColumn IsReadOnly="True" Width="50" CanUserResize="False" CanUserReorder="False">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ex:ExToggleButton HorizontalAlignment="Center"

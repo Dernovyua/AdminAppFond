@@ -29,7 +29,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Cursor="Help"
-                                Text="Название">
+                                Text="Название меню">
                 </ex:ExTextBlock>
                 <ex:ExTextBox x:Name="TxbxName"
                               Height="25"
@@ -37,7 +37,7 @@
                               VerticalAlignment="Center"
                               Text="" />
             </Grid>
-            <Grid Height="25" Margin="0 5 0 0">
+            <!--<Grid Height="25" Margin="0 5 0 0">
                 <ex:ExTextBlock 
                       Margin="10 0 0 0"
                       HorizontalAlignment="Left"
@@ -50,6 +50,21 @@
                     Margin="180 0 10 0"
                     VerticalAlignment="Center"
                     Text="" />
+            </Grid>-->
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock
+                          Margin="10 0 0 0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Cursor="Help"
+                          Text="Строка">
+                </ex:ExTextBlock>
+                <ex:ExNumTextBox x:Name="TxbxRow"
+                        Height="25"
+                        DecimalPlaces="0"
+                        Margin="180 0 10 0"
+                        VerticalAlignment="Center"
+                        Text="" />
             </Grid>
             <Grid Height="25" Margin="0 5 0 0">
                 <ex:ExTextBlock
@@ -66,21 +81,7 @@
                         VerticalAlignment="Center"
                         Text="" />
             </Grid>
-            <Grid Height="25" Margin="0 5 0 0">
-                <ex:ExTextBlock
-                          Margin="10 0 0 0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
-                          Cursor="Help"
-                          Text="Строка">
-                </ex:ExTextBlock>
-                <ex:ExNumTextBox x:Name="TxbxRow"
-                        Height="25"
-                        DecimalPlaces="0"
-                        Margin="180 0 10 0"
-                        VerticalAlignment="Center"
-                        Text="" />
-            </Grid>
+
             <Grid Margin="0 5 0 0">
                 <ex:ExTextBlock
                           Margin="10 5 0 0"
