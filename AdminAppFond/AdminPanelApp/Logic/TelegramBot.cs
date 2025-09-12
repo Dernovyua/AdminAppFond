@@ -73,6 +73,7 @@ namespace AdminPanelApp.Logic
 
             if (update.Type != UpdateType.Message || update.Message!.Type != MessageType.Text)
                 return;
+            LogicData.RaiseOnSendMessage("Сообщение из чата: " + update?.Message?.Chat.Id);
 
             if (update.Message?.Text?.ToString().ToUpper() == "#ID" ||
                 update.Message?.Text?.ToString() == "/start")
@@ -81,7 +82,7 @@ namespace AdminPanelApp.Logic
 
                 await botClient.SendMessage(
                             chatId: update.Message.Chat.Id,
-                            text: $"Ваш ID = {update.Message.Chat.Id}. Передайте его администратору через личный чат",
+                            text: $"Для начала работы, передайте ваш ID = {update.Message.Chat.Id} через личный чат человеку приславшему ссылку на этот бот",
                             cancellationToken: cancellationToken,
                             replyMarkup: keyboard);
             }
@@ -126,6 +127,7 @@ namespace AdminPanelApp.Logic
                         {
                             if (upd?.Message?.Chat.Id is long chatId)
                             {
+                                //LogicData.RaiseOnSendMessage("Сообщение из чата: " + chatId);
                                 // Find client - consider using a dictionary for O(1) lookups
                                 var client = LogicData.Clients.FirstOrDefault(c => c.ChatId == chatId);
                                 if (client != null)
@@ -147,6 +149,7 @@ namespace AdminPanelApp.Logic
                                         MessagesRequests.AddMessage(model, client.Id);
                                     });
 
+                                    //LogicData.RaiseOnSendMessage("Сообщение от клиента чат: " + client.ChatId);
                                     CheckMenu(client.ChatId, upd.Message.Text);
                                 }
                             }
@@ -173,6 +176,7 @@ namespace AdminPanelApp.Logic
                     {
                         if (_messageToUser.TryDequeue(out var mes))
                         {
+                            //LogicData.RaiseOnSendMessage("Проверка: " + mes.ChatId);
                             // Find client - consider using a dictionary for O(1) lookups
                             var client = LogicData.Clients.FirstOrDefault(c => c.ChatId == mes.ChatId);
                             if (client != null)
@@ -240,15 +244,17 @@ namespace AdminPanelApp.Logic
             try
             {
                 string message = "";
-                var client = LogicData.StatisticDisplay.Where(c => c.ClientName.ChatId == chatId).ToList();
-                if (client.Count == 0)
-                    return;
+
 
                 bool isMenu = false;
                 ReplyKeyboardMarkup menuKey = null;
                 string pathToDocument="";
                 if (menuItem == _menuStatistic)
                 {
+                    var client = LogicData.StatisticDisplay.Where(c => c.ClientName.ChatId == chatId).ToList();
+                    if (client.Count == 0)
+                        return;
+
                     message = GetTelegramStatsMessage(client);
                     isMenu = true;
                 }
