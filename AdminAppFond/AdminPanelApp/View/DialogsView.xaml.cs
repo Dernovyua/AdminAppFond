@@ -72,7 +72,7 @@ namespace AdminPanelApp.View
                 !String.IsNullOrWhiteSpace(TxbxMessage.Text) &&
                 SelectedChat != null && SelectedChat.ChatId > 0)
             {
-                LogicData.TgBot.SendMeessageToUserFromAdmin(SelectedChat.ChatId, TxbxMessage.Text.Trim(), null);
+                LogicData.TgBot.SendMeessageToUserFromAdmin(SelectedChat.ChatId, TxbxMessage.Text.Trim(), null, "");
             }
             TxbxMessage.Text = "";
         }

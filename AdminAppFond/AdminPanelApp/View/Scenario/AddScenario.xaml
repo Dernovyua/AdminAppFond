@@ -150,7 +150,34 @@
                         VerticalAlignment="Center"
                         Text="" />
             </Grid>
+            
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock
+                          Margin="10 0 0 0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Cursor="Help"
+                          Text="Прикрепленный документ">
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxPathToDocument"
+                             Height="25"
+                             Margin="180 0 45 0"
+                             VerticalAlignment="Center"
+                             IsReadOnly="True" />
+                <ex:ExButton x:Name="BtnPathToScript"
+                            Width="30"
+                            Height="24"
+                             Padding="0"
+                            Margin="0 0 10 0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Click="BtnPathToDocument_Click"
+                            CornerRadius="2"
+                            Style="{DynamicResource ExButtonDefault}"
+                            TabIndex="2"
+                            Text="..." />
 
+            </Grid>
             <Grid Margin="0 5 0 0">
                 <ex:ExTextBlock
                           Margin="10 5 0 0"

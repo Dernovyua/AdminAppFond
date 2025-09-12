@@ -108,6 +108,12 @@
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
 
+                        <DataGridTextColumn Binding="{Binding PathToDocument}" IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Прикрепленный документ" />
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
                     </ex:ExSimpleTable.Columns>
                 </ex:ExSimpleTable>
 

@@ -1,6 +1,8 @@
 ﻿using AdminPanelApp.Logic;
 using AdminPanelApp.Models.Scenario;
 using AdminPanelApp.Requests;
+using ETS.Resources;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,6 +67,8 @@ namespace AdminPanelApp.View.Scenario
             CmbxMainMenu.SelectedIndex = 0;
             if (!String.IsNullOrEmpty(_tgMenuModel.Level))
                 CmbxMainMenu.SelectedItem = _tgMenuModel.Level;
+
+            TxbxPathToDocument.Text = _tgMenuModel.PathToDocument;
             //TxbxPathToDocument.Text = _tgMenuModel.PathToDocument ?? string.Empty;
         }
 
@@ -102,6 +106,7 @@ namespace AdminPanelApp.View.Scenario
                 LogicData.TgMenus.Add(_tgMenuModel);
             }
 
+            _tgMenuModel.PathToDocument = TxbxPathToDocument.Text;
             _tgMenuModel.Name = TxbxName.Text.Trim();
             //_tgMenuModel.Icon = string.IsNullOrWhiteSpace(TxbxIcon.Text) ? null : TxbxIcon.Text.Trim();
 
@@ -518,6 +523,16 @@ namespace AdminPanelApp.View.Scenario
 
                 // Базовая XAML структура
                 return $"<Section xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Paragraph>{xaml}</Paragraph></Section>";
+            }
+        }
+
+        private void BtnPathToDocument_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+
+            if (file.ShowDialog() == true)
+            {
+                TxbxPathToDocument.Text = file.FileName;
             }
         }
     }

@@ -2,6 +2,7 @@
 using AdminPanelApp.Models.Scenario;
 using AdminPanelApp.Requests;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Controls;
@@ -96,9 +97,9 @@ namespace AdminPanelApp.Logic
             return Task.CompletedTask;
         }
 
-        public void SendMeessageToUserFromAdmin(long chatId, string message, ReplyKeyboardMarkup menu)
+        public void SendMeessageToUserFromAdmin(long chatId, string message, ReplyKeyboardMarkup menu, string pathToDocument)
         {
-            _messageToUser.Enqueue(new MessageAdmin { ChatId = chatId, Message = message, Menu = menu });
+            _messageToUser.Enqueue(new MessageAdmin { ChatId = chatId, Message = message, Menu = menu, PathToDocument=  pathToDocument });
         }
 
         static ConcurrentQueue<Update> _messageFromUser = new ConcurrentQueue<Update>();
@@ -110,6 +111,7 @@ namespace AdminPanelApp.Logic
             public long ChatId { get; set; }
             public string Message { get; set; }
             public ReplyKeyboardMarkup Menu { get; set; }
+            public string PathToDocument { get; set; }
         }
 
         public async Task CheckMessageFromUser()
@@ -175,13 +177,31 @@ namespace AdminPanelApp.Logic
                             var client = LogicData.Clients.FirstOrDefault(c => c.ChatId == mes.ChatId);
                             if (client != null)
                             {
+
                                 var text = !string.IsNullOrEmpty(mes.Message) ? mes.Message : "Выберите действие:";
                                 //if (mes.Menu != null)
-                                await botClient.SendMessage(
-                                      chatId: mes.ChatId,
-                                      text: text,
-                                      replyMarkup: mes.Menu,
-                                      parseMode: ParseMode.Html);
+                                if (String.IsNullOrEmpty(mes.PathToDocument))
+                                {
+                                    await botClient.SendMessage(
+                                          chatId: mes.ChatId,
+                                          text: text,
+                                          replyMarkup: mes.Menu,
+                                          parseMode: ParseMode.Html);
+                                }
+                                else
+                                {
+                                    // Отправка документа
+                                    await botClient.SendDocument(
+                                        chatId: mes.ChatId,
+                                        document: InputFile.FromStream(
+                                                    File.OpenRead(mes.PathToDocument),
+                                                    Path.GetFileName(mes.PathToDocument)
+                                                ),
+                                        caption: mes.Message, // подпись к файлу
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: mes.Menu
+                                    );
+                                }
 
                                 // Dispatch to UI thread if needed
                                 await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
@@ -226,6 +246,7 @@ namespace AdminPanelApp.Logic
 
                 bool isMenu = false;
                 ReplyKeyboardMarkup menuKey = null;
+                string pathToDocument="";
                 if (menuItem == _menuStatistic)
                 {
                     message = GetTelegramStatsMessage(client);
@@ -248,6 +269,7 @@ namespace AdminPanelApp.Logic
                                     isMenu = true;
                                     if (!String.IsNullOrEmpty(menu.Text))
                                         message = menu.Text;
+                                    pathToDocument = menu.PathToDocument;
                                     //if (menu.Level != "Главное меню")
                                     menuKey = SetMenu(menu.Name);
                                 }
@@ -256,7 +278,7 @@ namespace AdminPanelApp.Logic
                 }
 
                 if (isMenu )//!String.IsNullOrEmpty(message))
-                    SendMeessageToUserFromAdmin(chatId, message, menuKey);
+                    SendMeessageToUserFromAdmin(chatId, message, menuKey, pathToDocument);
             }
             catch (Exception ex)
             {
