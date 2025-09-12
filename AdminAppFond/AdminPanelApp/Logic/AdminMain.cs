@@ -39,6 +39,7 @@ namespace AdminPanelApp.Logic
 
             LogicData.GetStatisticsAsync();
             LogicData.GetTransactionsAsync();
+            LogicData.GetTgMenusAsync();
 
             LogicData.LoadSettingCrm(_pathSave);
 

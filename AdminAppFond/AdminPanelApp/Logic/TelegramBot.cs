@@ -4,6 +4,8 @@ using AdminPanelApp.Requests;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -74,13 +76,7 @@ namespace AdminPanelApp.Logic
             if (update.Message?.Text?.ToString().ToUpper() == "#ID" ||
                 update.Message?.Text?.ToString() == "/start")
             {
-                var keyboard = SetMenu();
-                //var inlineKeyboard = new InlineKeyboardMarkup(new[]
-                //                    {
-                //                            new[] { InlineKeyboardButton.WithCallbackData("Статистика", "stats_btn") }
-                //                        });
-
-
+                var keyboard = SetMenu("");
 
                 await botClient.SendMessage(
                             chatId: update.Message.Chat.Id,
@@ -100,9 +96,9 @@ namespace AdminPanelApp.Logic
             return Task.CompletedTask;
         }
 
-        public void SendMeessageToUserFromAdmin(long chatId, string message)
+        public void SendMeessageToUserFromAdmin(long chatId, string message, ReplyKeyboardMarkup menu)
         {
-            _messageToUser.Enqueue(new MessageAdmin { ChatId = chatId, Message = message });
+            _messageToUser.Enqueue(new MessageAdmin { ChatId = chatId, Message = message, Menu = menu });
         }
 
         static ConcurrentQueue<Update> _messageFromUser = new ConcurrentQueue<Update>();
@@ -113,6 +109,7 @@ namespace AdminPanelApp.Logic
         {
             public long ChatId { get; set; }
             public string Message { get; set; }
+            public ReplyKeyboardMarkup Menu { get; set; }
         }
 
         public async Task CheckMessageFromUser()
@@ -178,26 +175,29 @@ namespace AdminPanelApp.Logic
                             var client = LogicData.Clients.FirstOrDefault(c => c.ChatId == mes.ChatId);
                             if (client != null)
                             {
+                                var text = !string.IsNullOrEmpty(mes.Message) ? mes.Message : "Выберите действие:";
+                                //if (mes.Menu != null)
                                 await botClient.SendMessage(
-                                    chatId: mes.ChatId,
-                                    text: mes.Message,
-                                    parseMode: ParseMode.Html);
+                                      chatId: mes.ChatId,
+                                      text: text,
+                                      replyMarkup: mes.Menu,
+                                      parseMode: ParseMode.Html);
 
                                 // Dispatch to UI thread if needed
                                 await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
-                                {
-                                    client.Chat.LastMessageTime = DateTime.Now;
-                                    client.Chat.LastMessage = mes.Message;
-                                    var model = new Models.MessageItemModel
                                     {
-                                        SentAt = DateTime.Now,
-                                        Text = mes.Message,
-                                        IsOwn = true
-                                    };
-                                    client.Chat.Messages.Add(model);
+                                        client.Chat.LastMessageTime = DateTime.Now;
+                                        client.Chat.LastMessage = mes.Message;
+                                        var model = new Models.MessageItemModel
+                                        {
+                                            SentAt = DateTime.Now,
+                                            Text = mes.Message,
+                                            IsOwn = true
+                                        };
+                                        client.Chat.Messages.Add(model);
 
-                                    MessagesRequests.AddMessage(model, client.Id);
-                                });
+                                        MessagesRequests.AddMessage(model, client.Id);
+                                    });
                             }
                         }
                     }
@@ -224,22 +224,39 @@ namespace AdminPanelApp.Logic
                 if (client.Count == 0)
                     return;
 
+                bool isMenu = false;
+                ReplyKeyboardMarkup menuKey = null;
                 if (menuItem == _menuStatistic)
                 {
                     message = GetTelegramStatsMessage(client);
+                    isMenu = true;
                 }
                 else
-                    for (int i = LogicData.Scenarios.Count - 1; i >= 0; i--)
+                {
+                    if (menuItem == "Назад")
                     {
-                        if (LogicData.Scenarios[i] is TgMenuModel menu)
-                        {
-                            if (menu.Name == menuItem)
-                                message = menu.Text;
-                        }
+                        menuKey=SetMenu("");
+                        isMenu = true;
                     }
+                    else
+                        for (int i = LogicData.TgMenus.Count - 1; i >= 0; i--)
+                        {
+                            if (LogicData.TgMenus[i] is TgMenuModel menu)
+                            {
+                                if (menu.Name == menuItem)
+                                {
+                                    isMenu = true;
+                                    if (!String.IsNullOrEmpty(menu.Text))
+                                        message = menu.Text;
+                                    //if (menu.Level != "Главное меню")
+                                    menuKey = SetMenu(menu.Name);
+                                }
+                            }
+                        }
+                }
 
-                if (!String.IsNullOrEmpty(message))
-                    SendMeessageToUserFromAdmin(chatId, message);
+                if (isMenu )//!String.IsNullOrEmpty(message))
+                    SendMeessageToUserFromAdmin(chatId, message, menuKey);
             }
             catch (Exception ex)
             {
@@ -283,12 +300,13 @@ namespace AdminPanelApp.Logic
         /// <summary>
         /// Собираем меню. Кнопка статистика по умолчанию
         /// </summary>
-        private ReplyKeyboardMarkup SetMenu()
+        private ReplyKeyboardMarkup SetMenu(string level)
         {
             List<List<TgMenuModel>> menuModels = new List<List<TgMenuModel>>();
-            foreach (var menuModel in LogicData.Scenarios)
+            foreach (var menu in LogicData.TgMenus)
             {
-                if (menuModel is TgMenuModel menu)
+                if (String.IsNullOrEmpty(level) && menu.Level == "Главное меню" ||
+                    menu.Level == level)
                 {
                     while (menuModels.Count <= menu.Row)
                     {
@@ -311,7 +329,7 @@ namespace AdminPanelApp.Logic
                 // Фильтруем null значения и создаем кнопки
                 var buttons = row
                     .Where(menu => menu != null && menu.IsRun)
-                    .Select(menu => new KeyboardButton(menu.Name)) 
+                    .Select(menu => new KeyboardButton(menu.Name))
                     .ToArray();
 
                 if (buttons.Length > 0)
@@ -319,9 +337,18 @@ namespace AdminPanelApp.Logic
                     keyboardRows.Add(buttons);
                 }
             }
+            if (menuModels.Count == 0 && !String.IsNullOrEmpty(level))
+                return null;
 
-            // Добавляем кнопку статистики в самый конец
-            keyboardRows.Add(new[] { new KeyboardButton(_menuStatistic) });
+            if (String.IsNullOrEmpty(level))
+            {
+                // Добавляем кнопку статистики в самый конец
+                keyboardRows.Add(new[] { new KeyboardButton(_menuStatistic) });
+            }
+            else
+            {
+                keyboardRows.Add(new[] { new KeyboardButton("Назад") });
+            }
 
             // Создаем клавиатуру
             var keyboard = new ReplyKeyboardMarkup(keyboardRows)

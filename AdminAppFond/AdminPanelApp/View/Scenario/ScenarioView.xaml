@@ -90,12 +90,6 @@
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Binding="{Binding Type}" IsReadOnly="True">
-                            <DataGridTextColumn.Header>
-                                <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Тип" />
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
-
                         <DataGridTextColumn Binding="{Binding Row}" IsReadOnly="True">
                             <DataGridTextColumn.Header>
                                 <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Строка" />

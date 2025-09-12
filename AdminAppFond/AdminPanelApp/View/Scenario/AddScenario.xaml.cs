@@ -1,5 +1,6 @@
 ﻿using AdminPanelApp.Logic;
 using AdminPanelApp.Models.Scenario;
+using AdminPanelApp.Requests;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +53,7 @@ namespace AdminPanelApp.View.Scenario
             List<string> nameMenu = new List<string>();
             nameMenu.Add("Главное меню");
 
-            foreach (var item in LogicData.Scenarios)
+            foreach (var item in LogicData.TgMenus)
             {
                 if (item != _tgMenuModel)
                 { 
@@ -61,6 +62,7 @@ namespace AdminPanelApp.View.Scenario
             }
 
             CmbxMainMenu.ItemsSource = nameMenu;
+            CmbxMainMenu.SelectedIndex = 0;
             if (!String.IsNullOrEmpty(_tgMenuModel.Level))
                 CmbxMainMenu.SelectedItem = _tgMenuModel.Level;
             //TxbxPathToDocument.Text = _tgMenuModel.PathToDocument ?? string.Empty;
@@ -94,14 +96,13 @@ namespace AdminPanelApp.View.Scenario
             if (String.IsNullOrEmpty(TxbxName.Text))
                 return;
 
-            if (String.IsNullOrEmpty(_tgMenuModel.Type))
+            if (String.IsNullOrEmpty(_tgMenuModel.Name))
             {
                 _tgMenuModel.IsRun = true;
-                LogicData.Scenarios.Add(_tgMenuModel);
+                LogicData.TgMenus.Add(_tgMenuModel);
             }
 
             _tgMenuModel.Name = TxbxName.Text.Trim();
-            _tgMenuModel.Type = "Меню ТГ";
             //_tgMenuModel.Icon = string.IsNullOrWhiteSpace(TxbxIcon.Text) ? null : TxbxIcon.Text.Trim();
 
             _tgMenuModel.Column = string.IsNullOrWhiteSpace(TxbxColumn.Text) ? 0 : Convert.ToInt32(TxbxColumn.Text.Trim());
@@ -111,7 +112,12 @@ namespace AdminPanelApp.View.Scenario
             _tgMenuModel.Level = CmbxMainMenu.SelectedItem.ToString();
             //_tgMenuModel.PathToDocument = string.IsNullOrWhiteSpace(TxbxPathToDocument.Text) ? null : TxbxPathToDocument.Text.Trim();
 
-            DialogResult = true;
+            if (_tgMenuModel.Id == 0)
+                TgMenuRequests.AddTgMenu(_tgMenuModel);
+            else
+                TgMenuRequests.UpdateTgMenu(_tgMenuModel);
+
+                DialogResult = true;
             Close();
         }
 
@@ -212,7 +218,7 @@ namespace AdminPanelApp.View.Scenario
                 };
 
                 // Устанавливаем стиль для гиперссылки (синий с подчеркиванием)
-                hyperlink.Foreground = Brushes.Blue;
+                //hyperlink.Foreground = Brushes.Blue;
                 hyperlink.TextDecorations = TextDecorations.Underline;
 
                 hyperlink.RequestNavigate += (s, e) =>

@@ -31,38 +31,9 @@ namespace AdminPanelApp.View.Scenario
             InitializeComponent();
 
 
-            DtgdScenario.ItemsSource = LogicData.Scenarios;
+            DtgdScenario.ItemsSource = LogicData.TgMenus;
         }
 
-        private void BtnAddTgMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DtgdTgMenu_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void BtnDelTgMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MnitAddTgMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MnitEditTgMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MnitDelTgMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void BtnAddScenario_Click(object sender, RoutedEventArgs e)
         {
@@ -104,8 +75,8 @@ namespace AdminPanelApp.View.Scenario
                     LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
                     .Result == MessageBoxResult.OK)
                     {
-                        //TransactionRequests.DeleteTransaction(transaction.Id);
-                        LogicData.Scenarios.Remove(tgMenuModel);
+                        TgMenuRequests.DeleteTgMenu(tgMenuModel.Id);
+                        LogicData.TgMenus.Remove(tgMenuModel);
                     }
                 }
                 catch (Exception ex)

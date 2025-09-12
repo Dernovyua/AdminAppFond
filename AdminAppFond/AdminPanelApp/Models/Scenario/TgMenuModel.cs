@@ -8,6 +8,12 @@ namespace AdminPanelApp.Models.Scenario
 {
     public class TgMenuModel : ObservableObject
     {
+        private int _id;
+        /// <summary>
+        /// Уникальный идентификатор
+        /// </summary>
+        public int Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }
+
         private bool _isRun;
         /// <summary>
         /// Запущен или нет
@@ -25,18 +31,6 @@ namespace AdminPanelApp.Models.Scenario
         /// Название.
         /// </summary>
         public string Name { get => _name; set { _name = value; OnPropertyChanged(nameof(Name)); } }
-
-        private string _type;
-        /// <summary>
-        /// Тип.
-        /// </summary>
-        public string Type { get => _type; set { _type = value; OnPropertyChanged(nameof(Type)); } }
-
-        private string _icon;
-        /// <summary>
-        /// Иконка.
-        /// </summary>
-        public string Icon { get => _icon; set { _icon = value; OnPropertyChanged(nameof(Icon)); } }
 
         private int _column;
         /// <summary>

@@ -66,7 +66,7 @@ namespace AdminPanelApp.Logic
         /// <summary>
         /// Меню сценариев и кнопок для ТГ
         /// </summary>
-        public static ObservableCollection<TgMenuModel> Scenarios = new ObservableCollection<TgMenuModel>();
+        public static ObservableCollection<TgMenuModel> TgMenus = new ObservableCollection<TgMenuModel>();
 
         public static async Task GetTransactionsAsync()
         {
@@ -74,6 +74,15 @@ namespace AdminPanelApp.Logic
             Application.Current.Dispatcher.Invoke(() =>
             {
                 LogicData.Transactions = new ObservableCollection<TransactionModel>(transactions);
+            });
+        }
+
+        public static async Task GetTgMenusAsync()
+        {
+            var menus = TgMenuRequests.GetAllTgMenus();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                LogicData.TgMenus = new ObservableCollection<TgMenuModel>(menus);
             });
         }
 
