@@ -180,7 +180,8 @@ namespace AdminPanelApp.Logic
                             {
                                 await botClient.SendMessage(
                                     chatId: mes.ChatId,
-                                    text: mes.Message);
+                                    text: mes.Message,
+                                    parseMode: ParseMode.Html);
 
                                 // Dispatch to UI thread if needed
                                 await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>

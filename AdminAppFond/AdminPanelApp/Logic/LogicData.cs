@@ -66,7 +66,7 @@ namespace AdminPanelApp.Logic
         /// <summary>
         /// Меню сценариев и кнопок для ТГ
         /// </summary>
-        public static ObservableCollection<IScenarioModel> Scenarios = new ObservableCollection<IScenarioModel>();
+        public static ObservableCollection<TgMenuModel> Scenarios = new ObservableCollection<TgMenuModel>();
 
         public static async Task GetTransactionsAsync()
         {

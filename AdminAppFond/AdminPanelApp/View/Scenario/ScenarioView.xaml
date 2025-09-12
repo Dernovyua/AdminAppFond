@@ -96,6 +96,24 @@
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
 
+                        <DataGridTextColumn Binding="{Binding Row}" IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Строка" />
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Binding="{Binding Column}" IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Столбец" />
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Binding="{Binding Level}" IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Расположение меню" />
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
                     </ex:ExSimpleTable.Columns>
                 </ex:ExSimpleTable>
 

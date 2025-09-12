@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace AdminPanelApp.Models.Scenario
 {
-    public class TgMenuModel : ObservableObject, IScenarioModel
+    public class TgMenuModel : ObservableObject
     {
         private bool _isRun;
         /// <summary>
-        /// Название.
+        /// Запущен или нет
         /// </summary>
         public bool IsRun { get => _isRun; set { _isRun = value; OnPropertyChanged(nameof(IsRun)); } }
+
+        private string _level;
+        /// <summary>
+        /// Уровень вложенности меню
+        /// </summary>
+        public string Level { get => _level; set { _level = value; OnPropertyChanged(nameof(Level)); } }
 
         private string _name;
         /// <summary>
