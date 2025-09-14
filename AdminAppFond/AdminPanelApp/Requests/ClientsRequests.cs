@@ -24,7 +24,7 @@ namespace AdminPanelApp.Requests
 
             using var cmd = new SQLiteCommand(@"
                                                 SELECT 
-                                                    c.id AS ClientId, c.full_name, c.status, c.notes, c.phone, c.email, c.telegram, c.chatid, c.city, c.created_at, c.updated_at,
+                                                    c.id AS ClientId, c.full_name, c.status, c.notes, c.phone, c.email, c.telegram, c.chatid, c.city, c.created_at, c.updated_at, c.success_fee,
                                                     a.id AS AccountId, a.client_id, a.exchange, a.account_name, a.account_number, a.created_at AS AccountCreatedAt
                                                 FROM clients c
                                                 LEFT JOIN accounts a ON c.id = a.client_id
@@ -50,6 +50,7 @@ namespace AdminPanelApp.Requests
                         Telegram = reader.IsDBNull(reader.GetOrdinal("telegram")) ? null : reader.GetString(reader.GetOrdinal("telegram")),
                         ChatId = reader.IsDBNull(reader.GetOrdinal("chatid")) ? 0 : reader.GetInt64(reader.GetOrdinal("chatid")),
                         City = reader.IsDBNull(reader.GetOrdinal("city")) ? null : reader.GetString(reader.GetOrdinal("city")),
+                        SuccessFee = reader.IsDBNull(reader.GetOrdinal("success_fee")) ? 0.0 : reader.GetDouble(reader.GetOrdinal("success_fee")),
                         CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at")),
                         UpdatedAt = reader.GetDateTime(reader.GetOrdinal("updated_at")),
                         Accounts = new System.Collections.ObjectModel.ObservableCollection<AccountModel>()
@@ -88,8 +89,8 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, chatid, city, created_at, updated_at)
-                           VALUES (@fullName, @status, @notes, @phone, @email, @telegram, @chatid, @city, @createdAt, @updatedAt);
+                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, chatid, city, created_at, updated_at, с.success_fee)
+                           VALUES (@fullName, @status, @notes, @phone, @email, @telegram, @chatid, @city, @createdAt, @updatedAt, @successFee);
                            ";
 
             using var cmd = new SQLiteCommand(query, connection);
@@ -102,6 +103,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@telegram", newClient.Telegram ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@chatid", newClient.ChatId);
             cmd.Parameters.AddWithValue("@city", newClient.City ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@successFee", newClient.SuccessFee);
             cmd.Parameters.AddWithValue("@createdAt", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("@updatedAt", DateTime.Now);
 
@@ -154,6 +156,7 @@ namespace AdminPanelApp.Requests
                            telegram = @telegram,
                            chatid = @chatid,
                            city = @city,
+                           success_fee = @successFee,
                            updated_at = @updatedAt
                            WHERE id = @id;";
 
@@ -166,6 +169,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@email", client.Email ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@telegram", client.Telegram ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@chatid", client.ChatId);
+            cmd.Parameters.AddWithValue("@successFee", client.SuccessFee);
             cmd.Parameters.AddWithValue("@city", client.City ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@updatedAt", DateTime.Now);
             cmd.Parameters.AddWithValue("@id", client.Id);

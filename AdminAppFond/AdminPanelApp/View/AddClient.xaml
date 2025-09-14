@@ -224,6 +224,30 @@
                               VerticalAlignment="Center"
                               Text="" />
             </Grid>
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock 
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Плата за успех, %">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Какую часть клиент отдает за управление управлющему в случае получния прибыли" />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExNumTextBox x:Name="TxbxSucssesFee"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              DecimalPlaces="2"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
         </StackPanel>
 
         <Grid Grid.Row="1" Background="{DynamicResource ExWindow-Footer-Background}">

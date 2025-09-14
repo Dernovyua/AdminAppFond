@@ -47,6 +47,7 @@ namespace AdminPanelApp.View
             TxbxTelegramm.Text = _client.Telegram ?? string.Empty;
             TxbxNotes.Text = _client.Notes ?? string.Empty;
             TxbxChatId.Text = _client.ChatId.ToString();
+            TxbxSucssesFee.Text = _client.SuccessFee.ToString();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -62,6 +63,7 @@ namespace AdminPanelApp.View
             _client.Telegram = string.IsNullOrWhiteSpace(TxbxTelegramm.Text) ? null : TxbxTelegramm.Text.Trim();
             _client.Notes = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
             _client.ChatId = string.IsNullOrWhiteSpace(TxbxChatId.Text) ? 0 : Convert.ToInt64(TxbxChatId.Text.Trim());
+            _client.SuccessFee = string.IsNullOrWhiteSpace(TxbxSucssesFee.Text) ? 0 : Math.Round(Convert.ToDouble(TxbxSucssesFee.Text.Trim()),2);
             _client.UpdatedAt = DateTime.UtcNow;
 
             if (_client.CreatedAt.Year == 1)

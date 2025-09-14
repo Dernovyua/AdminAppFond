@@ -131,6 +131,13 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
+
+                    <DataGridTextColumn Binding="{Binding SuccessFee}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Плата за успех, %" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
                     <DataGridTextColumn Binding="{Binding Notes}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Примечания" />

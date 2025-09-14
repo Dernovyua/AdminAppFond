@@ -70,6 +70,12 @@ namespace AdminPanelApp.Models
         private string _city;
 
         /// <summary>
+        /// Город клиента.
+        /// </summary>
+        public double SuccessFee { get => _successFee; set { _successFee = value; OnPropertyChanged(nameof(SuccessFee)); } }
+        private double _successFee;
+
+        /// <summary>
         /// Дата создания записи.
         /// </summary>
         public DateTime CreatedAt { get => _createdAt; set { _createdAt = value; OnPropertyChanged(nameof(CreatedAt)); } }
