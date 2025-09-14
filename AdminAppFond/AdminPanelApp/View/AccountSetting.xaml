@@ -80,7 +80,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Cursor="Help"
-                                Text="Счет / публичный ключ">
+                                Text="Счет">
                     <ex:ExTextBlock.ToolTip>
                         <ToolTip>
                             <DockPanel Width="250">
@@ -91,10 +91,13 @@
                         </ToolTip>
                     </ex:ExTextBlock.ToolTip>
                 </ex:ExTextBlock>
-                <ex:ExTextBox x:Name="TxbxAccountNumber"
+                <ex:ExComboBox x:Name="CbmxAccount"
                               Height="25"
                               Margin="180 0 10 0"
+                              SelectedIndex="0"
                               VerticalAlignment="Center"
+                               SelectedChanged="CbmxAccount_SelectedChanged"
+                               DisplayMember="AccString"
                               Text="" />
             </Grid>
 

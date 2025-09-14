@@ -1,4 +1,5 @@
-﻿using AdminPanelApp.Models;
+﻿using AdminPanelApp.Logic;
+using AdminPanelApp.Models;
 using ClassControlsAndStyle.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace AdminPanelApp.View
     /// <summary>
     /// Логика взаимодействия для AccountSetting.xaml
     /// </summary>
-    public partial class AccountSetting 
+    public partial class AccountSetting
     {
         AccountModel _account;
         Client _client;
@@ -27,8 +28,8 @@ namespace AdminPanelApp.View
         {
             InitializeComponent();
             _account = account;
-            _client= client;
-            CmbxCurrency.ItemsSource = new List<CurrencyType> { CurrencyType.USDT, CurrencyType.USDC, CurrencyType.BTC, CurrencyType.ETH, CurrencyType.RUR, CurrencyType.USD};
+            _client = client;
+            CmbxCurrency.ItemsSource = new List<CurrencyType> { CurrencyType.USDT, CurrencyType.USDC, CurrencyType.BTC, CurrencyType.ETH, CurrencyType.RUR, CurrencyType.USD };
 
             LoadData();
         }
@@ -40,15 +41,43 @@ namespace AdminPanelApp.View
 
             TxbxExchange.Text = _account.Exchange ?? string.Empty;
             TxbxAccountName.Text = _account.AccountName ?? string.Empty;
-            TxbxAccountNumber.Text = _account.AccountNumber ?? string.Empty;
-            CmbxCurrency.SelectedItem = _account.Currency ;
+
+            var list = LogicData.Raise_OnGetAllAccount();
+            try
+            {
+                //В случае удаления коннектора
+                if (!String.IsNullOrEmpty(_account.AccountNumber) && list.Count(a => a.Account == _account.AccountNumber) == 0)
+                    list.Add(new AllAccounts
+                    {
+                        Account = _account.AccountNumber,
+                        Name = _account.AccountName,
+                        Exchange = _account.Exchange,
+                        AccString = String.IsNullOrEmpty(_account.AccountName) ? _account.AccountNumber : _account.AccountName + " (" + _account.AccountNumber + ")"
+                    });
+            }
+            catch (Exception ex)
+            {
+
+            }
+            CbmxAccount.ItemsSource = list;
+            if (!String.IsNullOrEmpty(_account.AccountNumber))
+                CbmxAccount.SelectedItem = list.FirstOrDefault(a => a.Account == _account.AccountNumber);
+            else
+                CbmxAccount.SelectedIndex = 0;
+
+            CmbxCurrency.SelectedItem = _account.Currency;
+
+            if (String.IsNullOrEmpty(_account.AccountNumber))
+            {
+                LoadAcc();
+            }
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TxbxAccountNumber.Text))
+            if (CbmxAccount.SelectedItem == null)
             {
-                new DialogMessage("Необходимо указать название счета", "Ошибка!");
+                new DialogMessage("Необходимо настроить подключения в меню Соединения/Терминалы", "Ошибка!");
                 return;
             }
 
@@ -57,7 +86,7 @@ namespace AdminPanelApp.View
 
             _account.Exchange = TxbxExchange.Text.Trim();
             _account.AccountName = string.IsNullOrWhiteSpace(TxbxAccountName.Text) ? null : TxbxAccountName.Text.Trim();
-            _account.AccountNumber = string.IsNullOrWhiteSpace(TxbxAccountNumber.Text) ? null : TxbxAccountNumber.Text.Trim();
+            _account.AccountNumber = (CbmxAccount.SelectedItem as AllAccounts).Account;
             _account.Currency = (CurrencyType)CmbxCurrency.SelectedItem;
             _account.ClientId = _client.Id;
 
@@ -69,6 +98,23 @@ namespace AdminPanelApp.View
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void CbmxAccount_SelectedChanged(object sender, RoutedEventArgs e)
+        {
+            if (!IsLoaded)
+                return;
+
+            LoadAcc();
+        }
+
+        private void LoadAcc()
+        {
+            if (CbmxAccount.SelectedItem is AllAccounts acc)
+            {
+                TxbxExchange.Text = acc.Exchange ?? string.Empty;
+                TxbxAccountName.Text = acc.Name ?? string.Empty;
+            }
         }
     }
 }

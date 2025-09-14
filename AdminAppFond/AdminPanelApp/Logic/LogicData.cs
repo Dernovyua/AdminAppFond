@@ -18,6 +18,23 @@ namespace AdminPanelApp.Logic
     {
         #region Event
 
+        public static event Func<List<AllAccounts>> OnGetAllAccount;
+
+        /// <summary>
+        /// Возращаем список счетов для CRM копировщика
+        /// </summary>
+        /// <returns></returns>
+        public static List<AllAccounts> Raise_OnGetAllAccount()
+        {
+            if (OnGetAllAccount != null)
+            {
+                var firstHandler = OnGetAllAccount.GetInvocationList().FirstOrDefault() as Func<List<AllAccounts>>;
+                return firstHandler?.Invoke() ?? new List<AllAccounts>();
+            }
+            return new List<AllAccounts>();
+        }
+
+
         public static event Func<string, string, double> OnGetBalance;
 
         public static double Raise_OnGetBalance(string publicKey, string currency)
