@@ -89,7 +89,7 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, chatid, city, created_at, updated_at, с.success_fee)
+                           INSERT INTO clients (full_name,  status, notes, phone, email, telegram, chatid, city, created_at, updated_at, success_fee)
                            VALUES (@fullName, @status, @notes, @phone, @email, @telegram, @chatid, @city, @createdAt, @updatedAt, @successFee);
                            ";
 
