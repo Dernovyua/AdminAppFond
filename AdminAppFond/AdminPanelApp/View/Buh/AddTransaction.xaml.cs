@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace AdminPanelApp.View
 {
@@ -33,11 +34,14 @@ namespace AdminPanelApp.View
 
             // Заполняем комбобокс счетами
             CmbxClient.ItemsSource = LogicData.Clients.ToList();
+            if (transaction.ClientLink != null)
+                CmbxClient.SelectedItem = transaction.ClientLink;
 
             // Заполняем комбобокс типами транзакций
             //CmbxType.ItemsSource = new List<TransactionType> { TransactionType.Deposit, TransactionType.Withdrawal, TransactionType.ManagementFee };
-            CmbxType.DisplayMember= "Value";
-            CmbxType.ItemsSource = GetTransactionTypeDescriptions();
+            CmbxType.DisplayMember = "Value";
+            var dic = GetTransactionTypeDescriptions();
+            CmbxType.ItemsSource = dic;
 
 
             _transaction = transaction;
@@ -48,8 +52,16 @@ namespace AdminPanelApp.View
                 DtpProcessedAt.SelectedDate = transaction.ProcessedAt ?? DateTime.Now;
                 TxbxDeposit.Text = transaction.Amount.ToString("N2");
                 TxbxNotes.Text = transaction.Comment;
-                CmbxType.SelectedItem = transaction.Type;
+                if (dic.ContainsKey(transaction.Type))
+                {
+                    CmbxType.SelectedItem = new KeyValuePair<TransactionType, string>(
+                        transaction.Type,
+                        dic[transaction.Type]
+                    );
+                }
 
+                if (transaction.ClientLink != null)
+                    CmbxAccount.SelectedItem = transaction.ClientLink.Accounts.FirstOrDefault(a => a.AccountName == transaction.AccountName);
                 //// Выбираем соответствующий счет
                 //if (CmbxAccount.ItemsSource is IEnumerable items && transaction.AccountId > 0)
                 //{
@@ -94,6 +106,7 @@ namespace AdminPanelApp.View
                     return;
                 }
 
+                _transaction.ClientLink = (Client)CmbxClient.SelectedItem;
                 // Устанавливаем значения
                 _transaction.AccountId = selectedAccount.Id;
                 _transaction.AccountName = selectedAccount.AccountName;
@@ -121,14 +134,17 @@ namespace AdminPanelApp.View
                 }
 
                 DialogResult = true;
+                Close();
             }
             catch (Exception ex)
             {
-                new DialogMessage($"Ошибка сохранения: {ex.Message}", "Ошибка");
+                TxblException.Visibility = Visibility.Visible;
+                TxblException.Text = $"Ошибка сохранения: {ex.Message}";
+                return;
             }
             finally
             {
-                Close();
+
             }
         }
 

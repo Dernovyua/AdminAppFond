@@ -3,12 +3,17 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                         xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
                         xmlns:local="clr-namespace:AdminPanelApp.View"
-                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:convertor="clr-namespace:AdminPanelApp.View.Buh"
                         Background="{DynamicResource GlobalBackgroundColor}"
                         BorderBrush="{DynamicResource ExWindow-Border-Background}"
                         BorderThickness="1"
                         Caption="Бухгалтерия"
                         ShowBorder="False">
+    <ex:ExDockDocumentPanel.Resources>
+        <convertor:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+    </ex:ExDockDocumentPanel.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="34" />
@@ -111,12 +116,11 @@
                     </DataGridTextColumn>
                     
                     <!-- Колонка с суммой -->
-                    <DataGridTextColumn Binding="{Binding Type}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource EnumDescriptionConverter}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Тип операции" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
-
 
                     <!-- Колонка с комментарием -->
                     <DataGridTextColumn Binding="{Binding Comment}" IsReadOnly="True">

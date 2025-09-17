@@ -130,6 +130,23 @@
                               VerticalAlignment="Center"
                               Text="" />
             </Grid>
+
+            <!-- Количество -->
+            <Grid Height="25" Margin="0 50 0 0">
+
+                <ex:ExTextBlock 
+                    Name="TxblException"
+                    Visibility="Collapsed"
+                    TextWrapping="Wrap"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Cursor="Help"
+                    Text="">
+
+                </ex:ExTextBlock>
+
+            </Grid>
         </StackPanel>
 
         <Grid Grid.Row="1" Background="{DynamicResource ExWindow-Footer-Background}">
