@@ -90,11 +90,22 @@ namespace AdminPanelApp.Logic
             var transactions = await TransactionRequests.GetLastTransactions();
 
             var accountClientDict = new Dictionary<int, Client>();
+            var accountDict = new Dictionary<int, AccountModel>();
+
             foreach (var client in Clients)
             {
                 foreach (var account in client.Accounts)
                 {
                     accountClientDict[account.Id] = client;
+                    accountDict[account.Id] = account;
+                }
+            }
+
+            foreach (var item in transactions)
+            {
+                if (accountClientDict.TryGetValue(item.AccountId, out var client))
+                {
+                    item.ClientLink = client;
                 }
             }
 

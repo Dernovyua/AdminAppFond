@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminPanelApp.Logic;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -31,6 +32,9 @@ namespace AdminPanelApp.Models
 
             if (LastClosedDate.Year == 1 || !Account.Statistics.Any())
                 return 0m;
+
+            PortfolioReturnCalculator portfolioReturnCalculator = new PortfolioReturnCalculator();
+            portfolioReturnCalculator.CalculateXIRR(Account.Statistics, Account.)
 
             // Берём первую запись после fromDate и последнюю на LastClosedDate
             var start = Account.Statistics

@@ -69,5 +69,6 @@ namespace AdminPanelApp.Models
 
         public StatisticDisplayModel Statistic {get;set;}
 
+        public List<TransactionModel> Transaction { get; set; }
     }
 }
