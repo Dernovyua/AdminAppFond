@@ -23,7 +23,7 @@ namespace AdminPanelApp.View
     /// <summary>
     /// Логика взаимодействия для AddTransaction.xaml
     /// </summary>
-    public partial class AddTransaction 
+    public partial class AddTransaction
     {
         TransactionModel _transaction;
 
@@ -32,10 +32,13 @@ namespace AdminPanelApp.View
             InitializeComponent();
 
             // Заполняем комбобокс счетами
-            CmbxAccount.ItemsSource = LogicData.Clients.SelectMany(client => client.Accounts).ToList();
+            CmbxClient.ItemsSource = LogicData.Clients.ToList();
 
             // Заполняем комбобокс типами транзакций
-            CmbxType.ItemsSource = new List<TransactionType> { TransactionType.Deposit, TransactionType.Withdrawal, TransactionType.ManagementFee };
+            //CmbxType.ItemsSource = new List<TransactionType> { TransactionType.Deposit, TransactionType.Withdrawal, TransactionType.ManagementFee };
+            CmbxType.DisplayMember= "Value";
+            CmbxType.ItemsSource = GetTransactionTypeDescriptions();
+
 
             _transaction = transaction;
 
@@ -47,20 +50,20 @@ namespace AdminPanelApp.View
                 TxbxNotes.Text = transaction.Comment;
                 CmbxType.SelectedItem = transaction.Type;
 
-                // Выбираем соответствующий счет
-                if (CmbxAccount.ItemsSource is IEnumerable items && transaction.AccountId > 0)
-                {
-                    var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == transaction.AccountId);
-                    if (account != null)
-                    {
-                        CmbxAccount.SelectedItem = account;
-                    }
-                    else
-                    {
-                        // Дополнительная обработка если счет не найден
-                        Debug.WriteLine($"Счет с ID {transaction.AccountId} не найден в списке");
-                    }
-                }
+                //// Выбираем соответствующий счет
+                //if (CmbxAccount.ItemsSource is IEnumerable items && transaction.AccountId > 0)
+                //{
+                //    var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == transaction.AccountId);
+                //    if (account != null)
+                //    {
+                //        CmbxAccount.SelectedItem = account;
+                //    }
+                //    else
+                //    {
+                //        // Дополнительная обработка если счет не найден
+                //        Debug.WriteLine($"Счет с ID {transaction.AccountId} не найден в списке");
+                //    }
+                //}
             }
             else
             {
@@ -94,9 +97,11 @@ namespace AdminPanelApp.View
                 // Устанавливаем значения
                 _transaction.AccountId = selectedAccount.Id;
                 _transaction.AccountName = selectedAccount.AccountName;
-                if (CmbxType.SelectedItem is TransactionType selectedType)
+                // Более простой способ
+                if (CmbxType.SelectedItem != null)
                 {
-                    _transaction.Type = selectedType;
+                    var selectedPair = (KeyValuePair<TransactionType, string>)CmbxType.SelectedItem;
+                    _transaction.Type = selectedPair.Key;
                 }
                 else
                 {
@@ -131,5 +136,18 @@ namespace AdminPanelApp.View
         {
             Close();
         }
+
+        public Dictionary<TransactionType, string> GetTransactionTypeDescriptions()
+        {
+            return new Dictionary<TransactionType, string>
+                {
+                    { TransactionType.Deposit, "Пополнение" },
+                    { TransactionType.Withdrawal, "Снятие" },
+                    { TransactionType.ManagementFee, "Комиссия за управление" },
+                    { TransactionType.SeccessFee, "Плата за успех" }
+                };
+        }
     }
+
+
 }

@@ -8,6 +8,10 @@ public enum TransactionType
     [Description("Снятие")]
     Withdrawal,
 
-    [Description("Комиссия")]
-    ManagementFee
+    [Description("Комиссия за управление")]
+    ManagementFee,
+
+    [Description("Плата за успех")]
+    SeccessFee
 }
+

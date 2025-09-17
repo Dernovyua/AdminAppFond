@@ -88,6 +88,17 @@ namespace AdminPanelApp.Logic
         public static async Task GetTransactionsAsync()
         {
             var transactions = await TransactionRequests.GetLastTransactions();
+
+            var clientDict = Clients.ToDictionary(cl => cl.Id);
+
+            foreach (var item in transactions)
+            {
+                if (clientDict.TryGetValue(item.AccountId, out var client))
+                {
+                    item.ClientLink = client;
+                }
+            }
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 LogicData.Transactions = new ObservableCollection<TransactionModel>(transactions);

@@ -21,9 +21,26 @@
             <RowDefinition Height="63" />
         </Grid.RowDefinitions>
         <StackPanel Margin="0 0 0 0">
+            
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock
+                                Width="120"
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Клиент">
+                </ex:ExTextBlock>
+                <ex:ExComboBox x:Name="CmbxClient"
+                               Height="25"
+                               Margin="180 0 10 0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               DisplayMember="FullName"
+                               SelectedIndex="0" />
+            </Grid>
 
 
-            <!--  Статус клиента  -->
             <Grid Height="25" Margin="0 5 0 0">
                 <ex:ExTextBlock
                                 Width="120"
@@ -39,6 +56,7 @@
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Center"
                                DisplayMember="AccountName"
+                               ItemsSource="{Binding ElementName=CmbxClient, Path=SelectedItem.Accounts}"
                                SelectedIndex="0" />
             </Grid>
 
