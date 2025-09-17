@@ -163,6 +163,8 @@ namespace AdminPanelApp.Logic
                         ClientName = client,
                         Account = client.Accounts[j]
                     });
+
+                    client.Accounts[j].Statistic = StatisticDisplay[^1];
                 }
             }
         }

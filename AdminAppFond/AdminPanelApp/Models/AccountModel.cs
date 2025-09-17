@@ -64,10 +64,10 @@ namespace AdminPanelApp.Models
         /// Статистика по счетам, выгружается в память
         /// </summary>
         public ObservableCollection<StatisticModel> Statistics { get => _statistics; set { _statistics = value; OnPropertyChanged(nameof(Statistics)); } }
-        private ObservableCollection<StatisticModel> _statistics = new ();
+        private ObservableCollection<StatisticModel> _statistics = new();
 
 
-
+        public StatisticDisplayModel Statistic {get;set;}
 
     }
 }

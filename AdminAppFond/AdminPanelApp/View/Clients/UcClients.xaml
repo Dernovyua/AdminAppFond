@@ -4,12 +4,18 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
                         xmlns:local="clr-namespace:AdminPanelApp.View"
-                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:convertors="clr-namespace:AdminPanelApp.Logic"
                         Background="{DynamicResource GlobalBackgroundColor}"
                         BorderBrush="{DynamicResource ExWindow-Border-Background}"
                         BorderThickness="1"
                         Caption="Клиенты"
                         ShowBorder="False">
+
+    <ex:ExDockDocumentPanel.Resources>
+        <convertors:ColorForegroundConverter x:Key="ColorConverter" />
+    </ex:ExDockDocumentPanel.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="34" />
@@ -233,6 +239,27 @@
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Номер счета" />
                         </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Statistic.Balance, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за весь период -->
+                    <DataGridTextColumn Binding="{Binding Statistic.TotalReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период, %" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Statistic.TotalReturn, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
                     </DataGridTextColumn>
 
                     <DataGridTextColumn Binding="{Binding Currency}" IsReadOnly="True">
