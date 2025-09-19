@@ -186,8 +186,6 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-
-
                     <DataGridTextColumn Binding="{Binding Notes}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Примечания" />
@@ -256,9 +254,12 @@
                               FrozenColumnCount="2"
                               GridLinesVisibility="Vertical"
                               IsReadOnly="True"
-                              ItemsSource="{Binding ElementName=DtgdClients, Path=SelectedItem.Accounts}"
+                              ItemsSource="{Binding ElementName=DtgdClients, Path=SelectedItem.Accounts, 
+                                            NotifyOnTargetUpdated=True}"
+                              TargetUpdated="DtgdAccounts_TargetUpdated"
                               MouseDoubleClick="DtgdAccounts_MouseDoubleClick"
                               SelectionChanged="DtgdAccounts_SelectionChanged"
+                              SelectedIndex="0"
                               SelectionMode="Single" Grid.Column="0">
 
 

@@ -33,7 +33,10 @@ namespace AdminPanelApp.View.Statistic
 
         public void Load(AccountModel acc)
         {
-            DtgdStatDetail.ItemsSource = acc.Statistics;
+            if (acc != null)
+                DtgdStatDetail.ItemsSource = acc.Statistics;
+            else
+                DtgdStatDetail.ItemsSource = null;
             _acc = acc;
         }
 

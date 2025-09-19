@@ -33,7 +33,10 @@ namespace AdminPanelApp.View.Buh
 
         public void Load(AccountModel acc)
         {
-            DtgdTransaction.ItemsSource = acc.Transaction;
+            if (acc != null)
+                DtgdTransaction.ItemsSource = acc.Transaction;
+            else
+                DtgdTransaction.ItemsSource = null;
             _acc = acc;
         }
 
