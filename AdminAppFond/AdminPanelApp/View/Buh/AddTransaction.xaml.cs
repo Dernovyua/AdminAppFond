@@ -49,7 +49,7 @@ namespace AdminPanelApp.View
             if (transaction.CreatedAt.Year > 1) // Если транзакция уже существует
             {
                 // Заполняем поля существующими значениями
-                DtpProcessedAt.SelectedDate = transaction.ProcessedAt ?? DateTime.Now;
+                DtpProcessedAt.SelectedDate = transaction.ProcessedAt;
                 TxbxDeposit.Text = transaction.Amount.ToString("N2");
                 TxbxNotes.Text = transaction.Comment;
                 if (dic.ContainsKey(transaction.Type))
@@ -123,7 +123,7 @@ namespace AdminPanelApp.View
                 }
 
                 _transaction.Amount = amount;
-                _transaction.ProcessedAt = DtpProcessedAt.SelectedDate;
+                _transaction.ProcessedAt = (DateTime)DtpProcessedAt.SelectedDate;
                 _transaction.Comment = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
                 _transaction.Status = "completed"; // или другое значение по умолчанию
 

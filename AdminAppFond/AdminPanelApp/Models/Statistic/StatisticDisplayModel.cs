@@ -33,9 +33,6 @@ namespace AdminPanelApp.Models
             if (LastClosedDate.Year == 1 || !Account.Statistics.Any())
                 return 0m;
 
-            PortfolioReturnCalculator portfolioReturnCalculator = new PortfolioReturnCalculator();
-            portfolioReturnCalculator.CalculateXIRR(Account.Statistics, Account.)
-
             // Берём первую запись после fromDate и последнюю на LastClosedDate
             var start = Account.Statistics
                 .Where(s => s.Date >= fromDate && s.Date <= lastDate)
@@ -49,7 +46,9 @@ namespace AdminPanelApp.Models
             if (start == null || end == null || start.Deposit == 0)
                 return 0m;
 
-            return (end.Deposit - start.Deposit) / start.Deposit * 100m;
+            var trans = BuhCalc.GetFinRez(Account.Transaction, fromDate, lastDate);
+
+            return (end.Deposit - start.Deposit);// / start.Deposit * 100m;
         }
 
         public decimal TotalReturn
@@ -62,7 +61,7 @@ namespace AdminPanelApp.Models
                 var start = Account.Statistics.OrderBy(s => s.Date).First().Deposit;
                 var end = Account.Statistics.FirstOrDefault(s => s.Date == LastClosedDate)?.Deposit ?? 0m;
 
-                return start == 0 ? 0m : (end - start) / start * 100m;
+                return start == 0 ? 0m : (end - start);// / start * 100m;
             }
         }
         public decimal Return6Months

@@ -5,7 +5,7 @@
                         xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
                         xmlns:local="clr-namespace:AdminPanelApp.View"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                        xmlns:convertors="clr-namespace:AdminPanelApp.Logic"
+                        xmlns:convertors="clr-namespace:AdminPanelApp.Logic" xmlns:statistic="clr-namespace:AdminPanelApp.View.Statistic"
                         Background="{DynamicResource GlobalBackgroundColor}"
                         BorderBrush="{DynamicResource ExWindow-Border-Background}"
                         BorderThickness="1"
@@ -15,13 +15,13 @@
     <ex:ExDockDocumentPanel.Resources>
         <convertors:ColorForegroundConverter x:Key="ColorConverter" />
     </ex:ExDockDocumentPanel.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="34" />
-            <RowDefinition Height="140*" />
+            <RowDefinition Height="50*" />
             <RowDefinition Height="3" />
-            <RowDefinition Height="250" />
+            <RowDefinition Height="50*" />
         </Grid.RowDefinitions>
 
 
@@ -140,7 +140,32 @@
 
                     <DataGridTextColumn Binding="{Binding SuccessFee}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Плата за успех, %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Успех, %" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding выа}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Управление, %" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="П/У" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Баланс}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+
+                    <DataGridTextColumn Binding="{Binding Баланс}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
@@ -168,6 +193,11 @@
                       Background="{DynamicResource Ex-Divider-Background}"
                       HorizontalAlignment="Stretch" />
         <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="40*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="34" />
                 <RowDefinition Height="140*" />
@@ -183,7 +213,7 @@
                          ToolTip="Добавить" />
             <ex:ExButton Name="BtnDeleteAccount" Grid.Row="0"
                          Background="Transparent"
-                         Margin="32 0 0 0"
+                         Margin="32,0,0,0"
                          HorizontalAlignment="Left"
                          BorderBrush="Transparent"
                          Click="BtnDeleteAccount_Click"
@@ -209,7 +239,8 @@
                               IsReadOnly="True"
                               ItemsSource="{Binding ElementName=DtgdClients, Path=SelectedItem.Accounts}"
                               MouseDoubleClick="DtgdAccounts_MouseDoubleClick"
-                              SelectionMode="Single">
+                              SelectionChanged="DtgdAccounts_SelectionChanged"
+                              SelectionMode="Single" Grid.Column="0">
 
 
 
@@ -248,9 +279,9 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за весь период -->
-                    <DataGridTextColumn Binding="{Binding Statistic.TotalReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Statistic.TotalReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период, %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -261,6 +292,82 @@
                             </Style>
                         </DataGridTextColumn.CellStyle>
                     </DataGridTextColumn>
+
+                    <!-- Годовая доходность -->
+                    <DataGridTextColumn Binding="{Binding Statistic.AnnualReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 год" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Statistic.AnnualReturn, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за 6 месяцев -->
+                    <DataGridTextColumn Binding="{Binding Statistic.Return6Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="6 мес." />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Statistic.Return6Months, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за 3 месяца -->
+                    <DataGridTextColumn Binding="{Binding Statistic.Return3Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="3 мес." />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Statistic.Return3Months, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за месяц -->
+                    <DataGridTextColumn Binding="{Binding Statistic.Return1Month, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 мес." />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Statistic.Return1Month, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Доходность за неделю -->
+                    <DataGridTextColumn Binding="{Binding Statistic.Return1Week, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 нед." />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding Statistic.Return1Week, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
 
                     <DataGridTextColumn Binding="{Binding Currency}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
@@ -275,7 +382,116 @@
                     </DataGridTextColumn>
                 </ex:ExSimpleTable.Columns>
             </ex:ExSimpleTable>
+            <GridSplitter Grid.Column="1"
+                          Grid.RowSpan="2"
+                      Background="{DynamicResource Ex-Divider-Background}"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
+            <ex:ExTabControl Name="TbcInfo"
+                           Grid.Column="2"
+                             Grid.RowSpan="2"
+                           TabStripPlacement="Bottom">
+                <ex:ExTabItem Height="25">
+                    <ex:ExTabItem.Style>
+                        <Style BasedOn="{StaticResource {x:Type ex:ExTabItem}}" TargetType="{x:Type ex:ExTabItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TabItem}">
+                                        <Border x:Name="Border"
+                                              Background="{DynamicResource Ex-TabItem-Backgrpund}"
+                                              BorderThickness="1 0 0 0">
+                                            <Grid Width="Auto">
+                                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                                    <ex:ExTextBlock x:Name="NameString" Grid.Column="0"
+                                                                  Margin="0 0 5 0"
+                                                                  HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"
+                                                                  Text="Статистика" />
+
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+
+                                                <Setter TargetName="NameString" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+                                                <!--<Setter TargetName="NameInt" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />-->
+
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+
+
+                                                <Setter TargetName="NameString" Property="Foreground" Value="{DynamicResource Ex-TabItem-IsMouseOver-Foreground}" />
+                                                <!--<Setter TargetName="NameInt" Property="Foreground" Value="{DynamicResource Ex-TabItem-IsMouseOver-Foreground}" />-->
+                                            </Trigger>
+
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="NameString" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+                                                <!--<Setter TargetName="NameInt" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />-->
+
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+
+
+                                                <Setter TargetName="NameString" Property="Foreground" Value="{DynamicResource Ex-TabItem-IsMouseOver-Foreground}" />
+                                                <!--<Setter TargetName="NameInt" Property="Foreground" Value="{DynamicResource Ex-TabItem-IsMouseOver-Foreground}" />-->
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ex:ExTabItem.Style>
+
+                    <statistic:StatisticUc x:Name="UcStat"></statistic:StatisticUc>
+                </ex:ExTabItem>
+
+                <ex:ExTabItem Height="25">
+                    <ex:ExTabItem.Style>
+                        <Style BasedOn="{StaticResource {x:Type ex:ExTabItem}}" TargetType="{x:Type ex:ExTabItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TabItem}">
+                                        <Border x:Name="Border"
+                          Background="{DynamicResource Ex-TabItem-Backgrpund}"
+                          BorderThickness="1 0 0 0">
+                                            <Grid Width="Auto">
+                                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                                    <ex:ExTextBlock x:Name="NameString" Grid.Column="0"
+                                              Margin="0 0 5 0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Text="Бухгалтерия" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="NameString" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+                                                <Setter TargetName="NameString" Property="Foreground" Value="{DynamicResource Ex-TabItem-IsMouseOver-Foreground}" />
+                                            </Trigger>
+
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="NameString" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Ex-TabItem-IsMouseOver-Background}" />
+                                                <Setter TargetName="NameString" Property="Foreground" Value="{DynamicResource Ex-TabItem-IsMouseOver-Foreground}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+
+                        </Style>
+
+                    </ex:ExTabItem.Style>
+
+                </ex:ExTabItem>
+            </ex:ExTabControl>
 
         </Grid>
 

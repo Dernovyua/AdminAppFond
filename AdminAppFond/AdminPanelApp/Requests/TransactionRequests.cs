@@ -35,7 +35,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@type", newTransaction.Type.ToString());
             cmd.Parameters.AddWithValue("@amount", newTransaction.Amount);
             cmd.Parameters.AddWithValue("@status", newTransaction.Status ?? "completed");
-            cmd.Parameters.AddWithValue("@processedAt", newTransaction.ProcessedAt ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@processedAt", newTransaction.ProcessedAt);
             cmd.Parameters.AddWithValue("@comment", newTransaction.Comment);
             cmd.Parameters.AddWithValue("@createdAt", newTransaction.CreatedAt);
 
@@ -94,7 +94,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@type", transaction.Type);
             cmd.Parameters.AddWithValue("@amount", transaction.Amount);
             cmd.Parameters.AddWithValue("@status", transaction.Status ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@processedAt", transaction.ProcessedAt ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@processedAt", transaction.ProcessedAt);
             cmd.Parameters.AddWithValue("@id", transaction.Id);
             cmd.Parameters.AddWithValue("@comment", transaction.Comment);
 
@@ -147,7 +147,7 @@ namespace AdminPanelApp.Requests
                         ? null
                         : reader.GetString(reader.GetOrdinal("status")),
                     ProcessedAt = reader.IsDBNull(reader.GetOrdinal("processed_at"))
-                        ? (DateTime?)null
+                        ? new DateTime()
                         : reader.GetDateTime(reader.GetOrdinal("processed_at")),
                     Comment = reader.IsDBNull(reader.GetOrdinal("comment"))
                         ? null

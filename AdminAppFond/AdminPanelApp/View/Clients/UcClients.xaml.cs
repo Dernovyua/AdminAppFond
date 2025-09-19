@@ -212,5 +212,12 @@ namespace AdminPanelApp.View
                     }
                 }
         }
+
+        private void DtgdAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DtgdAccounts.SelectedItem is AccountModel acc)
+            {
+                UcStat.Load(acc);
+        } }
     }
 }

@@ -69,6 +69,6 @@ namespace AdminPanelApp.Models
 
         public StatisticDisplayModel Statistic {get;set;}
 
-        public List<TransactionModel> Transaction { get; set; }
+        public ObservableCollection<TransactionModel> Transaction = new ObservableCollection<TransactionModel>();
     }
 }

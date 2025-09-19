@@ -104,9 +104,9 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за весь период -->
-                    <DataGridTextColumn Binding="{Binding TotalReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding TotalReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период, %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -119,9 +119,9 @@
                     </DataGridTextColumn>
 
                     <!-- Годовая доходность -->
-                    <DataGridTextColumn Binding="{Binding AnnualReturn, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding AnnualReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 год, %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 год" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -134,9 +134,9 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за 6 месяцев -->
-                    <DataGridTextColumn Binding="{Binding Return6Months, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Return6Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="6 мес., %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="6 мес." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -149,9 +149,9 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за 3 месяца -->
-                    <DataGridTextColumn Binding="{Binding Return3Months, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Return3Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="3 мес., %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="3 мес." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -164,9 +164,9 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за месяц -->
-                    <DataGridTextColumn Binding="{Binding Return1Month, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Return1Month, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 мес., %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 мес." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -179,9 +179,9 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за неделю -->
-                    <DataGridTextColumn Binding="{Binding Return1Week, StringFormat=\{0:F2\}%}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Return1Week, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 нед., %" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 нед." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">

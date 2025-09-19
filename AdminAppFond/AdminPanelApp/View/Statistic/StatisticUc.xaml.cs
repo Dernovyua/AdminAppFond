@@ -3,10 +3,8 @@ using AdminPanelApp.Models;
 using AdminPanelApp.Requests;
 using ClassControlsAndStyle.Dialogs;
 using ETS.Resources;
-using Ex.UI.Kit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,20 +18,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AdminPanelApp.View
+namespace AdminPanelApp.View.Statistic
 {
-
-
     /// <summary>
-    /// Логика взаимодействия для UserStatistic.xaml
+    /// Логика взаимодействия для StatisticUc.xaml
     /// </summary>
-    public partial class UserStatistic
+    public partial class StatisticUc : UserControl
     {
-        public UserStatistic()
+        public StatisticUc()
         {
             InitializeComponent();
+        }
+        AccountModel _acc;
 
-            DtgdStat.ItemsSource = LogicData.StatisticDisplay;
+        public void Load(AccountModel acc)
+        {
+            DtgdStatDetail.ItemsSource = acc.Statistics;
+            _acc = acc;
         }
 
         private void DtgdStat_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -68,6 +69,8 @@ namespace AdminPanelApp.View
 
         private void AddStatistic()
         {
+            if (_acc == null)
+                return;
 
             StatisticModel statistic = new StatisticModel
             {
@@ -75,26 +78,22 @@ namespace AdminPanelApp.View
                 CreatedAt = DateTime.Now
             };
 
-            if (DtgdStat.SelectedItem is StatisticDisplayModel stat)
-            {
-                AddStatistic add = new AddStatistic(statistic, stat);
-                add.ShowDialog();
+            AddStatistic add = new AddStatistic(statistic, _acc.Statistic);
+            add.ShowDialog();
 
-                if (add.DialogResult == true)
-                {
-                    StatisticRequests.AddStatistic(statistic);
-                    LogicData.GetStatisticsAsync();
-                    //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
-                }
+            if (add.DialogResult == true)
+            {
+                StatisticRequests.AddStatistic(statistic);
+                //LogicData.GetStatisticsAsync();
+                //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
             }
         }
 
         private void EditStatistic()
         {
-            if (DtgdStatDetail.SelectedItem is StatisticModel statistic &&
-                DtgdStat.SelectedItem is StatisticDisplayModel stat)
+            if (DtgdStatDetail.SelectedItem is StatisticModel statistic)
             {
-                AddStatistic edit = new AddStatistic(statistic, stat);
+                AddStatistic edit = new AddStatistic(statistic, _acc.Statistic);
                 edit.ShowDialog();
 
                 if (edit.DialogResult == true)
@@ -114,20 +113,10 @@ namespace AdminPanelApp.View
                     .Result == MessageBoxResult.OK)
                 {
                     StatisticRequests.DeleteStatistic(statistic.Id);
-                    LogicData.GetStatisticsAsync();
+                    //LogicData.GetStatisticsAsync();
                     //LogicData.StatisticDisplay.Remove(statistic);
                 }
             }
         }
-
-        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
-        {
-            LogicData.GetStatisticsAsync();
-        }
-
-
-      
     }
-
-
 }

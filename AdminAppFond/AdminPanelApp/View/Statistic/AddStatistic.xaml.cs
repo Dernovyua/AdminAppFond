@@ -27,7 +27,7 @@ namespace AdminPanelApp.View
     {
         StatisticModel _statistic;
 
-        public AddStatistic(StatisticModel statistic)
+        public AddStatistic(StatisticModel statistic, StatisticDisplayModel stat)
         {
             InitializeComponent();
 
@@ -35,9 +35,10 @@ namespace AdminPanelApp.View
 
             _statistic = statistic;
 
-            if (statistic.CreatedAt.Year > 1)
+
+            if (CmbxAccount.ItemsSource is IEnumerable items)
             {
-                if (CmbxAccount.ItemsSource is IEnumerable items && statistic.AccountId > 0)
+                if (statistic.AccountId > 0)
                 {
                     var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == statistic.AccountId);
                     if (account != null)
@@ -50,12 +51,21 @@ namespace AdminPanelApp.View
                         Debug.WriteLine($"Счет с ID {statistic.AccountId} не найден в списке");
                     }
                 }
+                else
+                {
+                    CmbxAccount.SelectedItem = stat.Account;
+                }
+            }
+            if (statistic.CreatedAt.Year > 1)
+            {
                 DtpDate.SelectedDate = statistic.Date;
                 TxbxNotes.Text = statistic.Comment;
                 TxbxDeposit.Text = statistic.Deposit.ToString();
             }
             else
+            {
                 DtpDate.SelectedDate = DateTime.Now;
+            }
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)

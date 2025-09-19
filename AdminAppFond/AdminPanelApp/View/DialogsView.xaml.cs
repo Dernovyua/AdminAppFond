@@ -1,6 +1,7 @@
 ﻿using AdminPanelApp.Logic;
 using AdminPanelApp.Models;
 using DevExpress.Utils;
+using DevExpress.Xpf.CodeView.Margins;
 using DevExpress.XtraCharts.Native;
 using Ex.UI.Kit;
 using System;
@@ -38,6 +39,28 @@ namespace AdminPanelApp.View
             //DataContext = LogicData.Clients;
 
             DataContext = this;
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+        }
+
+        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.C && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                // Получаем элемент под курсором мыши
+                var element = Mouse.DirectlyOver as FrameworkElement;
+
+                if (element is TextBlock textBlock && !string.IsNullOrEmpty(textBlock.Text))
+                {
+                    Clipboard.SetText(textBlock.Text);
+                    e.Handled = true;
+                }
+                else if (element is TextBox textBox && !string.IsNullOrEmpty(textBox.SelectedText))
+                {
+                    // Для TextBox используем стандартное копирование
+                    textBox.Copy();
+                    e.Handled = true;
+                }
+            }
         }
 
         private Client _selectedChat;
@@ -63,6 +86,8 @@ namespace AdminPanelApp.View
                 client.Chat.IsUnread = false;
 
                 SelectedChat = client;
+
+                ScrollToBottom();
             }
         }
 
@@ -92,6 +117,105 @@ namespace AdminPanelApp.View
 
                 // Помечаем событие как обработанное
                 e.Handled = true;
+            }
+        }
+
+
+        // В вашем классе окна/пользовательского элемента управления
+        private void ScrollToBottom()
+        {
+            if (MessagesScrollView != null)
+            {
+                // Небольшая задержка для гарантии, что элементы уже отрендерены
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    MessagesScrollView.ScrollToVerticalOffset(MessagesScrollView.ExtentHeight);
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+        }
+
+        //private void ScrollToAppropriatePosition()
+        //{
+        //    if (MessagesScrollView != null)
+        //    {
+        //        Dispatcher.BeginInvoke(new Action(() =>
+        //        {
+        //            var selectedChat = SelectedChat;
+        //            if (selectedChat?.Chat?.Messages != null)
+        //            {
+        //                // Ищем первое непрочитанное сообщение (не свое)
+        //                var firstUnreadMessage = selectedChat.Chat.Messages
+        //                    .Where(m => !m.IsRead && !m.IsOwn)
+        //                    .FirstOrDefault();
+
+        //                if (firstUnreadMessage != null)
+        //                {
+        //                    // Прокрутка к первому непрочитанному сообщению
+        //                    ScrollToMessage(firstUnreadMessage);
+        //                }
+        //                else
+        //                {
+        //                    // Если нет непрочитанных - прокрутка в самый низ
+        //                    MessagesScrollView.ScrollToVerticalOffset(MessagesScrollView.ExtentHeight);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                // Если чат пустой - тоже вниз
+        //                MessagesScrollView.ScrollToVerticalOffset(MessagesScrollView.ExtentHeight);
+        //            }
+        //        }), System.Windows.Threading.DispatcherPriority.Loaded);
+        //    }
+        //}
+
+        //private void ScrollToMessage(Message message)
+        //{
+        //    // Получаем ItemsControl, который содержит сообщения
+        //    var itemsControl = VisualTreeHelper.GetChild(MessagesScrollView, 0) as ItemsControl;
+        //    if (itemsControl == null) return;
+
+        //    // Ищем контейнер сообщения
+        //    var container = itemsControl.ItemContainerGenerator.ContainerFromItem(message) as FrameworkElement;
+        //    if (container != null)
+        //    {
+        //        // Прокручиваем к сообщению с небольшим отступом сверху
+        //        var transform = container.TransformToVisual(MessagesScrollView);
+        //        var position = transform.Transform(new Point(0, 0));
+        //        MessagesScrollView.ScrollToVerticalOffset(position.Y - 20); // -20 для небольшого отступа
+        //    }
+        //    else
+        //    {
+        //        // Если контейнер еще не создан, прокручиваем вниз
+        //        MessagesScrollView.ScrollToVerticalOffset(MessagesScrollView.ExtentHeight);
+        //    }
+        //}
+
+        private void ScrollToUnread()
+        {
+            if (MessagesScrollView != null && DataContext is ExScrollView viewModel)
+            {
+                //var selectedChat = viewModel.SelectedChat;
+                //if (selectedChat != null && selectedChat.Chat != null)
+                //{
+                //    var unreadMessages = selectedChat.Chat.Messages
+                //        .Where(m => !m.IsRead && !m.IsOwn)
+                //        .ToList();
+
+                //    if (unreadMessages.Any())
+                //    {
+                //        // Прокрутка к первому непрочитанному сообщению
+                //        Dispatcher.BeginInvoke(new Action(() =>
+                //        {
+                //            // Здесь нужно найти визуальный элемент сообщения
+                //            // и прокрутить к нему
+                //            ScrollToBottom(); // временно - всегда вниз
+                //        }), System.Windows.Threading.DispatcherPriority.Loaded);
+                //    }
+                //    else
+                //    {
+                //        ScrollToBottom();
+                //    }
+                //}
             }
         }
     }
@@ -184,4 +308,7 @@ namespace AdminPanelApp.View
             throw new NotImplementedException();
         }
     }
+
+
+
 }

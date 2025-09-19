@@ -111,9 +111,9 @@ namespace AdminPanelApp.Logic
 
             foreach (var item in transactions)
             {
-                if (accountClientDict.TryGetValue(item.AccountId, out var client))
+                if (accountDict.TryGetValue(item.AccountId, out var acc))
                 {
-                    item.ClientLink = client;
+                    acc.Transaction.Add(item);
                 }
             }
 

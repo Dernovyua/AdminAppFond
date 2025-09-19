@@ -58,7 +58,7 @@
             </DockPanel>
 
             <!-- Список чатов -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+            <ex:ExScrollView VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
                   Margin="0,4,0,0"
                   DockPanel.Dock="Bottom"
@@ -134,7 +134,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </ScrollViewer>
+            </ex:ExScrollView>
         </DockPanel>
         <!-- Правая панель -->
         <Grid Grid.Column="2">
@@ -150,27 +150,28 @@
             <!-- Заголовок -->
             <Border Height="48" Margin="6 0 0 0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0">
-                    <!--<Ellipse Width="32" Height="32" Margin="0,0,8,0">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding SelectedChat.Avatar}" />
-                        </Ellipse.Fill>
-                    </Ellipse>-->
                     <StackPanel>
                         <ex:ExTextBlock FontWeight="Bold" Text="{ Binding SelectedChat.FullName}" />
-                        <!--<TextBlock FontSize="10" Foreground="Gray" Text="{Binding SelectedChat.Status}" />-->
                     </StackPanel>
                 </StackPanel>
             </Border>
 
             <!-- История сообщений -->
-            <ex:ExScrollView Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6 0 0 0">
+            <ex:ExScrollView Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6 0 0 0" x:Name="MessagesScrollView" >
                 <ItemsControl ItemsSource="{Binding SelectedChat.Chat.Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="0 4 0 4" Padding="8"  CornerRadius="6"  MaxWidth="520" HorizontalAlignment="Left"
                                     Background="{Binding IsOwn, Converter={StaticResource MessageBubbleBackgroundConverter}}">
                                 <StackPanel MinHeight="20">
-                                    <ex:ExTextBlock Text="{Binding Text}" TextWrapping="Wrap"  MinWidth="360" FontSize="14"/>
+                                    <ex:ExTextBox Text="{Binding Text}" 
+                                                  IsReadOnly="True"
+                                                  Height="Auto"
+                                                  BorderBrush="Transparent"
+                                                  Background="Transparent"
+                                                               MinWidth="360"
+                                                               FontSize="14"
+                                                               TextWrapping="Wrap"/>
                                     <ex:ExTextBlock Margin="0 6 0 0" FontSize="10" HorizontalAlignment="Right"
                                                Text="{Binding SentAt,  StringFormat=\{0:dd.MM.yyyy  HH:mm\}}" />
                                 </StackPanel>

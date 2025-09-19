@@ -53,8 +53,8 @@ namespace AdminPanelApp.Models
         /// <summary>
         /// Дата и время обработки транзакции.
         /// </summary>
-        public DateTime? ProcessedAt { get => _processedAt; set { _processedAt = value; OnPropertyChanged(nameof(ProcessedAt)); } }
-        private DateTime? _processedAt;
+        public DateTime ProcessedAt { get => _processedAt; set { _processedAt = value; OnPropertyChanged(nameof(ProcessedAt)); } }
+        private DateTime _processedAt;
 
         /// <summary>
         /// Дата и время создания записи.
