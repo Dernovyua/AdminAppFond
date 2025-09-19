@@ -27,15 +27,17 @@ namespace AdminPanelApp.View
     public partial class AddTransaction
     {
         TransactionModel _transaction;
+        AccountModel _acc;
 
-        public AddTransaction(TransactionModel transaction)
+        public AddTransaction(AccountModel acc, TransactionModel transaction)
         {
             InitializeComponent();
 
+            _acc = acc;
             // Заполняем комбобокс счетами
-            CmbxClient.ItemsSource = LogicData.Clients.ToList();
-            if (transaction.ClientLink != null)
-                CmbxClient.SelectedItem = transaction.ClientLink;
+            //CmbxClient.ItemsSource = LogicData.Clients.ToList();
+            //if (transaction.ClientLink != null)
+            //    CmbxClient.SelectedItem = transaction.ClientLink;
 
             // Заполняем комбобокс типами транзакций
             //CmbxType.ItemsSource = new List<TransactionType> { TransactionType.Deposit, TransactionType.Withdrawal, TransactionType.ManagementFee };
@@ -60,22 +62,9 @@ namespace AdminPanelApp.View
                     );
                 }
 
-                if (transaction.ClientLink != null)
-                    CmbxAccount.SelectedItem = transaction.ClientLink.Accounts.FirstOrDefault(a => a.AccountName == transaction.AccountName);
-                //// Выбираем соответствующий счет
-                //if (CmbxAccount.ItemsSource is IEnumerable items && transaction.AccountId > 0)
-                //{
-                //    var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == transaction.AccountId);
-                //    if (account != null)
-                //    {
-                //        CmbxAccount.SelectedItem = account;
-                //    }
-                //    else
-                //    {
-                //        // Дополнительная обработка если счет не найден
-                //        Debug.WriteLine($"Счет с ID {transaction.AccountId} не найден в списке");
-                //    }
-                //}
+                //if (transaction.ClientLink != null)
+                //    CmbxAccount.SelectedItem = transaction.ClientLink.Accounts.FirstOrDefault(a => a.AccountName == transaction.AccountName);
+
             }
             else
             {
@@ -93,11 +82,11 @@ namespace AdminPanelApp.View
                     return;
 
                 // Валидация выбранного счета
-                if (!(CmbxAccount.SelectedItem is AccountModel selectedAccount))
-                {
-                    new DialogMessage("Выберите счет", "Ошибка");
-                    return;
-                }
+                //if (!(CmbxAccount.SelectedItem is AccountModel selectedAccount))
+                //{
+                //    new DialogMessage("Выберите счет", "Ошибка");
+                //    return;
+                //}
 
                 // Валидация суммы
                 if (!decimal.TryParse(TxbxDeposit.Text, out decimal amount) || amount <= 0)
@@ -106,10 +95,10 @@ namespace AdminPanelApp.View
                     return;
                 }
 
-                _transaction.ClientLink = (Client)CmbxClient.SelectedItem;
+                //_transaction.ClientLink = (Client)CmbxClient.SelectedItem;
                 // Устанавливаем значения
-                _transaction.AccountId = selectedAccount.Id;
-                _transaction.AccountName = selectedAccount.AccountName;
+                _transaction.AccountId = _acc.Id;
+                //_transaction.AccountName = selectedAccount.AccountName;
                 // Более простой способ
                 if (CmbxType.SelectedItem != null)
                 {

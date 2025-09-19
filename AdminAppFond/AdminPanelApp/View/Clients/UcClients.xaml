@@ -292,21 +292,21 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Statistic.Balance, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.Balance, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
                     <!-- Доходность за весь период -->
-                    <DataGridTextColumn Binding="{Binding Statistic.TotalReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.TotalReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Весь период" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
                                 <Style.Setters>
-                                    <Setter Property="Foreground" Value="{Binding Statistic.TotalReturn, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Foreground" Value="{Binding StatResult.TotalReturn, Converter={StaticResource ColorConverter}}" />
                                     <Setter Property="Opacity" Value="1" />
                                 </Style.Setters>
                             </Style>
@@ -314,14 +314,14 @@
                     </DataGridTextColumn>
 
                     <!-- Годовая доходность -->
-                    <DataGridTextColumn Binding="{Binding Statistic.AnnualReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.AnnualReturn, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 год" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
                                 <Style.Setters>
-                                    <Setter Property="Foreground" Value="{Binding Statistic.AnnualReturn, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Foreground" Value="{Binding StatResult.AnnualReturn, Converter={StaticResource ColorConverter}}" />
                                     <Setter Property="Opacity" Value="1" />
                                 </Style.Setters>
                             </Style>
@@ -329,14 +329,14 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за 6 месяцев -->
-                    <DataGridTextColumn Binding="{Binding Statistic.Return6Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.Return6Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="6 мес." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
                                 <Style.Setters>
-                                    <Setter Property="Foreground" Value="{Binding Statistic.Return6Months, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Foreground" Value="{Binding StatResult.Return6Months, Converter={StaticResource ColorConverter}}" />
                                     <Setter Property="Opacity" Value="1" />
                                 </Style.Setters>
                             </Style>
@@ -344,14 +344,14 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за 3 месяца -->
-                    <DataGridTextColumn Binding="{Binding Statistic.Return3Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.Return3Months, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="3 мес." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
                                 <Style.Setters>
-                                    <Setter Property="Foreground" Value="{Binding Statistic.Return3Months, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Foreground" Value="{Binding StatResult.Return3Months, Converter={StaticResource ColorConverter}}" />
                                     <Setter Property="Opacity" Value="1" />
                                 </Style.Setters>
                             </Style>
@@ -359,14 +359,14 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за месяц -->
-                    <DataGridTextColumn Binding="{Binding Statistic.Return1Month, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.Return1Month, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 мес." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
                                 <Style.Setters>
-                                    <Setter Property="Foreground" Value="{Binding Statistic.Return1Month, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Foreground" Value="{Binding StatResult.Return1Month, Converter={StaticResource ColorConverter}}" />
                                     <Setter Property="Opacity" Value="1" />
                                 </Style.Setters>
                             </Style>
@@ -374,14 +374,14 @@
                     </DataGridTextColumn>
 
                     <!-- Доходность за неделю -->
-                    <DataGridTextColumn Binding="{Binding Statistic.Return1Week, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding StatResult.Return1Week, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="1 нед." />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
                                 <Style.Setters>
-                                    <Setter Property="Foreground" Value="{Binding Statistic.Return1Week, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Foreground" Value="{Binding StatResult.Return1Week, Converter={StaticResource ColorConverter}}" />
                                     <Setter Property="Opacity" Value="1" />
                                 </Style.Setters>
                             </Style>

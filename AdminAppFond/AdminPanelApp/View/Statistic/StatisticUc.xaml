@@ -47,12 +47,12 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
-                <!--  Колонка с ID счёта  -->
+                <!--  Колонка с ID счёта  --><!--
                 <DataGridTextColumn Binding="{Binding AccountName}" IsReadOnly="True">
                     <DataGridTextColumn.Header>
                         <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Счет" />
                     </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                </DataGridTextColumn>-->
 
                 <!--  Колонка баланса депозита  -->
                 <DataGridTextColumn Binding="{Binding Deposit}" IsReadOnly="True">

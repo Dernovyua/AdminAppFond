@@ -30,7 +30,7 @@ namespace AdminPanelApp.View
         {
             InitializeComponent();
 
-            DtgdTransaction.ItemsSource = LogicData.Transactions;
+            //DtgdTransaction.ItemsSource = LogicData.Transactions;
         }
 
         private void DtgdTransaction_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -67,20 +67,20 @@ namespace AdminPanelApp.View
         {
             try
             {
-                TransactionModel transaction = new TransactionModel
-                {
-                    ProcessedAt = DateTime.Now,
-                    CreatedAt = DateTime.Now
-                };
+                //TransactionModel transaction = new TransactionModel
+                //{
+                //    ProcessedAt = DateTime.Now,
+                //    CreatedAt = DateTime.Now
+                //};
 
-                AddTransaction add = new AddTransaction(transaction);
-                add.ShowDialog();
+                //AddTransaction add = new AddTransaction(transaction);
+                //add.ShowDialog();
 
-                if (add.DialogResult == true)
-                {
-                    TransactionRequests.AddTransaction(transaction);
-                    LogicData.Transactions.Add(transaction);
-                }
+                //if (add.DialogResult == true)
+                //{
+                //    TransactionRequests.AddTransaction(transaction);
+                //    LogicData.Transactions.Add(transaction);
+                //}
             }
             catch (Exception ex)
             {
@@ -94,13 +94,13 @@ namespace AdminPanelApp.View
             {
                 try
                 {
-                    AddTransaction edit = new AddTransaction(transaction);
-                    edit.ShowDialog();
+                    //AddTransaction edit = new AddTransaction(transaction);
+                    //edit.ShowDialog();
 
-                    if (edit.DialogResult == true)
-                    {
-                        TransactionRequests.UpdateTransaction(transaction);
-                    }
+                    //if (edit.DialogResult == true)
+                    //{
+                    //    TransactionRequests.UpdateTransaction(transaction);
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -121,7 +121,7 @@ namespace AdminPanelApp.View
                     .Result == MessageBoxResult.OK)
                     {
                         TransactionRequests.DeleteTransaction(transaction.Id);
-                        LogicData.Transactions.Remove(transaction);
+                        //LogicData.Transactions.Remove(transaction);
                     }
                 }
                 catch (Exception ex)

@@ -251,8 +251,9 @@ namespace AdminPanelApp.Logic
                 string pathToDocument="";
                 if (menuItem == _menuStatistic)
                 {
-                    var client = LogicData.StatisticDisplay.Where(c => c.ClientName.ChatId == chatId).ToList();
-                    if (client.Count == 0)
+                    //var client = LogicData.StatisticDisplay.Where(c => c.ClientName.ChatId == chatId).ToList();
+                    var client = LogicData.Clients.Where(c => c.ChatId == chatId).FirstOrDefault();
+                    if (client == null)
                         return;
 
                     message = GetTelegramStatsMessage(client);
@@ -293,22 +294,22 @@ namespace AdminPanelApp.Logic
         }
 
 
-        public string GetTelegramStatsMessage(List<StatisticDisplayModel> stats)
+        public string GetTelegramStatsMessage(Client client)
         {
             var sb = new StringBuilder();
 
-            foreach (var stat in stats)
+            foreach (var acc in client.Accounts)
             {
-                sb.AppendLine($"💰 Счет: {stat.Account.AccountName}");
-                sb.AppendLine($"💵 Текущий баланс: {stat.Balance:N2} $");
+                sb.AppendLine($"💰 Счет: {acc.AccountName}");
+                sb.AppendLine($"💵 Текущий баланс: {acc.StatResult.Balance:N2} $");
                 sb.AppendLine("Доходность за период:");
-                sb.AppendLine(FormatReturn(stat.TotalReturn, "За всё время"));
-                sb.AppendLine(FormatReturn(stat.AnnualReturn, "1 год"));
-                sb.AppendLine(FormatReturn(stat.Return6Months, "6 месяцев"));
-                sb.AppendLine(FormatReturn(stat.Return3Months, "3 месяца"));
-                sb.AppendLine(FormatReturn(stat.Return1Month, "1 месяц"));
-                sb.AppendLine(FormatReturn(stat.Return1Week, "1 неделя"));
-                if (stat != stats.Last())
+                sb.AppendLine(FormatReturn(acc.StatResult.TotalReturn, "За всё время"));
+                sb.AppendLine(FormatReturn(acc.StatResult.AnnualReturn, "1 год"));
+                sb.AppendLine(FormatReturn(acc.StatResult.Return6Months, "6 месяцев"));
+                sb.AppendLine(FormatReturn(acc.StatResult.Return3Months, "3 месяца"));
+                sb.AppendLine(FormatReturn(acc.StatResult.Return1Month, "1 месяц"));
+                sb.AppendLine(FormatReturn(acc.StatResult.Return1Week, "1 неделя"));
+                if (acc != client.Accounts.Last())
                     sb.AppendLine();
             }
 

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="0 0 0 0">
             
-            <Grid Height="25" Margin="0 5 0 0">
+            <!--<Grid Height="25" Margin="0 5 0 0" Visibility="Collapsed">
                 <ex:ExTextBlock
                                 Width="120"
                                 Margin="10 0 0 0"
@@ -41,7 +41,7 @@
             </Grid>
 
 
-            <Grid Height="25" Margin="0 5 0 0">
+            <Grid Height="25" Margin="0 5 0 0" Visibility="Collapsed">
                 <ex:ExTextBlock
                                 Width="120"
                                 Margin="10 0 0 0"
@@ -58,7 +58,7 @@
                                DisplayMember="AccountName"
                                ItemsSource="{Binding ElementName=CmbxClient, Path=SelectedItem.Accounts}"
                                SelectedIndex="0" />
-            </Grid>
+            </Grid>-->
 
             <!-- Дата обработки -->
             <Grid Height="25" Margin="0 5 0 0">

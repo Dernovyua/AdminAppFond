@@ -1,4 +1,5 @@
 ﻿using AdminPanelApp.Logic;
+using DevExpress.XtraTreeList.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ namespace AdminPanelApp.Models
 {
     public class StatisticDisplayModel : ObservableObject
     {
-        public Client ClientName { get; set; }
+        //public Client ClientName { get; set; }
 
         /// <summary>
         /// Счет клиента
@@ -48,7 +49,7 @@ namespace AdminPanelApp.Models
 
             var trans = BuhCalc.GetFinRez(Account.Transaction, fromDate, lastDate);
 
-            return (end.Deposit - start.Deposit);// / start.Deposit * 100m;
+            return (end.Deposit - trans);// / start.Deposit * 100m;
         }
 
         public decimal TotalReturn
@@ -60,8 +61,9 @@ namespace AdminPanelApp.Models
 
                 var start = Account.Statistics.OrderBy(s => s.Date).First().Deposit;
                 var end = Account.Statistics.FirstOrDefault(s => s.Date == LastClosedDate)?.Deposit ?? 0m;
+                var trans = BuhCalc.GetFinRez(Account.Transaction, new DateTime(), LastClosedDate);
 
-                return start == 0 ? 0m : (end - start);// / start * 100m;
+                return start == 0 ? 0m : end - trans;// / start * 100m;
             }
         }
         public decimal Return6Months

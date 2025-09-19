@@ -137,9 +137,9 @@ namespace AdminPanelApp.Requests
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("id")),
                     AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
-                    AccountName = reader.IsDBNull(reader.GetOrdinal("account_name"))
-                        ? null
-                        : reader.GetString(reader.GetOrdinal("account_name")),
+                    //AccountName = reader.IsDBNull(reader.GetOrdinal("account_name"))
+                    //    ? null
+                    //    : reader.GetString(reader.GetOrdinal("account_name")),
 
                     Type = (TransactionType)Enum.Parse(typeof(TransactionType), reader.GetString(reader.GetOrdinal("type")), true),
                     Amount = reader.GetDecimal(reader.GetOrdinal("amount")),

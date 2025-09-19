@@ -33,7 +33,7 @@ namespace AdminPanelApp.View
         {
             InitializeComponent();
 
-            DtgdStat.ItemsSource = LogicData.StatisticDisplay;
+            //DtgdStat.ItemsSource = LogicData.StatisticDisplay;
         }
 
         private void DtgdStat_MouseDoubleClick(object sender, MouseButtonEventArgs e)

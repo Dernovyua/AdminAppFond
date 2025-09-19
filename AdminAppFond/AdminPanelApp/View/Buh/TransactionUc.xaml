@@ -81,18 +81,18 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <!-- Колонка с Id счета -->
+                    <!-- Колонка с Id счета --><!--
                     <DataGridTextColumn Binding="{Binding ClientLink.FullName}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Клиент" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
-                    <!-- Колонка с Id счета -->
+                    --><!-- Колонка с Id счета --><!--
                     <DataGridTextColumn Binding="{Binding AccountName}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Счет" />
                         </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    </DataGridTextColumn>-->
 
                     <!-- Колонка с Id транзакции -->
                     <!--<DataGridTextColumn Binding="{Binding TransactionId}" IsReadOnly="True">

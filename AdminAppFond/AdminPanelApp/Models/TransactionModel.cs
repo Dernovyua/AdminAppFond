@@ -8,17 +8,17 @@ namespace AdminPanelApp.Models
 {
     public class TransactionModel : ObservableObject
     {
-        /// <summary>
-        /// Привязываем транзакцию к клиенту
-        /// </summary>
-        public Client ClientLink { get => _clientLink; set { _clientLink = value; OnPropertyChanged(nameof(ClientLink)); } }
-        private Client _clientLink;
+        ///// <summary>
+        ///// Привязываем транзакцию к клиенту
+        ///// </summary>
+        //public Client ClientLink { get => _clientLink; set { _clientLink = value; OnPropertyChanged(nameof(ClientLink)); } }
+        //private Client _clientLink;
 
-        /// <summary>
-        /// Название счета
-        /// </summary>
-        public string AccountName { get => _accountName; set { _accountName = value; OnPropertyChanged(nameof(AccountName)); } }
-        private string _accountName;
+        ///// <summary>
+        ///// Название счета
+        ///// </summary>
+        //public string AccountName { get => _accountName; set { _accountName = value; OnPropertyChanged(nameof(AccountName)); } }
+        //private string _accountName;
 
         /// <summary>
         /// Уникальный идентификатор транзакции.

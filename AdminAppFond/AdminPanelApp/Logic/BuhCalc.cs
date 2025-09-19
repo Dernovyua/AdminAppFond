@@ -16,24 +16,25 @@ namespace AdminPanelApp.Logic
     public static class BuhCalc
     {
 
-        public static double GetFinRez(IEnumerable<TransactionModel> allTransactions,
+        public static decimal GetFinRez(IEnumerable<TransactionModel> allTransactions,
                 DateTime periodStart,
                 DateTime periodEnd)
         {
 
             // Фильтруем транзакции по периоду
             var periodTransactions = allTransactions
-                .Where(t => t.ProcessedAt >= periodStart && t.ProcessedAt.Date <= periodEnd)
+                .Where(t => t.ProcessedAt >= periodStart && t.ProcessedAt.Date <= periodEnd && 
+                (t.Type == TransactionType.Deposit || t.Type == TransactionType.Withdrawal))
                 .ToList();
 
             // Рассчитываем пополнения (положительные Amount)
-            var deposits = periodTransactions.Where(t => t.Amount > 0);
+            var deposits = periodTransactions.Where(t => t.Type == TransactionType.Deposit);
 
             // Рассчитываем выводы (отрицательные Amount, берем по модулю)
-            var withdrawals = periodTransactions.Where(t => t.Amount < 0);
+            var withdrawals = periodTransactions.Where(t => t.Type == TransactionType.Withdrawal);
 
 
-            return (double)(deposits.Sum(t => t.Amount) - withdrawals.Sum(t => t.Amount));
+            return (decimal)( deposits.Sum(t => t.Amount)- withdrawals.Sum(t => t.Amount));
         }
     }
 }

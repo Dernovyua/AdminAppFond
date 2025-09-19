@@ -77,8 +77,8 @@ namespace AdminPanelApp.Logic
 
         public static SettingCrmModel SettingCrm = new SettingCrmModel();
         public static ObservableCollection<Client> Clients = new ObservableCollection<Client>();
-        public static ObservableCollection<TransactionModel> Transactions = new ObservableCollection<TransactionModel>();
-        public static ObservableCollection<StatisticDisplayModel> StatisticDisplay = new ObservableCollection<StatisticDisplayModel>();
+        //public static ObservableCollection<TransactionModel> Transactions = new ObservableCollection<TransactionModel>();
+        //public static ObservableCollection<StatisticDisplayModel> StatisticDisplay = new ObservableCollection<StatisticDisplayModel>();
 
         /// <summary>
         /// Меню сценариев и кнопок для ТГ
@@ -89,25 +89,27 @@ namespace AdminPanelApp.Logic
         {
             var transactions = await TransactionRequests.GetLastTransactions();
 
-            var accountClientDict = new Dictionary<int, Client>();
+            //var accountClientDict = new Dictionary<int, Client>();
             var accountDict = new Dictionary<int, AccountModel>();
 
             foreach (var client in Clients)
             {
                 foreach (var account in client.Accounts)
                 {
-                    accountClientDict[account.Id] = client;
+                    //accountClientDict[account.Id] = client;
                     accountDict[account.Id] = account;
+                    account.StatResult = new StatisticDisplayModel();
+                    account.StatResult.Account = account;
                 }
             }
 
-            foreach (var item in transactions)
-            {
-                if (accountClientDict.TryGetValue(item.AccountId, out var client))
-                {
-                    item.ClientLink = client;
-                }
-            }
+            //foreach (var item in transactions)
+            //{
+            //    if (accountClientDict.TryGetValue(item.AccountId, out var client))
+            //    {
+            //        item.ClientLink = client;
+            //    }
+            //}
 
             foreach (var item in transactions)
             {
@@ -117,10 +119,10 @@ namespace AdminPanelApp.Logic
                 }
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                LogicData.Transactions = new ObservableCollection<TransactionModel>(transactions);
-            });
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    LogicData.Transactions = new ObservableCollection<TransactionModel>(transactions);
+            //});
         }
 
         public static async Task GetTgMenusAsync()
@@ -162,22 +164,22 @@ namespace AdminPanelApp.Logic
 
         private static void UpdateStatistic()
         {
-            StatisticDisplay.Clear();
+            //StatisticDisplay.Clear();
 
-            for (int i = Clients.Count - 1; i >= 0; i--)
-            {
-                var client = Clients[i];
-                for (int j = client.Accounts.Count - 1; j >= 0; j--)
-                {
-                    StatisticDisplay.Add(new StatisticDisplayModel
-                    {
-                        ClientName = client,
-                        Account = client.Accounts[j]
-                    });
+            //for (int i = Clients.Count - 1; i >= 0; i--)
+            //{
+            //    var client = Clients[i];
+            //    for (int j = client.Accounts.Count - 1; j >= 0; j--)
+            //    {
+            //        StatisticDisplay.Add(new StatisticDisplayModel
+            //        {
+            //            ClientName = client,
+            //            Account = client.Accounts[j]
+            //        });
 
-                    client.Accounts[j].Statistic = StatisticDisplay[^1];
-                }
-            }
+            //        client.Accounts[j].Statistic = StatisticDisplay[^1];
+            //    }
+            //}
         }
 
         static string _pathSetting = "SettingCrm.json";

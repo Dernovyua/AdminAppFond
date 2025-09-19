@@ -2,6 +2,7 @@
 using AdminPanelApp.Models;
 using AdminPanelApp.Requests;
 using ClassControlsAndStyle.Dialogs;
+using DevExpress.Utils.Extensions;
 using ETS.Resources;
 using System;
 using System.Collections.Generic;
@@ -83,13 +84,14 @@ namespace AdminPanelApp.View.Buh
                     CreatedAt = DateTime.Now
                 };
 
-                AddTransaction add = new AddTransaction(transaction);
+                AddTransaction add = new AddTransaction(_acc, transaction);
                 add.ShowDialog();
 
                 if (add.DialogResult == true)
                 {
                     TransactionRequests.AddTransaction(transaction);
-                    LogicData.Transactions.Add(transaction);
+                    _acc.Transaction.Add(transaction);
+                    //LogicData.Transactions.Add(transaction);
                 }
             }
             catch (Exception ex)
@@ -104,7 +106,7 @@ namespace AdminPanelApp.View.Buh
             {
                 try
                 {
-                    AddTransaction edit = new AddTransaction(transaction);
+                    AddTransaction edit = new AddTransaction(_acc,transaction);
                     edit.ShowDialog();
 
                     if (edit.DialogResult == true)
@@ -131,7 +133,8 @@ namespace AdminPanelApp.View.Buh
                     .Result == MessageBoxResult.OK)
                     {
                         TransactionRequests.DeleteTransaction(transaction.Id);
-                        LogicData.Transactions.Remove(transaction);
+                        _acc.Transaction.Remove(transaction);
+                        //LogicData.Transactions.Remove(transaction);
                     }
                 }
                 catch (Exception ex)
