@@ -5,7 +5,7 @@
                         xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
                         xmlns:local="clr-namespace:AdminPanelApp.View"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                        xmlns:convertors="clr-namespace:AdminPanelApp.Logic" xmlns:statistic="clr-namespace:AdminPanelApp.View.Statistic"
+                        xmlns:convertors="clr-namespace:AdminPanelApp.Logic" xmlns:statistic="clr-namespace:AdminPanelApp.View.Statistic" xmlns:buh="clr-namespace:AdminPanelApp.View.Buh"
                         Background="{DynamicResource GlobalBackgroundColor}"
                         BorderBrush="{DynamicResource ExWindow-Border-Background}"
                         BorderThickness="1"
@@ -152,22 +152,41 @@
 
                     <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Пополнение" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Снятие" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="П/У" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
                     <DataGridTextColumn Binding="{Binding Баланс}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Начислено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
-
 
                     <DataGridTextColumn Binding="{Binding Баланс}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
+
+
 
                     <DataGridTextColumn Binding="{Binding Notes}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
@@ -490,6 +509,7 @@
 
                     </ex:ExTabItem.Style>
 
+                    <buh:TransactionUc x:Name="UcBuh"></buh:TransactionUc>
                 </ex:ExTabItem>
             </ex:ExTabControl>
 

@@ -218,6 +218,7 @@ namespace AdminPanelApp.View
             if (DtgdAccounts.SelectedItem is AccountModel acc)
             {
                 UcStat.Load(acc);
+                UcBuh.Load(acc);
         } }
     }
 }

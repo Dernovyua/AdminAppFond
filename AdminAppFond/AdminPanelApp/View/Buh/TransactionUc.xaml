@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="AdminPanelApp.View.Buh.TransactionUc"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AdminPanelApp.View.Buh"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+            xmlns:ex="clr-namespace:Ex.UI.Kit;assembly=Ex.UI.Kit"
+            xmlns:convertor="clr-namespace:AdminPanelApp.View.Buh"
+            Background="{DynamicResource GlobalBackgroundColor}"
+            BorderBrush="{DynamicResource ExWindow-Border-Background}"
+            BorderThickness="1">
+    <UserControl.Resources>
+        <convertor:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="140*" />
+        </Grid.RowDefinitions>
+
+        <ex:ExButton Name="BtnAddTransaction" Grid.Row="0"
+                     Background="Transparent"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnAddTransaction_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-add.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Добавить" />
+        <ex:ExButton Name="BtnDelTransaction" Grid.Row="0"
+                     Background="Transparent"
+                     Margin="32 0 0 0"
+                     HorizontalAlignment="Left"
+                     BorderBrush="Transparent"
+                     Click="BtnDelTransaction_Click"
+                     Icon="pack://application:,,,/Ex.UI.Kit;component/Resources/Icons/icon-del.svg"
+                     IconHeight="16"
+                     IconWidth="16"
+                     ToolTip="Удалить" />
+
+        <Grid Grid.Row="1">
+
+
+
+            <ex:ExSimpleTable Name="DtgdTransaction" Grid.Column="0"
+                              Height="Auto"
+                              HorizontalContentAlignment="Left"
+                              AlternatingRowBackground="{DynamicResource Ex-SimpleTable-AlternativeRow-Background}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="True"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              ColumnHeaderStyle="{DynamicResource ExDataGridColumnHeaderSortStyle}"
+                              FrozenColumnCount="2"
+                              GridLinesVisibility="Vertical"
+                              IsReadOnly="True"
+                              MouseDoubleClick="DtgdTransaction_MouseDoubleClick"
+                              SelectionMode="Single">
+
+
+
+                <ex:ExSimpleTable.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Click="MnitAddTransaction_Click" Header="Добавить" />
+                        <MenuItem Click="MnitEditTransaction_Click" Header="Редактировать" />
+                        <MenuItem Click="MnitDelTransaction_Click" Header="Удалить" />
+                    </ContextMenu>
+                </ex:ExSimpleTable.ContextMenu>
+
+                <ex:ExSimpleTable.Columns>
+
+
+                    <!-- Колонка с датой -->
+                    <DataGridTextColumn Binding="{Binding ProcessedAt, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Колонка с Id счета -->
+                    <DataGridTextColumn Binding="{Binding ClientLink.FullName}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Клиент" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <!-- Колонка с Id счета -->
+                    <DataGridTextColumn Binding="{Binding AccountName}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Счет" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Колонка с Id транзакции -->
+                    <!--<DataGridTextColumn Binding="{Binding TransactionId}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Id транзакции" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>-->
+
+                    <!-- Колонка с Id счета -->
+                    <!--<DataGridTextColumn Binding="{Binding AccountId}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Id счета" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>-->
+
+                    <!-- Колонка с суммой -->
+                    <DataGridTextColumn Binding="{Binding Amount}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Сумма" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Колонка с суммой -->
+                    <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource EnumDescriptionConverter}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Тип операции" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <!-- Колонка с комментарием -->
+                    <DataGridTextColumn Binding="{Binding Comment}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Комментарий" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                </ex:ExSimpleTable.Columns>
+            </ex:ExSimpleTable>
+
+        </Grid>
+    </Grid>
+</UserControl>
