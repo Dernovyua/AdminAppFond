@@ -31,14 +31,16 @@ namespace AdminPanelApp.View.Buh
             InitializeComponent();
         }
         AccountModel _acc;
+        Client _client;
 
-        public void Load(AccountModel acc)
+        public void Load(Client client, AccountModel acc)
         {
             if (acc != null)
                 DtgdTransaction.ItemsSource = acc.Transaction;
             else
                 DtgdTransaction.ItemsSource = null;
             _acc = acc;
+            _client = client;
         }
 
         private void DtgdTransaction_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -92,6 +94,7 @@ namespace AdminPanelApp.View.Buh
                     TransactionRequests.AddTransaction(transaction);
                     _acc.Transaction.Add(transaction);
                     BuhCalc.SetPnl(_acc);
+                        BuhCalc.UpdateResultClient(_client);
                     //LogicData.Transactions.Add(transaction);
                 }
             }
@@ -114,7 +117,7 @@ namespace AdminPanelApp.View.Buh
                     {
                         TransactionRequests.UpdateTransaction(transaction);
                         BuhCalc.SetPnl(_acc);
-
+                        BuhCalc.UpdateResultClient(_client);
                     }
                 }
                 catch (Exception ex)
@@ -138,6 +141,7 @@ namespace AdminPanelApp.View.Buh
                         TransactionRequests.DeleteTransaction(transaction.Id);
                         _acc.Transaction.Remove(transaction);
                         BuhCalc.SetPnl(_acc);
+                        BuhCalc.UpdateResultClient(_client);
 
                         //LogicData.Transactions.Remove(transaction);
                     }

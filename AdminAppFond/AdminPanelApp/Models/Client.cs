@@ -98,6 +98,83 @@ namespace AdminPanelApp.Models
         /// Чат клиента
         /// </summary>
         public ChatItemModel Chat { get => _chat; set { _chat = value; OnPropertyChanged(nameof(Chat)); } }
-        private ChatItemModel _chat = new ();
+        private ChatItemModel _chat = new();
+
+
+        #region Расчетная информация
+
+
+        /// <summary>
+        /// Процент управления
+        /// </summary>
+        public decimal ManagementPercent
+        {
+            get => _managementPercent;
+            set { _managementPercent = value; OnPropertyChanged(nameof(ManagementPercent)); }
+        }
+        private decimal _managementPercent;
+
+        /// <summary>
+        /// Сумма пополнения
+        /// </summary>
+        public decimal DepositAmount
+        {
+            get => _depositAmount;
+            set { _depositAmount = value; OnPropertyChanged(nameof(DepositAmount)); }
+        }
+        private decimal _depositAmount;
+
+        /// <summary>
+        /// Сумма снятия
+        /// </summary>
+        public decimal WithdrawalAmount
+        {
+            get => _withdrawalAmount;
+            set { _withdrawalAmount = value; OnPropertyChanged(nameof(WithdrawalAmount)); }
+        }
+        private decimal _withdrawalAmount;
+
+        /// <summary>
+        /// Текущий баланс
+        /// </summary>
+        public decimal Balance
+        {
+            get => _balance;
+            set { _balance = value; OnPropertyChanged(nameof(Balance)); }
+        }
+        private decimal _balance;
+
+        /// <summary>
+        /// Прибыль/убыток
+        /// </summary>
+        public decimal ProfitLoss
+        {
+            get => _profitLoss;
+            set { _profitLoss = value; OnPropertyChanged(nameof(ProfitLoss)); }
+        }
+        private decimal _profitLoss;
+
+        /// <summary>
+        /// Начисленная сумма
+        /// </summary>
+        public decimal AccruedAmount
+        {
+            get => _accruedAmount;
+            set { _accruedAmount = value; OnPropertyChanged(nameof(AccruedAmount)); }
+        }
+        private decimal _accruedAmount;
+
+        /// <summary>
+        /// Оплаченная сумма
+        /// </summary>
+        public decimal PaidAmount
+        {
+            get => _paidAmount;
+            set { _paidAmount = value; OnPropertyChanged(nameof(PaidAmount)); }
+        }
+        private decimal _paidAmount;
+
+
+        #endregion
     }
 }

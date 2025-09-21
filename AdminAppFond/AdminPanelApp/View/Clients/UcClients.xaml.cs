@@ -227,17 +227,22 @@ namespace AdminPanelApp.View
             }
             else
             {
-                UcStat.Load(null);
-                UcBuh.Load(null);
+                if (DtgdClients.SelectedItem is Client client)
+                {
+                    UcStat.Load(client, null);
+                    UcBuh.Load(client, null);
+                }
             }
         }
 
         private void DtgdAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DtgdAccounts.SelectedItem is AccountModel acc)
-            {
-                UcStat.Load(acc);
-                UcBuh.Load(acc);
-        } }
+            if (DtgdClients.SelectedItem is Client client)
+                if (DtgdAccounts.SelectedItem is AccountModel acc)
+                {
+                    UcStat.Load(client, acc);
+                    UcBuh.Load(client, acc);
+                }
+        }
     }
 }

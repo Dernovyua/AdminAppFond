@@ -30,14 +30,16 @@ namespace AdminPanelApp.View.Statistic
             InitializeComponent();
         }
         AccountModel _acc;
+        Client _client;
 
-        public void Load(AccountModel acc)
+        public void Load(Client client, AccountModel acc)
         {
             if (acc != null)
                 DtgdStatDetail.ItemsSource = acc.Statistics;
             else
                 DtgdStatDetail.ItemsSource = null;
             _acc = acc;
+            _client = client;
         }
 
         private void DtgdStat_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -87,8 +89,9 @@ namespace AdminPanelApp.View.Statistic
             if (add.DialogResult == true)
             {
                 StatisticRequests.AddStatistic(statistic);
-                _acc.Statistics.Add( statistic);
+                _acc.Statistics.Add(statistic);
                 BuhCalc.SetPnl(_acc);
+                BuhCalc.UpdateResultClient(_client);
                 //LogicData.GetStatisticsAsync();
                 //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
             }
@@ -105,6 +108,7 @@ namespace AdminPanelApp.View.Statistic
                 {
                     StatisticRequests.UpdateStatistic(statistic);
                     BuhCalc.SetPnl(_acc);
+                    BuhCalc.UpdateResultClient(_client);
                     //LogicData.GetStatisticsAsync();
                 }
             }
@@ -121,6 +125,7 @@ namespace AdminPanelApp.View.Statistic
                     StatisticRequests.DeleteStatistic(statistic.Id);
                     _acc.Statistics.Remove(statistic);
                     BuhCalc.SetPnl(_acc);
+                    BuhCalc.UpdateResultClient(_client);
                     //LogicData.GetStatisticsAsync();
                     //LogicData.StatisticDisplay.Remove(statistic);
                 }

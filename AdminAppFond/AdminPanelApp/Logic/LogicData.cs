@@ -117,6 +117,8 @@ namespace AdminPanelApp.Logic
                 {
                     BuhCalc.SetPnl(account);
                 }
+
+                BuhCalc.UpdateResultClient(client);
             }
         }
 

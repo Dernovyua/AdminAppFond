@@ -320,10 +320,10 @@ namespace AdminPanelApp.Logic
         string FormatReturn(decimal value, string period)
         {
             if (value > 0)
-                return $"🟢 {period}: +{value:N2}%";
+                return $"🟢 {period}: +{value:N2}";
             if (value < 0)
-                return $"🔴 {period}: {value:N2}%";
-            return $"⚪️ {period}: {value:N2}%";
+                return $"🔴 {period}: {value:N2}";
+            return $"⚪️ {period}: {value:N2}";
         }
 
         /// <summary>

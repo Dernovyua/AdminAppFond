@@ -24,7 +24,7 @@ namespace AdminPanelApp.Logic
 
             // Фильтруем транзакции по периоду
             var periodTransactions = allTransactions
-                .Where(t => t.ProcessedAt >= periodStart && t.ProcessedAt.Date <= periodEnd &&
+                .Where(t => t.ProcessedAt >= periodStart && t.ProcessedAt.Date <= periodEnd.Date &&
                 (t.Type == TransactionType.Deposit || t.Type == TransactionType.Withdrawal))
                 .ToList();
 
@@ -42,10 +42,7 @@ namespace AdminPanelApp.Logic
 
         public static void SetPnl(AccountModel acc)
         {
-            DateTime lastClosedDate = acc.Statistics.Any()
-            ? acc.Statistics.Max(s => s.Date)
-            : DateTime.MinValue;
-
+            DateTime lastClosedDate = DateTime.Now;
 
             acc.StatResult.Balance = GetBalance(acc);
             acc.StatResult.TotalReturn = GetTotalPnl(acc, lastClosedDate);
@@ -63,20 +60,26 @@ namespace AdminPanelApp.Logic
                 return 0m;
 
             var start = acc.Statistics
-            .Where(s => s.Date >= fromDate && s.Date <= lastDate)
-            .OrderBy(s => s.Date)
-            .FirstOrDefault();
-
-            var end = acc.Statistics
-                .Where(s => s.Date == lastDate)
+                .Where(s => s.Date <= fromDate)
+                .OrderByDescending(s => s.Date)
                 .FirstOrDefault();
 
-            if (start == null || end == null || start.Deposit == 0)
+            if (start == null)
+            {
+                start = new StatisticModel();
+            }
+
+
+            var end = acc.Statistics
+                .Where(s => s.Date <= lastDate.Date)
+                .FirstOrDefault();
+
+            if (start == null || end == null)// || start.Deposit == 0)
                 return 0m;
 
             var trans = BuhCalc.GetFinRez(acc.Transaction, fromDate, lastDate);
 
-            return (end.Deposit - trans);// / start.Deposit * 100m;
+            return (end.Deposit-start.Deposit - trans);// / start.Deposit * 100m;
 
         }
 
@@ -86,7 +89,7 @@ namespace AdminPanelApp.Logic
                 return 0m;
 
             var start = acc.Statistics.OrderBy(s => s.Date).First().Deposit;
-            var end = acc.Statistics.FirstOrDefault(s => s.Date == lastTime)?.Deposit ?? 0m;
+            var end = acc.Statistics.FirstOrDefault(s => s.Date <= lastTime)?.Deposit ?? 0m;
             var trans = BuhCalc.GetFinRez(acc.Transaction, new DateTime(), lastTime);
 
             return start == 0 ? 0m : end - trans;// / start * 100m;
@@ -100,6 +103,30 @@ namespace AdminPanelApp.Logic
                 return 0m;
 
             return end.Deposit;
+        }
+
+        public static void UpdateResultClient(Client client)
+        {
+            decimal deposit = 0m;
+            decimal withdrawal = 0m;
+            decimal balance = 0m;
+            decimal pnl = 0m;
+            decimal comis = 0m;
+            foreach (var item in client.Accounts)
+            {
+                deposit += item.Transaction.Where(t => t.Type == TransactionType.Deposit).Sum(a=>a.Amount);
+                withdrawal += item.Transaction.Where(t => t.Type == TransactionType.Withdrawal).Sum(a=>a.Amount);
+                comis += item.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a=>a.Amount);
+                comis += item.Transaction.Where(t => t.Type == TransactionType.ManagementFee).Sum(a=>a.Amount);
+                balance += item.StatResult.Balance;
+                pnl += item.StatResult.TotalReturn;
+            }
+
+            client.DepositAmount = deposit;
+            client.WithdrawalAmount = withdrawal;
+            client.Balance = balance;
+            client.ProfitLoss = pnl;
+            client.AccruedAmount = comis;
         }
     }
 }

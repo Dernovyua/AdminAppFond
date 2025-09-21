@@ -144,43 +144,51 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding выа}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding ManagementPercent}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Управление, %" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding DepositAmount}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Пополнение" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding WithdrawalAmount}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Снятие" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Balance}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Прибыль}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding ProfitLoss, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="П/У" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="П/Уд" />
                         </DataGridTextColumn.Header>
+                        <DataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
+                                <Style.Setters>
+                                    <Setter Property="Foreground" Value="{Binding ProfitLoss, Converter={StaticResource ColorConverter}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </Style.Setters>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Баланс}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding AccruedAmount}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Начислено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Баланс}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding PaidAmount}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
                         </DataGridTextColumn.Header>
