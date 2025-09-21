@@ -77,15 +77,15 @@ namespace AdminPanelApp.View
 
             if (DtgdStat.SelectedItem is StatisticDisplayModel stat)
             {
-                AddStatistic add = new AddStatistic(statistic, stat);
-                add.ShowDialog();
+                //AddStatistic add = new AddStatistic(statistic, stat);
+                //add.ShowDialog();
 
-                if (add.DialogResult == true)
-                {
-                    StatisticRequests.AddStatistic(statistic);
-                    LogicData.GetStatisticsAsync();
-                    //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
-                }
+                //if (add.DialogResult == true)
+                //{
+                //    StatisticRequests.AddStatistic(statistic);
+                //    LogicData.GetStatisticsAsync();
+                //    //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
+                //}
             }
         }
 
@@ -94,14 +94,14 @@ namespace AdminPanelApp.View
             if (DtgdStatDetail.SelectedItem is StatisticModel statistic &&
                 DtgdStat.SelectedItem is StatisticDisplayModel stat)
             {
-                AddStatistic edit = new AddStatistic(statistic, stat);
-                edit.ShowDialog();
+                //AddStatistic edit = new AddStatistic(statistic, stat);
+                //edit.ShowDialog();
 
-                if (edit.DialogResult == true)
-                {
-                    StatisticRequests.UpdateStatistic(statistic);
-                    //LogicData.GetStatisticsAsync();
-                }
+                //if (edit.DialogResult == true)
+                //{
+                //    StatisticRequests.UpdateStatistic(statistic);
+                //    //LogicData.GetStatisticsAsync();
+                //}
             }
         }
 
@@ -109,14 +109,14 @@ namespace AdminPanelApp.View
         {
             if (DtgdStatDetail.SelectedItem is StatisticModel statistic)
             {
-                if (new DialogOkCancel("Вы действительно хотите удалить запись статистики?",
-                    LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
-                    .Result == MessageBoxResult.OK)
-                {
-                    StatisticRequests.DeleteStatistic(statistic.Id);
-                    LogicData.GetStatisticsAsync();
-                    //LogicData.StatisticDisplay.Remove(statistic);
-                }
+                //if (new DialogOkCancel("Вы действительно хотите удалить запись статистики?",
+                //    LanguageModel.GetString(LanguageDialogMessageKeys.CaptionAttentionKey))
+                //    .Result == MessageBoxResult.OK)
+                //{
+                //    StatisticRequests.DeleteStatistic(statistic.Id);
+                //    LogicData.GetStatisticsAsync();
+                //    //LogicData.StatisticDisplay.Remove(statistic);
+                //}
             }
         }
 

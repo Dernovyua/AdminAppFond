@@ -81,13 +81,14 @@ namespace AdminPanelApp.View.Statistic
                 CreatedAt = DateTime.Now
             };
 
-            AddStatistic add = new AddStatistic(statistic, _acc.StatResult);
+            AddStatistic add = new AddStatistic(_acc, statistic, _acc.StatResult);
             add.ShowDialog();
 
             if (add.DialogResult == true)
             {
                 StatisticRequests.AddStatistic(statistic);
                 _acc.Statistics.Add( statistic);
+                BuhCalc.SetPnl(_acc);
                 //LogicData.GetStatisticsAsync();
                 //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
             }
@@ -97,12 +98,13 @@ namespace AdminPanelApp.View.Statistic
         {
             if (DtgdStatDetail.SelectedItem is StatisticModel statistic)
             {
-                AddStatistic edit = new AddStatistic(statistic, _acc.StatResult);
+                AddStatistic edit = new AddStatistic(_acc, statistic, _acc.StatResult);
                 edit.ShowDialog();
 
                 if (edit.DialogResult == true)
                 {
                     StatisticRequests.UpdateStatistic(statistic);
+                    BuhCalc.SetPnl(_acc);
                     //LogicData.GetStatisticsAsync();
                 }
             }
@@ -118,6 +120,7 @@ namespace AdminPanelApp.View.Statistic
                 {
                     StatisticRequests.DeleteStatistic(statistic.Id);
                     _acc.Statistics.Remove(statistic);
+                    BuhCalc.SetPnl(_acc);
                     //LogicData.GetStatisticsAsync();
                     //LogicData.StatisticDisplay.Remove(statistic);
                 }

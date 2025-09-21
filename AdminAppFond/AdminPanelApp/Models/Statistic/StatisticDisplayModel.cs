@@ -12,149 +12,53 @@ namespace AdminPanelApp.Models
 {
     public class StatisticDisplayModel : ObservableObject
     {
-        //public Client ClientName { get; set; }
-
-        /// <summary>
-        /// Счет клиента
-        /// </summary>
-        public AccountModel Account { get => _account; set { _account = value; OnPropertyChanged(nameof(Account)); } }
-        private AccountModel _account = new();
-
-        /// <summary>
-        /// Последний закрытый день (последняя дата в статистике)
-        /// </summary>
-        public DateTime LastClosedDate => Account.Statistics.Any()
-            ? Account.Statistics.Max(s => s.Date)
-            : DateTime.MinValue;
-
-        private decimal CalculateReturn(DateTime fromDate)
-        {
-            var lastDate = LastClosedDate;
-
-            if (LastClosedDate.Year == 1 || !Account.Statistics.Any())
-                return 0m;
-
-            // Берём первую запись после fromDate и последнюю на LastClosedDate
-            var start = Account.Statistics
-                .Where(s => s.Date >= fromDate && s.Date <= lastDate)
-                .OrderBy(s => s.Date)
-                .FirstOrDefault();
-
-            var end = Account.Statistics
-                .Where(s => s.Date == lastDate)
-                .FirstOrDefault();
-
-            if (start == null || end == null || start.Deposit == 0)
-                return 0m;
-
-            var trans = BuhCalc.GetFinRez(Account.Transaction, fromDate, lastDate);
-
-            return (end.Deposit - trans);// / start.Deposit * 100m;
-        }
-
         public decimal TotalReturn
         {
-            get
-            {
-                if (!Account.Statistics.Any())
-                    return 0m;
-
-                var start = Account.Statistics.OrderBy(s => s.Date).First().Deposit;
-                var end = Account.Statistics.FirstOrDefault(s => s.Date == LastClosedDate)?.Deposit ?? 0m;
-                var trans = BuhCalc.GetFinRez(Account.Transaction, new DateTime(), LastClosedDate);
-
-                return start == 0 ? 0m : end - trans;// / start * 100m;
-            }
+            get => _totalReturn;
+            set { _totalReturn = value; OnPropertyChanged(nameof(TotalReturn)); }
         }
+        private decimal _totalReturn;
+
         public decimal Return6Months
         {
-            get
-            {
-                if (LastClosedDate.Year == 1) // или if (LastClosedDate == DateTime.MinValue)
-                    return 0m;
-
-                return CalculateReturn(LastClosedDate.AddMonths(-6));
-            }
+            get => _return6Months;
+            set { _return6Months = value; OnPropertyChanged(nameof(Return6Months)); }
         }
+        private decimal _return6Months;
 
         public decimal Return3Months
         {
-            get
-            {
-                if (LastClosedDate.Year == 1)
-                    return 0m;
-
-                return CalculateReturn(LastClosedDate.AddMonths(-3));
-            }
+            get => _return3Months;
+            set { _return3Months = value; OnPropertyChanged(nameof(Return3Months)); }
         }
+        private decimal _return3Months;
 
         public decimal Return1Month
         {
-            get
-            {
-                if (LastClosedDate.Year == 1)
-                    return 0m;
-
-                return CalculateReturn(LastClosedDate.AddMonths(-1));
-            }
+            get => _return1Month;
+            set { _return1Month = value; OnPropertyChanged(nameof(Return1Month)); }
         }
+        private decimal _return1Month;
 
         public decimal Return1Week
         {
-            get
-            {
-                if (LastClosedDate.Year == 1)
-                    return 0m;
-
-                return CalculateReturn(LastClosedDate.AddDays(-7));
-            }
+            get => _return1Week;
+            set { _return1Week = value; OnPropertyChanged(nameof(Return1Week)); }
         }
+        private decimal _return1Week;
 
         public decimal AnnualReturn
         {
-            get
-            {
-                if (LastClosedDate.Year == 1)
-                    return 0m;
-
-                return CalculateReturn(LastClosedDate.AddYears(-1));
-            }
+            get => _annualReturn;
+            set { _annualReturn = value; OnPropertyChanged(nameof(AnnualReturn)); }
         }
-        public decimal Balance => GetBalance();
+        private decimal _annualReturn;
 
-
-        private decimal GetBalance()
+        public decimal Balance
         {
-            var lastDate = LastClosedDate;
-
-            var end = Account.Statistics
-                .Where(s => s.Date == lastDate)
-                .FirstOrDefault();
-
-            if (end == null )
-                return 0m;
-
-            return end.Deposit;
+            get => _balance;
+            set { _balance = value; OnPropertyChanged(nameof(Balance)); }
         }
-
-
-
-        public void Statistics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            // Когда в статистику добавляется или меняется элемент — уведомляем о смене доходностей
-            RaiseAllReturnsPropertiesChanged();
-        }
-
-        private void RaiseAllReturnsPropertiesChanged()
-        {
-            OnPropertyChanged(nameof(Return6Months));
-            OnPropertyChanged(nameof(Return3Months));
-            OnPropertyChanged(nameof(Return1Month));
-            OnPropertyChanged(nameof(Return1Week));
-            OnPropertyChanged(nameof(AnnualReturn));
-            OnPropertyChanged(nameof(TotalReturn));
-            OnPropertyChanged(nameof(Balance));
-            OnPropertyChanged(nameof(LastClosedDate));
-        }
+        private decimal _balance;
     }
 }

@@ -70,7 +70,7 @@ namespace AdminPanelApp.Logic
         public static void RaiseOnSendMessage(string message, bool showWinMessage = false)
         {
             OnSendMessage?.Invoke(message, showWinMessage);
-        } 
+        }
         #endregion
 
         public static TelegramBot TgBot = new TelegramBot();
@@ -99,17 +99,8 @@ namespace AdminPanelApp.Logic
                     //accountClientDict[account.Id] = client;
                     accountDict[account.Id] = account;
                     account.StatResult = new StatisticDisplayModel();
-                    account.StatResult.Account = account;
                 }
             }
-
-            //foreach (var item in transactions)
-            //{
-            //    if (accountClientDict.TryGetValue(item.AccountId, out var client))
-            //    {
-            //        item.ClientLink = client;
-            //    }
-            //}
 
             foreach (var item in transactions)
             {
@@ -119,10 +110,14 @@ namespace AdminPanelApp.Logic
                 }
             }
 
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-            //    LogicData.Transactions = new ObservableCollection<TransactionModel>(transactions);
-            //});
+
+            foreach (var client in Clients)
+            {
+                foreach (var account in client.Accounts)
+                {
+                    BuhCalc.SetPnl(account);
+                }
+            }
         }
 
         public static async Task GetTgMenusAsync()

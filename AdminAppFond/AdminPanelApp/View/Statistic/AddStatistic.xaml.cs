@@ -27,7 +27,7 @@ namespace AdminPanelApp.View
     {
         StatisticModel _statistic;
 
-        public AddStatistic(StatisticModel statistic, StatisticDisplayModel stat)
+        public AddStatistic(AccountModel acc, StatisticModel statistic, StatisticDisplayModel stat)
         {
             InitializeComponent();
 
@@ -53,7 +53,7 @@ namespace AdminPanelApp.View
                 }
                 else
                 {
-                    CmbxAccount.SelectedItem = stat.Account;
+                    CmbxAccount.SelectedItem = acc;
                 }
             }
             if (statistic.CreatedAt.Year > 1)

@@ -91,6 +91,7 @@ namespace AdminPanelApp.View.Buh
                 {
                     TransactionRequests.AddTransaction(transaction);
                     _acc.Transaction.Add(transaction);
+                    BuhCalc.SetPnl(_acc);
                     //LogicData.Transactions.Add(transaction);
                 }
             }
@@ -112,6 +113,8 @@ namespace AdminPanelApp.View.Buh
                     if (edit.DialogResult == true)
                     {
                         TransactionRequests.UpdateTransaction(transaction);
+                        BuhCalc.SetPnl(_acc);
+
                     }
                 }
                 catch (Exception ex)
@@ -134,6 +137,8 @@ namespace AdminPanelApp.View.Buh
                     {
                         TransactionRequests.DeleteTransaction(transaction.Id);
                         _acc.Transaction.Remove(transaction);
+                        BuhCalc.SetPnl(_acc);
+
                         //LogicData.Transactions.Remove(transaction);
                     }
                 }
