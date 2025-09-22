@@ -2,6 +2,7 @@
 using AdminPanelApp.Models;
 using AdminPanelApp.Requests;
 using ClassControlsAndStyle.Dialogs;
+using DevExpress.CodeParser;
 using DevExpress.Utils.Extensions;
 using ETS.Resources;
 using System;
@@ -196,7 +197,24 @@ namespace AdminPanelApp.View.Buh
                 if (transaction.Type == TransactionType.ManagementFee ||
                     transaction.Type == TransactionType.SeccessFee)
                 {
-                    var mes = $"Оплата за успех: {transaction.Amount}";
+                    var comis = transaction.Amount;
+                    var balance = _acc.StatResult.Balance;
+                    var profit = _acc.StatResult.TotalReturn;
+                    var successFee = _client.SuccessFee;
+
+                    var replacements = new Dictionary<string, string>
+                    {
+                        {"{Profit}", profit.ToString()},
+                        {"{Balance}", balance.ToString()},
+                        {"{Comis}",comis.ToString()},
+                        {"{SuccessFee}",successFee.ToString()},
+                    };
+
+                    var mes = LogicData.SettingCrm.MessageHandBuh;
+                    foreach (var replacement in replacements)
+                    {
+                        mes = mes.Replace(replacement.Key, replacement.Value);
+                    }
                     LogicData.TgBot.SendMeessageToUserFromAdmin(_client.ChatId, mes, null, "");
                 }
             }

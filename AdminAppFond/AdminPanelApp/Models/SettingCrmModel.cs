@@ -13,5 +13,10 @@ namespace AdminPanelApp.Models
         /// </summary>
         public string TgTokenCrm { get; set; }
 
+        /// <summary>
+        /// Сообщение отправляемое при нажатии меню в бухгалтерии
+        /// </summary>
+        public string MessageHandBuh { get; set; }
+
     }
 }

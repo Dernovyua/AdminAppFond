@@ -15,6 +15,45 @@
         ShowIcon="False"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
+    <ex:ExWindow.Resources>
+        <Style x:Key="MinimalRichTextBoxStyle" TargetType="{x:Type RichTextBox}">
+            <Setter Property="Background" Value="{DynamicResource Ex-TextBox-Background}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Ex-TextBox-Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource Ex-TextBox-Foreground}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RichTextBox}">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Auto"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Ex-TextBox-Border-Hover}" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Ex-TextBox-Border-Focused}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource Ex-TextBox-Foreground-Disabled}" />
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ex:ExWindow.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="300*" />
@@ -55,7 +94,70 @@
 
             </Grid>
 
-            
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock Margin="10 0 0 0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="Сообщение бухгалтерии:"
+                    TextWrapping="Wrap" >
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Текст сообщения, которое отправляется через меню в бухгалтерии. Доступные теги:
+                                            {SuccessFee} - Процент за успех
+                                            {Balance} - текущий баланс клиента
+                                            {Profit} -  текущий профит
+                                            {Comis} - текущая комиссия, которую необходимо уплатить" />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+            </Grid>
+
+            <Grid Margin="0 5 0 0">
+
+                <RichTextBox x:Name="TxbxHandMessage"  Margin=" 10 0 10 0 " Height="250"  Style="{StaticResource MinimalRichTextBoxStyle}">
+                    <RichTextBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Жирный" Click="MakeBold_Click">
+                                <MenuItem.Icon>
+                                    <TextBlock FontWeight="Bold">B</TextBlock>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="Курсив" Click="MakeItalic_Click">
+                                <MenuItem.Icon>
+                                    <TextBlock FontStyle="Italic">I</TextBlock>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem Header="Добавить ссылку" Click="AddHyperlink_Click">
+                                <MenuItem.Icon>
+                                    <TextBlock Text="🔗" FontSize="12"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem Header="Копировать" Click="Copy_Click" InputGestureText="Ctrl+C"/>
+                            <MenuItem Header="Вставить" Click="Paste_Click" InputGestureText="Ctrl+V"/>
+                        </ContextMenu>
+                    </RichTextBox.ContextMenu>
+
+
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text="Начните вводить текст здесь..."/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Grid>
+
+
         </StackPanel>
 
         <Grid Grid.Row="1" Background="{DynamicResource ExWindow-Footer-Background}">
