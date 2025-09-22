@@ -34,6 +34,8 @@ namespace AdminPanelApp.View
             if (String.IsNullOrEmpty(LogicData.SettingCrm.MessageHandBuh))
                 LogicData.SettingCrm.MessageHandBuh = "Поздравляем, вы получили доход!\n\n<b>Статистика</b>\nПрибыль по счёту за текущий период: {Profit} (в USDT)\n" +
                     "Ваша актуальная комиссия: {SuccessFee}%\nДобровольное отчисление составляет: {Comis}\n\nБлагодарим за взаимовыгодное сотрудничество!";
+
+            LoadFromString(LogicData.SettingCrm.MessageHandBuh);
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)

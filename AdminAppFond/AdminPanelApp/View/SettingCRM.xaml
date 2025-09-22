@@ -151,7 +151,7 @@
 
                     <FlowDocument>
                         <Paragraph>
-                            <Run Text="Начните вводить текст здесь..."/>
+                            <Run Text=""/>
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
