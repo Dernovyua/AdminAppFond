@@ -168,6 +168,7 @@ namespace AdminPanelApp.Logic
                 acc.Transaction.Insert(0, transaction);
                 SetPnl(acc);
                 UpdateResultClient(client);
+                CalcSuccessFee(acc);
             }
         }
 

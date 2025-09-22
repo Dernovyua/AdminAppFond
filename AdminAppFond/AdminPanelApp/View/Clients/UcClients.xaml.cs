@@ -260,5 +260,17 @@ namespace AdminPanelApp.View
 
                 }
         }
+
+        private void MnitOpenDialog_Click(object sender, RoutedEventArgs e)
+        {
+            if (DtgdClients.SelectedItem is Client client)
+            {
+                var win = LogicData.RaiseOnOpenWindow("Диалоги");
+                if (win is DialogsView dialog)
+                {
+                    dialog.SetChat(client);
+                }
+            }
+        }
     }
 }

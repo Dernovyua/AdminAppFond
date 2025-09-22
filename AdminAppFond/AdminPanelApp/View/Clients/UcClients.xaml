@@ -80,6 +80,7 @@
                         <MenuItem Click="MnitEditClient_Click" Header="Редактировать" />
                         <MenuItem Click="MnitDelClient_Click" Header="Удалить" />
                         <Separator />
+                        <MenuItem Click="MnitOpenDialog_Click" Header="Открыть чат с клиентом" />
                         <MenuItem Click="MnitAddAccount_Click" Header="Добавить счет" />
                     </ContextMenu>
                 </ex:ExSimpleTable.ContextMenu>

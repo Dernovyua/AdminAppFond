@@ -218,6 +218,31 @@ namespace AdminPanelApp.View
                 //}
             }
         }
+
+        public void SetChat(Client client)
+        {
+            foreach (var item in ChatList.Items)
+            {
+                if (item is Client chatVM)
+                {
+                    chatVM.IsSelected = false;
+                }
+            }
+
+            // Находим и выделяем нужный чат
+            foreach (var item in ChatList.Items)
+            {
+                if (item is Client chatVM && chatVM.ChatId == client.ChatId)
+                {
+                    chatVM.IsSelected = true;
+                    // Прокручиваем к выбранному элементу
+                    //ChatList.Scroll(chatVM);
+                    break;
+                }
+            }
+        }
+
+
     }
 
 

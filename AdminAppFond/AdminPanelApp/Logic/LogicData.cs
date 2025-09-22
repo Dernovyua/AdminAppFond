@@ -2,6 +2,7 @@
 using AdminPanelApp.Models.Scenario;
 using AdminPanelApp.Requests;
 using AdminPanelApp.View;
+using Ex.UI.Kit;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,6 +50,30 @@ namespace AdminPanelApp.Logic
             }
             return 0;
         }
+
+
+        /// <summary>
+        /// Делегат для открытия окна
+        /// </summary>
+        /// <param name="title">Заголовок окна</param>
+        /// <returns>Экземпляр открытой панели</returns>
+        public delegate ExDockDocumentPanel OpenWindow(string title);
+
+        /// <summary>
+        /// Глобальное событие открытия окна
+        /// </summary>
+        public static event OpenWindow? OnOpenWindow;
+
+        /// <summary>
+        /// Вызывает событие <see cref="OnOpenWindow"/> с заданным заголовком.
+        /// </summary>
+        /// <param name="title">Заголовок окна.</param>
+        /// <returns>Экземпляр открытой панели или null, если подписчиков нет.</returns>
+        public static ExDockDocumentPanel? RaiseOnOpenWindow(string title)
+        {
+            return OnOpenWindow?.Invoke(title);
+        }
+
 
         /// <summary>
         /// Делегат для отправки сообщения.
