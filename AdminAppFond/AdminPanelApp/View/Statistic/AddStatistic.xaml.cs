@@ -26,36 +26,37 @@ namespace AdminPanelApp.View
     public partial class AddStatistic
     {
         StatisticModel _statistic;
+        AccountModel _acc;
 
         public AddStatistic(AccountModel acc, StatisticModel statistic, StatisticDisplayModel stat)
         {
             InitializeComponent();
 
-            CmbxAccount.ItemsSource = LogicData.Clients.SelectMany(client => client.Accounts).ToList();
+            //CmbxAccount.ItemsSource = LogicData.Clients.SelectMany(client => client.Accounts).ToList();
 
             _statistic = statistic;
+            _acc = acc;
 
-
-            if (CmbxAccount.ItemsSource is IEnumerable items)
-            {
-                if (statistic.AccountId > 0)
-                {
-                    var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == statistic.AccountId);
-                    if (account != null)
-                    {
-                        CmbxAccount.SelectedItem = account;
-                    }
-                    else
-                    {
-                        // Дополнительная обработка если счет не найден
-                        Debug.WriteLine($"Счет с ID {statistic.AccountId} не найден в списке");
-                    }
-                }
-                else
-                {
-                    CmbxAccount.SelectedItem = acc;
-                }
-            }
+            //if (CmbxAccount.ItemsSource is IEnumerable items)
+            //{
+            //    if (statistic.AccountId > 0)
+            //    {
+            //        var account = items.OfType<AccountModel>().FirstOrDefault(a => a.Id == statistic.AccountId);
+            //        if (account != null)
+            //        {
+            //            CmbxAccount.SelectedItem = account;
+            //        }
+            //        else
+            //        {
+            //            // Дополнительная обработка если счет не найден
+            //            Debug.WriteLine($"Счет с ID {statistic.AccountId} не найден в списке");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        CmbxAccount.SelectedItem = acc;
+            //    }
+            //}
             if (statistic.CreatedAt.Year > 1)
             {
                 DtpDate.SelectedDate = statistic.Date;
@@ -97,8 +98,8 @@ namespace AdminPanelApp.View
                 }
 
                 _statistic.Comment = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
-                _statistic.AccountId = (CmbxAccount.SelectedItem as AccountModel).Id; // Предполагается, что _account передается в форму
-                _statistic.AccountName = (CmbxAccount.SelectedItem as AccountModel).AccountName;
+                _statistic.AccountId = _acc.Id; // Предполагается, что _account передается в форму
+                _statistic.AccountName = _acc.AccountName;
 
                 DialogResult = true;
             }

@@ -84,6 +84,7 @@
                                 Text="Тип операции">
                 </ex:ExTextBlock>
                 <ex:ExComboBox x:Name="CmbxType"
+                               SelectedChanged="CmbxType_SelectedChanged"
                                Height="25"
                                Margin="180 0 10 0"
                                HorizontalAlignment="Stretch"
@@ -125,6 +126,31 @@
                     </ex:ExTextBlock.ToolTip>
                 </ex:ExTextBlock>
                 <ex:ExTextBox x:Name="TxbxNotes"
+                              Height="25"
+                              Margin="180 0 10 0"
+                              VerticalAlignment="Center"
+                              Text="" />
+            </Grid>
+
+            <Grid Height="25" Margin="0 5 0 0">
+                <ex:ExTextBlock
+                                Margin="10 0 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Cursor="Help"
+                                Text="Выплачено">
+                    <ex:ExTextBlock.ToolTip>
+                        <ToolTip>
+                            <DockPanel Width="250">
+                                <ex:ExTextBlock Height="Auto" TextWrapping="Wrap">
+                                    <Run Text="Объем выплаченный клиентом" />
+                                </ex:ExTextBlock>
+                            </DockPanel>
+                        </ToolTip>
+                    </ex:ExTextBlock.ToolTip>
+                </ex:ExTextBlock>
+                <ex:ExTextBox x:Name="TxbxPaid"
+                              IsEnabled="False"
                               Height="25"
                               Margin="180 0 10 0"
                               VerticalAlignment="Center"

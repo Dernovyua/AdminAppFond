@@ -1,4 +1,5 @@
-﻿using AdminPanelApp.Models;
+﻿using AdminPanelApp.Logic;
+using AdminPanelApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,13 @@ namespace AdminPanelApp.View
             if (String.IsNullOrEmpty(TxbxFullName.Text))
                 return;
 
+            var chatId = string.IsNullOrWhiteSpace(TxbxChatId.Text) ? 0 : Convert.ToInt64(TxbxChatId.Text.Trim());
+
+            if (_client.ChatId < 0.000001 && chatId > 1)
+            {
+                LogicData.TgBot.SendMeessageToUserFromAdmin(_client.ChatId, "Бот активирован. Все функции доступны. Приятного пользования", null, "");
+            }
+
             _client.FullName = TxbxFullName.Text.Trim();
             _client.Status = CmbxStatus.SelectedItem?.ToString() ?? "active"; // например, default "active"
             _client.Phone = string.IsNullOrWhiteSpace(TxbxPhone.Text) ? null : TxbxPhone.Text.Trim();
@@ -62,7 +70,7 @@ namespace AdminPanelApp.View
             _client.City = string.IsNullOrWhiteSpace(TxbxCity.Text) ? null : TxbxCity.Text.Trim();
             _client.Telegram = string.IsNullOrWhiteSpace(TxbxTelegramm.Text) ? null : TxbxTelegramm.Text.Trim();
             _client.Notes = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
-            _client.ChatId = string.IsNullOrWhiteSpace(TxbxChatId.Text) ? 0 : Convert.ToInt64(TxbxChatId.Text.Trim());
+            _client.ChatId = chatId;
             _client.SuccessFee = string.IsNullOrWhiteSpace(TxbxSucssesFee.Text) ? 0 : Math.Round(Convert.ToDouble(TxbxSucssesFee.Text.Trim()),2);
             _client.UpdatedAt = DateTime.UtcNow;
 

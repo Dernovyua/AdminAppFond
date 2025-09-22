@@ -60,5 +60,19 @@ namespace AdminPanelApp.Models
             set { _balance = value; OnPropertyChanged(nameof(Balance)); }
         }
         private decimal _balance;
+
+        public decimal Paid
+        {
+            get => _paid;
+            set { _paid = value; OnPropertyChanged(nameof(Paid)); }
+        }
+        private decimal _paid;
+
+        public decimal Fee
+        {
+            get => _fee;
+            set { _fee = value; OnPropertyChanged(nameof(Fee)); }
+        }
+        private decimal _fee;
     }
 }

@@ -168,20 +168,28 @@ namespace AdminPanelApp.Requests
 
             while (reader.Read())
             {
-                var statistic = new StatisticModel
+                try
                 {
-                    Id = reader.GetInt32(reader.GetOrdinal("id")),
-                    Date = reader.GetDateTime(reader.GetOrdinal("date")),
-                    Deposit = reader.GetDecimal(reader.GetOrdinal("deposit")),
-                    AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
-                    AccountName = reader.GetString(reader.GetOrdinal("account_name")),
-                    Comment = reader.IsDBNull(reader.GetOrdinal("comment"))
-                                ? null
-                                : reader.GetString(reader.GetOrdinal("comment")),
-                    CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
-                };
+                    var statistic = new StatisticModel
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("id")),
+                        Date = reader.GetDateTime(reader.GetOrdinal("date")),
+                        Deposit = reader.GetDecimal(reader.GetOrdinal("deposit")),
+                        AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
+                        //AccountName = reader.GetString(reader.GetOrdinal("account_name")),
+                        Comment = reader.IsDBNull(reader.GetOrdinal("comment"))
+                            ? null
+                            : reader.GetString(reader.GetOrdinal("comment")),
+                        CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
+                    };
 
-                statistics.Add(statistic);
+                    statistics.Add(statistic);
+                }
+                catch (Exception ex)
+                {
+
+                }
+
             }
 
             return statistics;

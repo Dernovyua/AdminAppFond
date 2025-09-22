@@ -48,11 +48,12 @@ namespace AdminPanelApp.View
 
             _transaction = transaction;
 
-            if (transaction.CreatedAt.Year > 1) // Если транзакция уже существует
+            if (transaction.ProcessedAt.Year > 1) // Если транзакция уже существует
             {
                 // Заполняем поля существующими значениями
                 DtpProcessedAt.SelectedDate = transaction.ProcessedAt;
                 TxbxDeposit.Text = transaction.Amount.ToString("N2");
+                TxbxPaid.Text = transaction.Paid.ToString("N2");
                 TxbxNotes.Text = transaction.Comment;
                 if (dic.ContainsKey(transaction.Type))
                 {
@@ -111,7 +112,10 @@ namespace AdminPanelApp.View
                     return;
                 }
 
+                decimal.TryParse(TxbxPaid.Text, out decimal paid);
+
                 _transaction.Amount = amount;
+                _transaction.Paid = paid;
                 _transaction.ProcessedAt = (DateTime)DtpProcessedAt.SelectedDate;
                 _transaction.Comment = string.IsNullOrWhiteSpace(TxbxNotes.Text) ? null : TxbxNotes.Text.Trim();
                 _transaction.Status = "completed"; // или другое значение по умолчанию
@@ -151,6 +155,12 @@ namespace AdminPanelApp.View
                     { TransactionType.ManagementFee, "Комиссия за управление" },
                     { TransactionType.SeccessFee, "Плата за успех" }
                 };
+        }
+
+        private void CmbxType_SelectedChanged(object sender, RoutedEventArgs e)
+        {
+            var select = (KeyValuePair<TransactionType, string>)CmbxType.SelectedItem;
+            TxbxPaid.IsEnabled = select.Key==TransactionType.ManagementFee || select.Key==TransactionType.SeccessFee; 
         }
     }
 

@@ -1,6 +1,10 @@
 ﻿using AdminPanelApp.Models;
 using AdminPanelApp.Models.Statistic;
+using AdminPanelApp.Requests;
 using AdminPanelApp.View;
+using ClassControlsAndStyle.Dialogs;
+using DevExpress.Utils.CommonDialogs.Internal;
+using DevExpress.Xpf;
 using DevExpress.XtraScheduler.Printing;
 using DevExpress.XtraTreeList.Data;
 using System;
@@ -52,6 +56,7 @@ namespace AdminPanelApp.Logic
             acc.StatResult.Return6Months = GetPnl(acc, lastClosedDate.AddMonths(-6), lastClosedDate);
             acc.StatResult.AnnualReturn = GetPnl(acc, lastClosedDate.AddYears(-1), lastClosedDate);
 
+
         }
 
         private static decimal GetPnl(AccountModel acc, DateTime fromDate, DateTime lastDate)
@@ -79,7 +84,7 @@ namespace AdminPanelApp.Logic
 
             var trans = BuhCalc.GetFinRez(acc.Transaction, fromDate, lastDate);
 
-            return (end.Deposit-start.Deposit - trans);// / start.Deposit * 100m;
+            return (end.Deposit - start.Deposit - trans);// / start.Deposit * 100m;
 
         }
 
@@ -97,6 +102,9 @@ namespace AdminPanelApp.Logic
 
         private static decimal GetBalance(AccountModel acc)
         {
+            if (!acc.Statistics.Any())
+                return 0m;
+
             var end = acc.Statistics.OrderBy(s => s.Date).Last();
 
             if (end == null)
@@ -112,12 +120,16 @@ namespace AdminPanelApp.Logic
             decimal balance = 0m;
             decimal pnl = 0m;
             decimal comis = 0m;
+            decimal paid = 0m;
+
             foreach (var item in client.Accounts)
             {
-                deposit += item.Transaction.Where(t => t.Type == TransactionType.Deposit).Sum(a=>a.Amount);
-                withdrawal += item.Transaction.Where(t => t.Type == TransactionType.Withdrawal).Sum(a=>a.Amount);
-                comis += item.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a=>a.Amount);
-                comis += item.Transaction.Where(t => t.Type == TransactionType.ManagementFee).Sum(a=>a.Amount);
+                deposit += item.Transaction.Where(t => t.Type == TransactionType.Deposit).Sum(a => a.Amount);
+                withdrawal += item.Transaction.Where(t => t.Type == TransactionType.Withdrawal).Sum(a => a.Amount);
+                comis += item.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a => a.Amount);
+                paid += item.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a => a.Paid);
+                comis += item.Transaction.Where(t => t.Type == TransactionType.ManagementFee).Sum(a => a.Amount);
+                paid += item.Transaction.Where(t => t.Type == TransactionType.ManagementFee).Sum(a => a.Paid);
                 balance += item.StatResult.Balance;
                 pnl += item.StatResult.TotalReturn;
             }
@@ -126,7 +138,50 @@ namespace AdminPanelApp.Logic
             client.WithdrawalAmount = withdrawal;
             client.Balance = balance;
             client.ProfitLoss = pnl;
+            client.PaidAmount = paid;
             client.AccruedAmount = comis;
+        }
+
+        public static void CalcHandSuccessFee(Client client, AccountModel acc)
+        {
+            decimal pnl = 0m;
+            decimal comis = 0m;
+            comis += acc.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a => a.Amount);
+            pnl += acc.StatResult.TotalReturn;
+
+            var calc = pnl / 100 * (decimal)client.SuccessFee;
+
+            if (calc > comis)
+            {
+                TransactionModel transaction = new TransactionModel();
+
+                transaction.AccountId = acc.Id;
+                transaction.Type = TransactionType.SeccessFee;
+
+
+                transaction.Amount = Math.Round(calc - comis, 2);
+                transaction.ProcessedAt = DateTime.Now;
+                transaction.Comment = "Ручной расчет платы за успех";
+                transaction.Status = "completed"; // или другое значение по умолчанию
+
+                TransactionRequests.AddTransaction(transaction);
+                acc.Transaction.Insert(0, transaction);
+                SetPnl(acc);
+                UpdateResultClient(client);
+            }
+        }
+
+
+        public static void CalcSuccessFee(AccountModel acc)
+        {
+            decimal comis = 0m;
+            decimal paid = 0m;
+            comis += acc.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a => a.Amount);
+            paid += acc.Transaction.Where(t => t.Type == TransactionType.SeccessFee).Sum(a => a.Paid);
+
+            acc.StatResult.Fee = Math.Round(comis, 2);
+            acc.StatResult.Paid = Math.Round(paid, 2);
+
         }
     }
 }

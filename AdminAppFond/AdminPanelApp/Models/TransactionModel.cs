@@ -45,6 +45,12 @@ namespace AdminPanelApp.Models
         private decimal _amount;
 
         /// <summary>
+        /// Выплаченная сумма.
+        /// </summary>
+        public decimal Paid { get => _paid; set { _paid = value; OnPropertyChanged(nameof(Paid)); } }
+        private decimal _paid;
+
+        /// <summary>
         /// Статус транзакции (по умолчанию 'completed').
         /// </summary>
         public string Status { get => _status; set { _status = value; OnPropertyChanged(nameof(Status)); } }

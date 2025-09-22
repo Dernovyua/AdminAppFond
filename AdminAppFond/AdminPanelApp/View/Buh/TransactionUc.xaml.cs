@@ -94,7 +94,8 @@ namespace AdminPanelApp.View.Buh
                     TransactionRequests.AddTransaction(transaction);
                     _acc.Transaction.Add(transaction);
                     BuhCalc.SetPnl(_acc);
-                        BuhCalc.UpdateResultClient(_client);
+                    BuhCalc.UpdateResultClient(_client);
+                    BuhCalc.CalcSuccessFee(_acc);
                     //LogicData.Transactions.Add(transaction);
                 }
             }
@@ -106,11 +107,14 @@ namespace AdminPanelApp.View.Buh
 
         private void EditTransaction()
         {
+            if (_acc == null)
+                return;
+
             if (DtgdTransaction.SelectedItem is TransactionModel transaction)
             {
                 try
                 {
-                    AddTransaction edit = new AddTransaction(_acc,transaction);
+                    AddTransaction edit = new AddTransaction(_acc, transaction);
                     edit.ShowDialog();
 
                     if (edit.DialogResult == true)
@@ -118,6 +122,7 @@ namespace AdminPanelApp.View.Buh
                         TransactionRequests.UpdateTransaction(transaction);
                         BuhCalc.SetPnl(_acc);
                         BuhCalc.UpdateResultClient(_client);
+                        BuhCalc.CalcSuccessFee(_acc);
                     }
                 }
                 catch (Exception ex)
@@ -142,13 +147,57 @@ namespace AdminPanelApp.View.Buh
                         _acc.Transaction.Remove(transaction);
                         BuhCalc.SetPnl(_acc);
                         BuhCalc.UpdateResultClient(_client);
-
+                        BuhCalc.CalcSuccessFee(_acc);
                         //LogicData.Transactions.Remove(transaction);
                     }
                 }
                 catch (Exception ex)
                 {
                     new DialogMessage(ex.Message, "Ошибка");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Клиент оплатил счет полностью
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MnitPaid_Click(object sender, RoutedEventArgs e)
+        {
+            if (_acc == null)
+                return;
+
+            if (DtgdTransaction.SelectedItem is TransactionModel transaction)
+            {
+                try
+                {
+                    transaction.Paid = transaction.Amount;
+                    TransactionRequests.UpdateTransaction(transaction);
+                    BuhCalc.SetPnl(_acc);
+                    BuhCalc.UpdateResultClient(_client);
+                    BuhCalc.CalcSuccessFee(_acc);
+                }
+                catch (Exception ex)
+                {
+
+                    new DialogMessage(ex.Message, "Ошибка");
+                }
+            }
+        }
+
+        private void MnitMessage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_acc == null)
+                return;
+
+            if (DtgdTransaction.SelectedItem is TransactionModel transaction)
+            {
+                if (transaction.Type == TransactionType.ManagementFee ||
+                    transaction.Type == TransactionType.SeccessFee)
+                {
+                    var mes = $"Оплата за успех: {transaction.Amount}";
+                    LogicData.TgBot.SendMeessageToUserFromAdmin(_client.ChatId, mes, null, "");
                 }
             }
         }

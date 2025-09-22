@@ -168,7 +168,10 @@ namespace AdminPanelApp.View
                         return;
                     }
                     client.Accounts.Add(account);
+                    account.StatResult = new StatisticDisplayModel();
+
                     LogicData.GetStatisticsAsync();
+                    DtgdAccounts.SelectedIndex = client.Accounts.Count - 1;
                 }
             }
             else
@@ -209,6 +212,8 @@ namespace AdminPanelApp.View
                         AccountRequests.DeleteAccount(acc.Id);
                         client.Accounts.Remove(acc);
                         LogicData.GetStatisticsAsync();
+                        UcStat.Load(client, null);
+                        UcBuh.Load(client, null);
                     }
                 }
         }
@@ -242,6 +247,17 @@ namespace AdminPanelApp.View
                 {
                     UcStat.Load(client, acc);
                     UcBuh.Load(client, acc);
+                }
+        }
+
+        private void MnitCaclSuccessFee_Click(object sender, RoutedEventArgs e)
+        {
+            if (DtgdClients.SelectedItem is Client client)
+                if (DtgdAccounts.SelectedItem is AccountModel acc)
+                {
+                    BuhCalc.CalcHandSuccessFee(client, acc);
+
+
                 }
         }
     }

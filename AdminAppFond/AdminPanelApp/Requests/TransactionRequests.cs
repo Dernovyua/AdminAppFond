@@ -25,8 +25,8 @@ namespace AdminPanelApp.Requests
             using var connection = LogicDb.GetOpenConnection();
 
             string query = @"
-                   INSERT INTO transactions (account_id, type, amount, status, processed_at, comment, created_at)
-                   VALUES (@accountId, @type, @amount, @status, @processedAt, @comment, @createdAt);
+                   INSERT INTO transactions (account_id, type, amount, status, processed_at, comment, created_at, paid)
+                   VALUES (@accountId, @type, @amount, @status, @processedAt, @comment, @createdAt, @paid);
                    ";
 
             using var cmd = new SQLiteCommand(query, connection);
@@ -34,6 +34,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@accountId", newTransaction.AccountId);
             cmd.Parameters.AddWithValue("@type", newTransaction.Type.ToString());
             cmd.Parameters.AddWithValue("@amount", newTransaction.Amount);
+            cmd.Parameters.AddWithValue("@paid", newTransaction.Paid);
             cmd.Parameters.AddWithValue("@status", newTransaction.Status ?? "completed");
             cmd.Parameters.AddWithValue("@processedAt", newTransaction.ProcessedAt);
             cmd.Parameters.AddWithValue("@comment", newTransaction.Comment);
@@ -84,6 +85,7 @@ namespace AdminPanelApp.Requests
                    type = @type,
                    amount = @amount,
                    status = @status,
+                   paid = @paid,
                    processed_at = @processedAt,
                    comment=@comment
                    WHERE id = @id;";
@@ -97,6 +99,7 @@ namespace AdminPanelApp.Requests
             cmd.Parameters.AddWithValue("@processedAt", transaction.ProcessedAt);
             cmd.Parameters.AddWithValue("@id", transaction.Id);
             cmd.Parameters.AddWithValue("@comment", transaction.Comment);
+            cmd.Parameters.AddWithValue("@paid", transaction.Paid);
 
             cmd.ExecuteNonQuery();
         }
@@ -113,6 +116,7 @@ namespace AdminPanelApp.Requests
                                 a.account_number,
                                 t.type,
                                 t.amount,
+                                t.paid,
                                 t.status,
                                 t.processed_at,
                                 t.comment,
@@ -143,6 +147,7 @@ namespace AdminPanelApp.Requests
 
                     Type = (TransactionType)Enum.Parse(typeof(TransactionType), reader.GetString(reader.GetOrdinal("type")), true),
                     Amount = reader.GetDecimal(reader.GetOrdinal("amount")),
+                    Paid = reader.GetDecimal(reader.GetOrdinal("paid")),
                     Status = reader.IsDBNull(reader.GetOrdinal("status"))
                         ? null
                         : reader.GetString(reader.GetOrdinal("status")),

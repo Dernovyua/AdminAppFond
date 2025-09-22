@@ -82,7 +82,7 @@ namespace AdminPanelApp.Logic
                             }
 
                             var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
-                            if (!Double.IsNaN(balance))
+                            if (!Double.IsNaN(balance) && balance>0.0000001)
                             {
                                 var stat = new Models.StatisticModel
                                 {

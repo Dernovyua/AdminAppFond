@@ -109,7 +109,7 @@
                     <!--  Колонка с датой открытия (регистрации) клиента  -->
                     <DataGridTextColumn Binding="{Binding CreatedAt, StringFormat=dd.MM.yyyy}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Дата регистрации" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Регистрация" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
@@ -170,7 +170,7 @@
 
                     <DataGridTextColumn Binding="{Binding ProfitLoss, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="П/Уд" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="П/У" />
                         </DataGridTextColumn.Header>
                         <DataGridTextColumn.CellStyle>
                             <Style BasedOn="{StaticResource ExDataGridCellStyle}" TargetType="DataGridCell">
@@ -277,6 +277,8 @@
                         <MenuItem Click="MnitAddAccount_Click" Header="Добавить" />
                         <MenuItem Click="MnitEditAccount_Click" Header="Редактировать" />
                         <MenuItem Click="MnitDelAccount_Click" Header="Удалить" />
+                        <Separator></Separator>
+                        <MenuItem Click="MnitCaclSuccessFee_Click" Header="Рассчитать плату за усех" />
 
                     </ContextMenu>
                 </ex:ExSimpleTable.ContextMenu>
@@ -294,15 +296,27 @@
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding AccountNumber}" IsReadOnly="True">
+                    <!--<DataGridTextColumn Binding="{Binding AccountNumber}" IsReadOnly="True" Width="200">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Номер счета" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Счет" />
                         </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    </DataGridTextColumn>-->
 
                     <DataGridTextColumn Binding="{Binding StatResult.Balance, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Баланс" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding StatResult.Fee, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Начислено" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding StatResult.Paid, StringFormat=\{0:F2\}}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Уплочено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 

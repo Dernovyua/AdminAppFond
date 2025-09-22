@@ -102,11 +102,13 @@ namespace AdminPanelApp.Logic
                 }
             }
 
-            foreach (var item in transactions)
+            var trans = transactions.OrderByDescending(a => a.ProcessedAt.Date);
+            foreach (var item in trans)
             {
                 if (accountDict.TryGetValue(item.AccountId, out var acc))
                 {
                     acc.Transaction.Add(item);
+
                 }
             }
 
@@ -116,6 +118,7 @@ namespace AdminPanelApp.Logic
                 foreach (var account in client.Accounts)
                 {
                     BuhCalc.SetPnl(account);
+                    BuhCalc.CalcSuccessFee(account);
                 }
 
                 BuhCalc.UpdateResultClient(client);
@@ -152,10 +155,10 @@ namespace AdminPanelApp.Logic
                 }
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                UpdateStatistic();
-            });
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    UpdateStatistic();
+            //});
         }
 
 

@@ -68,6 +68,8 @@
                         <MenuItem Click="MnitAddTransaction_Click" Header="Добавить" />
                         <MenuItem Click="MnitEditTransaction_Click" Header="Редактировать" />
                         <MenuItem Click="MnitDelTransaction_Click" Header="Удалить" />
+                        <MenuItem Click="MnitMessage_Click" Header="Отправить уведомление" />
+                        <MenuItem Click="MnitPaid_Click" Header="Оплачено" />
                     </ContextMenu>
                 </ex:ExSimpleTable.ContextMenu>
 
@@ -126,6 +128,12 @@
                     <DataGridTextColumn Binding="{Binding Comment}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
                             <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Комментарий" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Paid}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
