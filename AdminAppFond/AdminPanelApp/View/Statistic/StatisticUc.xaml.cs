@@ -92,6 +92,7 @@ namespace AdminPanelApp.View.Statistic
                 _acc.Statistics.Add(statistic);
                 BuhCalc.SetPnl(_acc);
                 BuhCalc.UpdateResultClient(_client);
+
                 //LogicData.GetStatisticsAsync();
                 //LogicData.Statistics.Add(statistic); // Предполагается, что у AccountModel есть коллекция Statistics
             }
@@ -109,6 +110,7 @@ namespace AdminPanelApp.View.Statistic
                     StatisticRequests.UpdateStatistic(statistic);
                     BuhCalc.SetPnl(_acc);
                     BuhCalc.UpdateResultClient(_client);
+
                     //LogicData.GetStatisticsAsync();
                 }
             }
@@ -126,6 +128,7 @@ namespace AdminPanelApp.View.Statistic
                     _acc.Statistics.Remove(statistic);
                     BuhCalc.SetPnl(_acc);
                     BuhCalc.UpdateResultClient(_client);
+
                     //LogicData.GetStatisticsAsync();
                     //LogicData.StatisticDisplay.Remove(statistic);
                 }

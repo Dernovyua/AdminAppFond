@@ -62,7 +62,7 @@ namespace AdminPanelApp.Logic
 
         public async Task UpdateBalance()
         {
-            var accountsWithoutStats = await GetAccountsWithoutTodayStatsAsync();
+            //var accountsWithoutStats = await GetAccountsWithoutTodayStatsAsync();
 
             try
             {
@@ -72,42 +72,64 @@ namespace AdminPanelApp.Logic
 
                     for (int j = client.Accounts.Count - 1; j >= 0; j--)
                     {
-                        LogicData.RaiseOnSendMessage("Проверяем счет: " + client.Accounts[j].AccountName + "  /  " + client.Accounts[j].AccountNumber, false);
-                        if (client.Accounts[j].LastDateAddBalanceToStat.Date < DateTime.UtcNow.Date)
+                        try
                         {
-                            LogicData.RaiseOnSendMessage("За текущую дату нет данных в статистике", false);
-
-                            if (accountsWithoutStats.Count(a => a.AccountNumber == client.Accounts[j].AccountNumber && //При перезапуске в этот же день
-                                a.CreatedAt.Date == DateTime.UtcNow.Date) == 1)
+                            var acc = client.Accounts[j];
+                            LogicData.RaiseOnSendMessage("Проверяем счет: " + client.Accounts[j].AccountName + "  /  " + client.Accounts[j].AccountNumber, false);
+                            //if (client.Accounts[j].LastDateAddBalanceToStat.Date < DateTime.UtcNow.Date)
                             {
-                                LogicData.RaiseOnSendMessage("Данные за текущую дату есть: " + DateTime.UtcNow.Date, false);
-                                client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
-                                continue;
-                            }
+                                //LogicData.RaiseOnSendMessage("За текущую дату нет данных в статистике", false);
 
-                            var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
-                            LogicData.RaiseOnSendMessage("Баланс=" + balance, false);
-
-                            if (!Double.IsNaN(balance) && balance > 0.0000001)
-                            {
-                                LogicData.RaiseOnSendMessage("Добавляем в статистику шаг 1", false);
-                                var stat = new Models.StatisticModel
+                                if (acc.Statistics.Count(a => a.CreatedAt.Date == DateTime.UtcNow.Date) == 1)
                                 {
-                                    Deposit = (decimal)balance,
-                                    AccountId = client.Accounts[j].Id,
-                                    Date = DateTime.UtcNow
-                                };
-                                LogicData.RaiseOnSendMessage("Добавляем в статистику шаг 2", false);
+                                    LogicData.RaiseOnSendMessage("Данные за текущую дату есть: " + DateTime.UtcNow.Date, false);
+                                    client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
+                                    //continue;
+                                }
+                                //LogicData.RaiseOnSendMessage("Запрос баланса: " + client.Accounts[j].AccountNumber + "  /  " + client.Accounts[j].Currency.ToString(), false);
+                                var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
+                                LogicData.RaiseOnSendMessage("Баланс=" + balance, false);
 
-                                StatisticRequests.AddStatistic(stat);
-                                client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
-                                LogicData.RaiseOnSendMessage("Закончили", false);
-                                BuhCalc.SetPnl(client.Accounts[j]);
-                                BuhCalc.UpdateResultClient(client);
-                                BuhCalc.CalcSuccessFee(client.Accounts[j]);
+                                if (!Double.IsNaN(balance) && balance > 0.0000001)
+                                {
+                                    //LogicData.RaiseOnSendMessage("Добавляем в статистику шаг 1", false);
 
+                                    if (client.Accounts[j].LastDateAddBalanceToStat < DateTime.UtcNow.Date)
+                                    {
+                                        LogicData.RaiseOnSendMessage("Добавляем в статистику шаг 2", false);
+                                        var stat = new Models.StatisticModel
+                                        {
+                                            Deposit = (decimal)balance,
+                                            AccountId = client.Accounts[j].Id,
+                                            Date = DateTime.UtcNow
+                                        };
+                                        StatisticRequests.AddStatistic(stat);
+                                        client.Accounts[j].Statistics.Insert(0, stat);
+                                    }
+                                    else
+                                    {
+                                        LogicData.RaiseOnSendMessage("Обновляем статистику шаг 3", false);
+                                        var stat = acc.Statistics.FirstOrDefault(a => a.CreatedAt.Date == DateTime.UtcNow.Date);
+                                        if (stat != null)
+                                        {
+                                            stat.Deposit = (decimal)balance;
+                                            StatisticRequests.UpdateStatistic(stat);
+                                        }
+                                    }
+
+                                    client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
+                                    LogicData.RaiseOnSendMessage("Закончили", false);
+                                    BuhCalc.SetPnl(client.Accounts[j]);
+                                    BuhCalc.UpdateResultClient(client);
+                                    BuhCalc.CalcSuccessFee(client.Accounts[j]);
+
+                                }
+                                //balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
                             }
-                            //balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogicData.RaiseOnSendMessage("Ошибка обновление балансов в статистике " +ex.Message, false);
                         }
                     }
                 }

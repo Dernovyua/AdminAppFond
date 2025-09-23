@@ -28,7 +28,7 @@ namespace AdminPanelApp.Logic
 
             // Фильтруем транзакции по периоду
             var periodTransactions = allTransactions
-                .Where(t => t.ProcessedAt >= periodStart && t.ProcessedAt.Date <= periodEnd.Date &&
+                .Where(t => t.ProcessedAt.Date > periodStart.Date && t.ProcessedAt.Date <= periodEnd.Date &&
                 (t.Type == TransactionType.Deposit || t.Type == TransactionType.Withdrawal))
                 .ToList();
 
@@ -50,12 +50,25 @@ namespace AdminPanelApp.Logic
 
             acc.StatResult.Balance = GetBalance(acc);
             acc.StatResult.TotalReturn = GetTotalPnl(acc, lastClosedDate);
-            acc.StatResult.Return1Week = GetPnl(acc, lastClosedDate.AddDays(-6), lastClosedDate);
-            acc.StatResult.Return1Month = GetPnl(acc, lastClosedDate.AddMonths(-1), lastClosedDate);
-            acc.StatResult.Return3Months = GetPnl(acc, lastClosedDate.AddMonths(-3), lastClosedDate);
-            acc.StatResult.Return6Months = GetPnl(acc, lastClosedDate.AddMonths(-6), lastClosedDate);
             acc.StatResult.AnnualReturn = GetPnl(acc, lastClosedDate.AddYears(-1), lastClosedDate);
+            if (acc.StatResult.AnnualReturn == Decimal.MinValue)
+                acc.StatResult.AnnualReturn = acc.StatResult.TotalReturn;
 
+            acc.StatResult.Return6Months = GetPnl(acc, lastClosedDate.AddMonths(-6), lastClosedDate);
+            if (acc.StatResult.Return6Months == Decimal.MinValue)
+                acc.StatResult.Return6Months = acc.StatResult.AnnualReturn;
+
+            acc.StatResult.Return3Months = GetPnl(acc, lastClosedDate.AddMonths(-3), lastClosedDate);
+            if (acc.StatResult.Return3Months == Decimal.MinValue)
+                acc.StatResult.Return3Months = acc.StatResult.Return6Months;
+
+            acc.StatResult.Return1Month = GetPnl(acc, lastClosedDate.AddMonths(-1), lastClosedDate);
+            if (acc.StatResult.Return1Month == Decimal.MinValue)
+                acc.StatResult.Return1Month = acc.StatResult.Return3Months;
+
+            acc.StatResult.Return1Week = GetPnl(acc, lastClosedDate.AddDays(-6), lastClosedDate);
+            if (acc.StatResult.Return1Week == Decimal.MinValue)
+                acc.StatResult.Return1Week = acc.StatResult.Return1Month;
 
         }
 
@@ -65,19 +78,23 @@ namespace AdminPanelApp.Logic
                 return 0m;
 
             var start = acc.Statistics
-                .Where(s => s.Date <= fromDate)
+                .Where(s => s.Date <= fromDate.Date)
                 .OrderByDescending(s => s.Date)
                 .FirstOrDefault();
 
+            //if (start == null)
+            //{
+            //    start = acc.Statistics.OrderBy(s => s.Date)
+            //    .Where(s => s.Date <= lastDate.Date && s.Date>fromDate)
+            //    .FirstOrDefault();
+            //}
+
             if (start == null)
-            {
-                start = new StatisticModel();
-            }
+                return Decimal.MinValue;
 
-
-            var end = acc.Statistics
+            var end = acc.Statistics.OrderBy(s => s.Date)
                 .Where(s => s.Date <= lastDate.Date)
-                .FirstOrDefault();
+                .LastOrDefault();
 
             if (start == null || end == null)// || start.Deposit == 0)
                 return 0m;
@@ -94,7 +111,7 @@ namespace AdminPanelApp.Logic
                 return 0m;
 
             var start = acc.Statistics.OrderBy(s => s.Date).First().Deposit;
-            var end = acc.Statistics.FirstOrDefault(s => s.Date <= lastTime)?.Deposit ?? 0m;
+            var end = acc.Statistics.OrderBy(s => s.Date).LastOrDefault(s => s.Date <= lastTime)?.Deposit ?? 0m;
             var trans = BuhCalc.GetFinRez(acc.Transaction, new DateTime(), lastTime);
 
             return start == 0 ? 0m : end - trans;// / start * 100m;
