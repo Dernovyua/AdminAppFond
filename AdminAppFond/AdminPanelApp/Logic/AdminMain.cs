@@ -44,7 +44,7 @@ namespace AdminPanelApp.Logic
             LogicData.LoadSettingCrm(_pathSave);
 
             _ = LogicData.TgBot.CreateTgBot();
-           
+
         }
 
         public void OpenWindowSettingCrm()
@@ -72,27 +72,40 @@ namespace AdminPanelApp.Logic
 
                     for (int j = client.Accounts.Count - 1; j >= 0; j--)
                     {
+                        LogicData.RaiseOnSendMessage("Проверяем счет: " + client.Accounts[j].AccountName + "  /  " + client.Accounts[j].AccountNumber, false);
                         if (client.Accounts[j].LastDateAddBalanceToStat.Date < DateTime.UtcNow.Date)
                         {
+                            LogicData.RaiseOnSendMessage("За текущую дату нет данных в статистике", false);
+
                             if (accountsWithoutStats.Count(a => a.AccountNumber == client.Accounts[j].AccountNumber && //При перезапуске в этот же день
                                 a.CreatedAt.Date == DateTime.UtcNow.Date) == 1)
                             {
+                                LogicData.RaiseOnSendMessage("Данные за текущую дату есть: " + DateTime.UtcNow.Date, false);
                                 client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
                                 continue;
                             }
 
                             var balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
-                            if (!Double.IsNaN(balance) && balance>0.0000001)
+                            LogicData.RaiseOnSendMessage("Баланс=" + balance, false);
+
+                            if (!Double.IsNaN(balance) && balance > 0.0000001)
                             {
+                                LogicData.RaiseOnSendMessage("Добавляем в статистику шаг 1", false);
                                 var stat = new Models.StatisticModel
                                 {
                                     Deposit = (decimal)balance,
                                     AccountId = client.Accounts[j].Id,
                                     Date = DateTime.UtcNow
                                 };
+                                LogicData.RaiseOnSendMessage("Добавляем в статистику шаг 2", false);
 
                                 StatisticRequests.AddStatistic(stat);
                                 client.Accounts[j].LastDateAddBalanceToStat = DateTime.UtcNow;
+                                LogicData.RaiseOnSendMessage("Закончили", false);
+                                BuhCalc.SetPnl(client.Accounts[j]);
+                                BuhCalc.UpdateResultClient(client);
+                                BuhCalc.CalcSuccessFee(client.Accounts[j]);
+
                             }
                             //balance = Math.Round(LogicData.Raise_OnGetBalance(client.Accounts[j].AccountNumber, client.Accounts[j].Currency.ToString()), 2);
                         }
@@ -175,7 +188,7 @@ namespace AdminPanelApp.Logic
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("id")),
                     AccountName = reader.GetString(reader.GetOrdinal("account_name")),
-                    Currency =  string.IsNullOrEmpty(currencyValue)
+                    Currency = string.IsNullOrEmpty(currencyValue)
                                 ? CurrencyType.USDT // Значение по умолчанию
                                 : (CurrencyType)Enum.Parse(typeof(CurrencyType), currencyValue, true),
                     AccountNumber = reader.IsDBNull(reader.GetOrdinal("account_number"))

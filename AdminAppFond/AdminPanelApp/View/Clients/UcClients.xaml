@@ -317,7 +317,7 @@
 
                     <DataGridTextColumn Binding="{Binding StatResult.Paid, StringFormat=\{0:F2\}}" IsReadOnly="True">
                         <DataGridTextColumn.Header>
-                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Уплочено" />
+                            <ex:ExTextBlock Foreground="{DynamicResource Ex-SimpleTable-Header-Foreground}" Text="Оплачено" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
